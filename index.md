@@ -1,3 +1,17 @@
 # DaVinci-13
 
-This is DaVinci-13's personal gitpage site.
+Study Note Nav:
+
+-[GameDev](./docs/GameDev.md)
+
+-[GL](./docs/GL.md)
+
+-[Script](./docs//Scripting.md)
+
+-[AI](./docs/AI.md)
+
+-[BD]<!-- (./docs/BD.md)-->
+
+-[OS]<!-- (./docs/OS.md)-->
+
+-[English & Japan Learn]<!-- (./docs/Language.md) -->

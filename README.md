@@ -1,2 +1,3 @@
 # DaVinci-13.github.io
-My gitpage for study and share.
+
+This is DaVinci-13's personal gitpage site for study and share.
