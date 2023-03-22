@@ -1,3 +1,6 @@
+
+[TOC]
+
 # GamePlay
 
 ## Unity
@@ -2586,6 +2589,10 @@ multi_compile D E
 	- 自定义坐标系
 
 		- 高度的处理
+		 
+	- 动态加载环境光
+	    - RenderSettings.skybox = clip;
+	      DynamicGI.UpdateEnvironment();
 
 ## Unreal
 
