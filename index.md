@@ -7,9 +7,6 @@ layout: home
 
 
 
-
-# DaVinci-13
-
 - Study Note Nav:
 
     - [GameDev](./docs/GameDev.md)
