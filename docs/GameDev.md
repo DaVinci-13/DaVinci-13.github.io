@@ -1,6 +1,6 @@
 ---
 title: Game Develop
-layout: test
+layout: doc
 permalink: /gamedev/
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Script Coding
-layout: test
-permalink: /scripting/
+layout: doc
+permalink: /script/
 ---
 
 

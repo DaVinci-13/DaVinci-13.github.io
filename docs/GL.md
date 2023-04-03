@@ -1,6 +1,6 @@
 ---
 title: Graphics Library
-layout: test
+layout: doc
 permalink: /gl/
 ---
 

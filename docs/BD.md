@@ -1,6 +1,6 @@
 ---
 title: BigData
-layout: test
+layout: doc
 permalink: /bigdata/
 ---
 

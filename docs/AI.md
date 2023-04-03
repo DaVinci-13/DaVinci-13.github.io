@@ -1,6 +1,6 @@
 ---
 title: Artificial Intelligence
-layout: test
+layout: doc
 permalink: /ai/
 ---
 

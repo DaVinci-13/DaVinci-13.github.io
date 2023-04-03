@@ -1,6 +1,6 @@
 ---
 title: Operating System
-layout: test
+layout: doc
 permalink: /os/
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Language Learning
-layout: test
+layout: doc
 permalink: /ll/
 ---
 
