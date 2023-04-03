@@ -1,0 +1,27 @@
+{%- assign doc_paths = site.data.samplelist.docs -%}
+
+{%- if doc_paths -%}
+<div class="doc-nav">
+  <ul>
+    {%- for path in doc_paths -%}
+    {%- if path.title -%}
+    <li>
+      <a href="{{ path.url }}">{{ path.title }}</a>
+      {%- if path.sub -%}
+      <ul>
+        {%- assign subpaths=path.sub -%}
+        {%- for sub in subpaths -%}
+        {%- if sub.title -%}
+        <li>
+          <a href="{{ sub.url }}">{{ sub.title }}</a>
+        </li>
+        {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      {%- endif -%}
+    </li>
+    {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</div>    
+{%- endif -%}
