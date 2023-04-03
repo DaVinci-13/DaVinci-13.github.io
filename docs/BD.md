@@ -1,3 +1,11 @@
+---
+title: BigData
+layout: test
+permalink: /bigdata/
+---
+
+
+
 # BigData
 
 ## Hadoop

@@ -1,3 +1,10 @@
+---
+title: Operating System
+layout: test
+permalink: /os/
+---
+
+
 # OS
 
 ## Crack

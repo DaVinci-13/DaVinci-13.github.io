@@ -1,3 +1,10 @@
+---
+title: Script Coding
+layout: test
+permalink: /scripting/
+---
+
+
 # Scripting
 
 ## Language

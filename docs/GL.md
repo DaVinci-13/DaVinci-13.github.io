@@ -1,3 +1,10 @@
+---
+title: Graphics Library
+layout: test
+permalink: /gl/
+---
+
+
 # GL
 
 ## Dev

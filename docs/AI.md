@@ -1,3 +1,9 @@
+---
+title: Artificial Intelligence
+layout: test
+permalink: /ai/
+---
+
 # AI
 
 ## python

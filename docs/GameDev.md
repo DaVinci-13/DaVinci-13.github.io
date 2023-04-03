@@ -1,5 +1,9 @@
+---
+title: Game Develop
+layout: test
+permalink: /gamedev/
+---
 
-[TOC]
 
 # GamePlay
 
