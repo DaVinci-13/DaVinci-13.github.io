@@ -9,13 +9,13 @@ layout: home
 
 - Study Note Nav:
 
-    - [GameDev](./docs/GameDev.md)
+    - [GameDev](/gamedev/)
  
-    - [GL](./docs/GL.md)
+    - [GL](/gl/)
  
-    - [Script](./docs//Scripting.md)
+    - [Script](/script/)
  
-    - [AI](./docs/AI.md)
+    - [AI](/ai/)
  
     - [BD]<!-- (./docs/BD.md)-->
  

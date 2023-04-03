@@ -5,17 +5,19 @@ docs:
   sub:
 
     - title:  Game Developing
-    - url:  ../docs/gamedev/
+    - url:  ../gamedev/
 
     - title:  Graphics Library
-    - url:  ../docs/gl/
+    - url:  ../gl/
 
     - title:  Script and Code
-    - url:  ../docs/script/
+    - url:  ../script/
 
     - title:  Artificial Intelligence
-    - url:  ../docs/ai/
+    - url:  ../ai/
 
     - title:  BigData
+
+    - title:  Operating System
 
     - title:  English & Japan Language Learning
