@@ -1,19 +1,21 @@
 docs_list_title: ACM Documation
 docs:
 
-- title:  Index
-  url:  ../index
+- title:  目录
   sub:
 
-    - title: 1
+    - title:  Game Developing
+    - url:  ../docs/gamedev/
 
-    - title: 2
+    - title:  Graphics Library
+    - url:  ../docs/gl/
 
-- title:  about
-  url:  ../about
+    - title:  Script and Code
+    - url:  ../docs/script/
 
-- title:  contact
-  url:  ../contact
+    - title:  Artificial Intelligence
+    - url:  ../docs/ai/
 
-- title:  test
-  url:  ../test
+    - title:  BigData
+
+    - title:  English & Japan Language Learning

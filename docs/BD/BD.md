@@ -1,7 +1,7 @@
 ---
 title: BigData
 layout: doc
-permalink: /bigdata/
+permalink: /bd/
 ---
 
 
