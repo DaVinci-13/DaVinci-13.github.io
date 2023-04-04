@@ -1,5 +1,5 @@
 ---
-layout: none
+published: false
 ---
 
 # DaVinci-13.github.io
