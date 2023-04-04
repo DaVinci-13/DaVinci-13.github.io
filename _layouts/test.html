@@ -7,10 +7,7 @@
 
     {%- include header.html -%}
 
-    {%- assign default_paths = site.pages | where: "layout","doc" | map: "path" -%}
-    {%- for path in default_paths -%}
-        {{ path }}<br>
-    {%- endfor-%}
+    {{ content }}
 
     {%- include footer.html -%}
 

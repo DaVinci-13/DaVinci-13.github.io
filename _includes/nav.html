@@ -6,19 +6,30 @@
     {%- for path in doc_paths -%}
     {%- if path.title -%}
     <li>
+      {%- if path.url -%}
       <a href="{{ path.url }}">{{ path.title }}</a>
+      {%- else -%}
+      {{ path.title }}
+      {%- endif -%}
+
       {%- if path.sub -%}
       <ul>
         {%- assign subpaths=path.sub -%}
         {%- for sub in subpaths -%}
-        {%- if sub.url -%}
+        {%- if sub.title -%}
         <li>
+          {%- if sub.url -%}
           <a href="{{ sub.url }}">{{ sub.title }}</a>
+          {%- else -%}
+          {{ sub.title }}
+          {%- endif -%}          
+
         </li>
         {%- endif -%}
         {%- endfor -%}
       </ul>
       {%- endif -%}
+
     </li>
     {%- endif -%}
     {%- endfor -%}
