@@ -11,7 +11,7 @@
       <ul>
         {%- assign subpaths=path.sub -%}
         {%- for sub in subpaths -%}
-        {%- if sub.title -%}
+        {%- if sub.url -%}
         <li>
           <a href="{{ sub.url }}">{{ sub.title }}</a>
         </li>

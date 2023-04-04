@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: " en" }}">
+
+{%- include head.html -%}
+
+<body>
+
+    {%- include header.html -%}
+
+    {%- assign default_paths = site.pages | where: "layout","doc" | map: "path" -%}
+    {%- for path in default_paths -%}
+        {{ path }}<br>
+    {%- endfor-%}
+
+    {%- include footer.html -%}
+
+</body>
+
+</html>

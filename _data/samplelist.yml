@@ -5,16 +5,16 @@ docs:
   sub:
 
     - title:  Game Developing
-    - url:  ../gamedev/
+      url:  /gamedev/
 
     - title:  Graphics Library
-    - url:  ../gl/
+      url:  /gl/
 
     - title:  Script and Code
-    - url:  ../script/
+      url:  /script/
 
     - title:  Artificial Intelligence
-    - url:  ../ai/
+      url:  /ai/
 
     - title:  BigData
 

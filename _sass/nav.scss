@@ -16,10 +16,11 @@
 
         a {
             text-align: center;
+            color: black;
         }
 
         &:hover {
-            background-color: red;
+            background-color: whitesmoke;
         }
 
         &:hover ul {
@@ -28,20 +29,19 @@
             margin-left: -10px;
             margin-right: -10px;
             padding-left: 0px;
+            background-color: whitesmoke;
         }
 
         &:hover ul li {
             list-style: none;
             float: none;
-            background-color: green;
+
+            &:hover {
+                background-color: lightgrey;
+            }
 
             a {
                 display: inline-block;
-                background-color: blue;
-            }
-
-            &:hover a {
-                background-color: yellow;
             }
         }   
     }

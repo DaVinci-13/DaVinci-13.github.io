@@ -5,7 +5,7 @@
 layout: home
 ---
 
-<!-- ## index -->
+# index
 
 - Study Note Nav:
 

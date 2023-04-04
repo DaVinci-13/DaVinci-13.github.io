@@ -1,11 +1,11 @@
 ---
-title: Script Coding
+title: Programming Language
 layout: doc
-permalink: /script/
+permalink: /programme/
 ---
 
 
-# Scripting
+# Programming
 
 ## Language
 
