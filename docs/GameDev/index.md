@@ -7,129 +7,34 @@ permalink: /gamedev/
 
 # GamePlay
 
-## Unity
+- Unity
 
-### 性能优化
+    - 性能优化
 
-- 渲染
+        - 渲染
 
-	- drawcall
+	        - drawcall
+		        - [Batcher](./u3d-batch.md): dynamic、static、GPU Instancing、SRP Batcher
+		        - [UGUI](./u3d-batch-ugui.md)
+		        - [计算](./u3d-shader.md)
+		        - 模型网格的裁减与合并
+			    - 字符图集
+			    - 特效清理
+		        - [lightmap](./u3d-lightmap.md)
+		        
+	        - overdraw
+			    - [earlyZ & preZ](./u3d-earlyZ-and-preZ.md)
+		        - [Partical System](./u3d-ParticalSystem.md)
+		        - [AlphaClip & AlphaBlend](./u3d-AlphaClip-and-AlphaBlend.md)
 
-		- [Batcher](./u3d-batch.md)
-		- [UGUI](./u3d-batch-ugui.md)
+	    - 带宽
 
+		    - [model](./art-Modeling.md):降低复杂度
+			    - [lod](./u3d-lod.md)
 
-
-							
-
-		- 计算
-
-			- 计算量
-
-				- 复杂数学
-
-					- 开方
-
-				- 顶点函数-计算
-				- 向量计算更加复杂
-
-					- 尝试使用sqrMagnitude（即magnitude的平方）替代magnitude，减少开平方操作
-
-			- 计算精度
-
-				- 当使用CG / HLSL编写着色器时，存在三种基本的数字类型：float(32bits)，half(16bits)和fixed(11bits)
-
-					- 对于世界空间位置和纹理坐标，使用float精度。
-					- 对于其他一切（矢量，HDR颜色等），首先使用half精度，必要时增加精度。
-					- 对于纹理数据的非常简单的操作，使用fixed精度。
-
-		- model->mesh
-
-			- 合并与裁剪
-
-		- 其他
-
-			- 字符图集
-			- 特效清理
-
-		- lightmap
-
-			- 原理
-
-				- uv2
-
-			- 烘焙
-
-	- overdraw
-
-		- 原理
-
-			- earlyZ
-
-				- 硬件
-
-			- preZ
-
-		- 粒子发射器
-
-			- 数量
-			- 发射模型的复杂度
-			- Particle System
-
-				- lod
-				- Scaling Mode
-				- Max Particles
-				- 避免Noise
-				- speed <-> num
-
-		- 透明问题
-
-			- AlphaBlend
-
-				- 堆叠
-
-			- 透明裁剪
-
-				- 不超过1个量级
-
-					- 10倍
-
-				- GPU对顶点的敏感度没有drawcall高
-
-	- 带宽
-
-		- model
-
-			- lod
-
-				- Fade Mode
-
-			- 复杂度
-
-				- 顶点数
-				- 边界平滑
-
-			- mesh collider
-
-		- texture
-
-			- minmap
-			- 压缩格式
-
-				- ETC
-				- HEVC
-
-			- 制作
-
-				- 
-				- 正方形纹理
-				- 通道
-
-		- material
-
-			- shared
-
-		- 程序化
+		    - [texture](./art-texture.md)
+		        - 程序化纹理 
+		    - SharedMaterial 共享材质
 
 - 脚本
 

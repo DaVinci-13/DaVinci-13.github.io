@@ -1,7 +1,6 @@
 ---
 layout:    doc
 title:    合批
-permalink:    /gamedev/u3d-batch/
 ---
 
 # Batching
