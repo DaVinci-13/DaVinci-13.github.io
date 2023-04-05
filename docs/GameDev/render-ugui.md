@@ -21,5 +21,9 @@ title:    UGUI合批
 ## 优化
 
 ### 动静分离
+- 原因：rebatch
 
-### CanvasGroup
+### 射线检测
+
+### 减少状态变化
+- Alpha：CanvasGroup

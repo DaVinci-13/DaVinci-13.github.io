@@ -1,6 +1,8 @@
 ---
 title: 透明
 layout: doc
+date:   2023-04-05 17:27:00 +0800
+categories: unity3d, AlphaClip, AlphaBlend, render, Graphic
 ---
 
 
