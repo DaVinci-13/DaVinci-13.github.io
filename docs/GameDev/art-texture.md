@@ -1,6 +1,8 @@
 ---
 title: 贴图资源规范
 layout: doc
+date:   2023-04-05 19:07:00 +0800
+categories: art, texture
 ---
 
 # 贴图资源规范

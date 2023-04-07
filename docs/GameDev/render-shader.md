@@ -1,6 +1,8 @@
 ---
 layout:    doc
 title:    Shader
+date:   2023-04-05 17:27:00 +0800
+categories:     render, GPU， Shader
 ---
 
 # Shader编写

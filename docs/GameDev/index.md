@@ -63,7 +63,7 @@ permalink: /gamedev/
 			- InputManager
 			- InputSystem
 
-	- ScriptableObject
+	- [ScriptableObject](./u3d-ScriptableObject.md)
 	
     - [UnityEditor](./u3d-editor-scripting.md)
 
@@ -83,20 +83,12 @@ permalink: /gamedev/
 	    - [AssetBundle & Addresable](./u3d-addresable.md)
 
     - 物理
-
-			- 碰撞检测
-
-				- 第一阶段，broad phase 快速找出潜在的碰撞物体对列表，不在这个列表里的是绝对没可能碰撞的。broad phase确定了一批需要进一步检查的物体对。
-
-					- broad phase其中有一个简单算法叫sweep and prune(SAP)，本质上是利用了排序算法。第一步是初始化排序列表，列表中的元素是包围盒，可以用任意排序算法完成，例如快排；之后的排序就不是用快排了，而是用冒泡排序，为什么用冒泡排序更好呢？是因为一个默认的前提：物体的运动有时间相关性（temporal coherence），即当前帧和下一帧的位置是相近的，所以在冒泡排序过程中，发生的位置交换预期都很靠近。
-
-				- 第二阶段，narrow phase 准确找出发生碰撞的物体对列表。因为上一个阶段的部分物体对实际上是没有碰撞的，需要在这个阶段剔除。
+		- [碰撞](./physics-collision.md)
 
     - 异步
 	    - [C#线程](./cs-thread.md)
 	    - [C#异步](./cs-async.md)
 	    - [Unity协程](./u3d-corotinue.md)
-
 		
     - [热更新](./u3d-hotpatch.md)
 		- 脚本热更新方案
@@ -104,93 +96,14 @@ permalink: /gamedev/
 		    - [ILruntime](./u3d-hotpatch-ilruntime.md)
 		    - [hybridCLR](./u3d-hotpatch-hybridclr.md)
 
-
-	- 原生交互
-
-		- Android
-
-			- unity
-
-				- 打包
-
-					- Unity做好项目之后导出为Android Studio项目，导入到Android Studio中进行之后的功能开发
-					- Android Sutido做好项目导出jar或aar包，导入到Unity中作为Unity的插件使用，最后由Unity打包APK
-
-				- Unity调Andoird：
-// 获得位于com.unity3d.player包下的UnityPlayer类，固定写法。
-        AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");   // 参数是包名+类名
-        // 获得jc所代表的类里的currentActivity对象，固定写法。这是Unity提供的classes.jar中的功能，可通过currentActivity获取到安卓端代表MainActivty的对象。
-        AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        // 调用MainActivty中的自定义方法。
-        text.text = jo.Call<int>("add", 1, 2).ToString();
-
-					- 1、打开Android Studio新建一个项目，新建一个模块（Module），取名UnityAndroidLibrary。注意选择最小SDK16，因为Unity最小支持的是16。
-					- 2、在该模块（ProjectName/UnityAndroidLibrary/src/main/java/packageName/）下新建一个Empty Activity。创建时勾上Launcher Activity。
-					- 3、删除跟该界面一同生成的activity_main.xml布局文件（因为之后布局归Unity管理），同时删除该模块MainActivity中onCreate()里调用setContentView()方法。
-					- 4、进入Unity的安装目录（如D:\Unity 5.4.3f1\Editor\Data\PlaybackEngines\AndroidPlayer\Variations\mono\Release\Classes下）复制classes.jar文件，粘贴到该模块UnityAndroidLibrary/libs目录下。右键该jar选择Add as Library，选Add to Module UnityAndroidLibrary。
-					- 5、打开UnityAndroidLibrary模块的AndroidManifest.xml清单文件，该文件会覆盖掉Unity的一些设置，修改如下。（从默认的app模块中的清单文件拷贝过来，把报错的地方去掉即可。记得加后面的meta-data节点）
-					- 6、回到模块的MainActivity，修改该类继承自UnityPlayerActivity。在该类中添加自定义的方法，用于给Unity调用
-					- 7、在AS中Project目录选中unityandroidlibrary，在Build菜单下选Make Module ‘unityandroidlibrary’单独编译这个模块。
-					- 8、在unityandroidlibrary/build/intermediates/bundles/debug目录右键Show in Explorer。删除debug/libs/classes.jar（等同于刚从Unity那边拷过来的内容），把debug/classes.jar拖到debug/libs中（这个是包含了刚新增的扩展方法的）。把libs和res这两个文件夹备份（如复制到桌面）。　
-					- 9、在unityandroidlibrary/build/intermediates/manifests/full/debug/AndroidManifest.xml右键Show in Explorer，也把这个清单文件复制出来（如复制到桌面）。打开在桌面的副本，修改package包名为在Unity中想要的包名，如包名最后一段改为unityandroidtest（注意包名要全部小写）。
-					- 10、打开Unity，创建一个工程UnityAndroidTest，Build Settings切换为安卓平台，Player Settings中修改包名，包名同上一步的一致（先调平台再调包名）。在Assets下新建文件夹Plugins/Android（名字固定的，小心别漏了s），将上两步得到的三个文件拖到该文件夹中。
-					- 11、新建一个C#脚本，VS打开编辑如下。把该脚本挂到任一场景中的游戏对象上（如Main Camera)。
-					- 12、最后一步，连上真机并打开USB调试，Build & Run，路径选择桌面。此时会把APK输出到桌面并安装到真机上运行，即可看到调用结果。下图是我用AS的安卓模拟器（AVD）运行的效果。注意了，要打包发布出来用，直接在Unity编辑器点运行会报错，但打包出来安卓机运行没有问题的。
-
-				- Andoird调Unity：
-UnityPlayer.UnitySendMessage("Main Camera", "ChangeColor", "");
-				- 路径
-
-					- path
-
-						- Resources
-						- streamingAssetsPath
-
-							- 移动只读
-
-						- persistDataPath
-
-							- 可读可写
-							- 在Android上的位置是根据Project Setting里设置的Write Access路径
-							- 在IOS上是应用程序的沙盒
-
-						- dataPath
-
-							- 移动无用
-
-						- temproryCachePath
-						- consoleLogPath
-
-					- load
-
-						- file
-
-							- 无前缀
-
-						- www
-
-							- PC
-
-								- file://+path
-
-							- IPhone
-
-								- file://+path
-
-							- Android
-
-								- 无前缀
-								- 默认为有 "jar:file:///" 
-
-		- IOS
-
-- 原理
+	- [原生交互:Android and IOS](./u3d-Android-and-IOS.md)
 
 ### Shading
 
 - 图形学
 
 	- 光栅化
+ 
 	- 几何
 
 		- MVP变换
@@ -201,19 +114,16 @@ UnityPlayer.UnitySendMessage("Main Camera", "ChangeColor", "");
 		- PBR
 
 			- 原理
-
 				- 微表面理论
 				- 能量守恒
 				- BRDF
 
 			- BRDF
-
 				- NDF
 				- GO
 				- Fresnel
 
 			- 贴图
-
 				- BaseTex
 				- Normal
 				- Metallic/Speculiar
@@ -1184,137 +1094,16 @@ multi_compile D E
 
 ### Unreal Engine 5 C++ Developer:Learn C++ & Make Viedeo Games | Udemy
 
-- Intro & setup
-
-	- install
-
-		- https://www.bilibili.com/video/BV1be41137Kp/?p=13&spm_id_from=pageDriver
-
-	- forum and support
-	- Navigating the Viewport
-
-		- interface
-
-			- New Project
-			- Viewport
-			- Outliner
-			- Content Browser
-			- toolbat
-
-				- Setting
-
-					- Engine Scalability Setting
-
-		- shortcut
-
-			- mouse
-
-				- right click
-
-					- rotate all axis
-
-				- left click
-
-					- rotate in xz panel
-
-				- mid scroll
-
-					- move in xy panel
-
-			- keyboard
-
-				- wasdqe
-
-			- ctrl+c & ctrl+v
-
-				- copy
-
-			- alt & drag
-
-				- copy
-
-	- Moving & placing Actors
-	- C++ versus Blueprint
-
-		- vs
-
-			- Blueprint Strengths
-
-				- Quick to change
-				- Beginner friendly
-				- Easy to discover
-				- Tailor-made
-				- Designer/artist friendly
-
-			- C++ Strenths
-
-				- More concise
-				- Industry standard
-				- High speed
-				- Access all areas
-				- Good for bigger projects
-
-		- work together
-
-	- help us to help you
-
-		- Asking For Help
-		- Good Questions
-
-			- What have you tried?
-			- What did you expect to happen?
-			- What actually happen?
-			- Be specific:exact error, screenshots, etc.
-
-		- Useful Information To Include
-
-			- Steps you're taken
-			- Screenshots
-			- Full Build logs
-			- Editor Log
-			- Your project
-
-		- Log
-
-			- Engine Log Window
-			- project Directory->Saved->Logs
-
-		- share
-
-			- Engine Toolbar->File->Zip project
+- Welcome
+    - [Intro & setup](./ue5-Intro-and%20Setup.md)
+    - [Viewport](./ue5-navigate-viewport.md)
+    - [Actor](./ue5-blueprint-actor.md)
+	- [help us to help you](./ue5-FAQ.md)
 
 - Warehouse Wreckage
-
-	- Intro
-	- project setting
-
-		- map
-
-			- icon
-
-				- with yellow line
-
-		- level blueprint
-
-	- Blueprint Event Graph
-
-		- visual programming
-		- glossary
-
-			- Event Graph - The canvas for our Blueprint
-			- Node - premade functionality
-			- String - Programmer speak for text
-			- Event - A "when" node
-			- Pin - Sockets we can connect up
-			- Input Pin - when to run this node
-			- Output Pin - what to do after
-			- Connection - Wires between pins
-
-		- e.g.
-
-			- BeginPlay(Event)->PrintString(Func)
-
-	- Physics Simulation
+	- [project setting](./ue5-setting-project.md)
+	- [Blueprint Event Graph](./ue5-blueprint-event-graph.md)
+	- [Physics Simulation](./ue5-physics.md)
 
 		- Detail->physics
 

@@ -1,6 +1,8 @@
 ---
 layout:    doc
 title:    合批
+date:   2023-04-05 17:27:00 +0800
+categories: render, batch， Drawcall
 ---
 
 # Batching

@@ -1,6 +1,8 @@
 ---
 layout:    doc
 title:    UGUI合批
+date:   2023-04-07 17:27:00 +0800
+categories:     UI, Unity3d， UGUI
 ---
 
 # UGUI batch优化
