@@ -4,7 +4,6 @@ layout: doc
 permalink: /gamedev/
 ---
 
-
 # GamePlay
 
 ## Unity
@@ -42,11 +41,11 @@ permalink: /gamedev/
 ---
 ### Unity Base
 1. Unity Component
-- [UI](./u3d/u3d-ugui.md)
-    - [TextMeshPro](./u3d/u3d-textmeshpro.md)
-- Camera
+- [UI](./u3d/u3d-ugui.md)  
+    - [TextMeshPro](./u3d/u3d-textmeshpro.md)  
+- Camera  
 - [Transform](./render/render-transformation.md)
-- 【Time】
+- Time
 - Input
 	- InputManager
 	- InputSystem
@@ -109,7 +108,7 @@ permalink: /gamedev/
 	- [PBR](./render/render-pbr.md)
 4. 动画模拟
 
-
+---
 ### 动画
 - [通用](./anime/anime-index.md)
 - 动画类型
@@ -125,8 +124,8 @@ permalink: /gamedev/
 	- [Mecanim](./u3d/u3d-anim-mecanim.md)
 	- [Playerable动画](./u3d/u3d-anim-playable.md)
 
+---
 ### 网络
-
 - [协议](./network/net-proto-net.md):
     - TCP
     - UDP
@@ -146,20 +145,18 @@ permalink: /gamedev/
 - [网络框架](./network/net-frame.md)
 - [数据协议](./network/net-proto-data.md)
 
-
+---
 ### [AI](./u3d/u3d-ai.md)
 - 状态机
 - 行为树
 - AI
     - ML agent
 
+---
 ### [FAQ](./FAQ.md)
 
 ---
-## Unreal
-
-### Unreal Engine 5 C++ Developer:Learn C++ & Make Viedeo Games | Udemy
-
+## Unreal Engine 5 C++ Developer:Learn C++ & Make Viedeo Games | Udemy
 - Welcome
     - [Intro & setup](./ue5/ue5-Intro-and%20Setup.md)
     - [Viewport](./ue5/ue5-editor-navigate-viewport.md)
@@ -183,4 +180,3 @@ permalink: /gamedev/
     - [Level](./ue5/ue5-blueprint-level.md)
 
 - Obstacle Assault
-
