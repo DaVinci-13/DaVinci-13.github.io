@@ -21,18 +21,18 @@ permalink: /gamedev/
 		        - 模型网格的裁减与合并
 			    - 字符图集
 			    - 特效清理
-		        - [lightmap](./u3d-lightmap.md)
+		        - [lightmap](./u3d/u3d-lightmap.md)
 		        
 	        - overdraw
 			    - [earlyZ & preZ](./render-earlyZ-and-preZ.md)
-		        - [Partical System](./u3d-ParticalSystem.md)
+		        - [Partical System](./u3d/u3d-ParticalSystem.md)
 		        - [AlphaClip & AlphaBlend](./render-AlphaClip-and-AlphaBlend.md)
 
 	        - 带宽
 
 		        - [model](./art-Modeling.md)
 		            - 降低复杂度
-			        - [lod](./u3d-lod.md)
+			        - [lod](./u3d/u3d-lod.md)
 
 		        - [texture](./art-texture.md)
 		            - 程序化纹理 
@@ -42,19 +42,19 @@ permalink: /gamedev/
 
 	        - [UGUI Batch](./render-ugui.md)
 	        - [GC](./clr-gc.md)
-	        - [u3d优化](./u3d-optimize.md)
+	        - [u3d优化](./u3d/u3d-optimize.md)
 
     - 分析工具
-	    - [Stats](./u3d-stats.md)
-        - [Profiler](./u3d-profiler.md)			
+	    - [Stats](./u3d/u3d-stats.md)
+        - [Profiler](./u3d/u3d-profiler.md)			
 	    - Profiler Analysis
 	    - Frame Debugger
 
     - Unity  生命周期(本质：委托异步回调)
     
 	- Component
-	    - [UI](./u3d-ugui.md)
-		    - [TextMeshPro](./u3d-textmeshpro.md)
+	    - [UI](./u3d/u3d-ugui.md)
+		    - [TextMeshPro](./u3d/u3d-textmeshpro.md)
 	    - Camera
 	    - [Transform](./render-transformation.md)
 	    - 【Time】
@@ -63,24 +63,24 @@ permalink: /gamedev/
 			- InputManager
 			- InputSystem
 
-	- [ScriptableObject](./u3d-ScriptableObject.md)
+	- [ScriptableObject](./u3d/u3d-ScriptableObject.md)
 	
-    - [UnityEditor](./u3d-editor-scripting.md)
+    - [UnityEditor](./u3d/u3d-editor-scripting.md)
 
     - 插件
 	    - LogViewer
 	    - EasyTouch
 	    - DOTween
     	- Spine
-	    - [FGUI](./u3d-fgui.md)
+	    - [FGUI](./u3d/u3d-fgui.md)
 	    - Cinemachine
-    	- [Odin](./u3d-odin.md)
+    	- [Odin](./u3d/u3d-odin.md)
 	
-	- [DOTS](./u3d-dots.md)
+	- [DOTS](./u3d/u3d-dots.md)
 	
 	- 资源管理
-	    - [Resources](./u3d-resources.md)
-	    - [AssetBundle & Addresable](./u3d-addresable.md)
+	    - [Resources](./u3d/u3d-resources.md)
+	    - [AssetBundle & Addresable](./u3d/u3d-addresable.md)
 
     - 物理
 		- [碰撞](./physics-collision.md)
@@ -88,15 +88,15 @@ permalink: /gamedev/
     - 异步
 	    - [C#线程](./cs-thread.md)
 	    - [C#异步](./cs-async.md)
-	    - [Unity协程](./u3d-corotinue.md)
+	    - [Unity协程](./u3d/u3d-corotinue.md)
 		
-    - [热更新](./u3d-hotpatch.md)
+    - [热更新](./u3d/u3d-hotpatch.md)
 		- 脚本热更新方案
-		    - [xLua](./u3d-hotpatch-xlua.md)
-		    - [ILruntime](./u3d-hotpatch-ilruntime.md)
-		    - [hybridCLR](./u3d-hotpatch-hybridclr.md)
+		    - [xLua](./u3d/u3d-hotpatch-xlua.md)
+		    - [ILruntime](./u3d/u3d-hotpatch-ilruntime.md)
+		    - [hybridCLR](./u3d/u3d-hotpatch-hybridclr.md)
 
-	- [原生交互:Android and IOS](./u3d-Android-and-IOS.md)
+	- [原生交互:Android and IOS](./u3d/u3d-Android-and-IOS.md)
 
 ### Shading
 
@@ -1090,385 +1090,32 @@ multi_compile D E
 	    - RenderSettings.skybox = clip;
 	      DynamicGI.UpdateEnvironment();
 
+
 ## Unreal
 
 ### Unreal Engine 5 C++ Developer:Learn C++ & Make Viedeo Games | Udemy
 
 - Welcome
-    - [Intro & setup](./ue5-Intro-and%20Setup.md)
-    - [Viewport](./ue5-navigate-viewport.md)
-    - [Actor](./ue5-blueprint-actor.md)
-	- [help us to help you](./ue5-FAQ.md)
+    - [Intro & setup](./ue5/ue5-Intro-and%20Setup.md)
+    - [Viewport](./ue5/ue5-editor-navigate-viewport.md)
+    - [Actor](./ue5/ue5-blueprint-actor.md)
+	- [help us to help you](./ue5/ue5-FAQ.md)
 
 - Warehouse Wreckage
-	- [project setting](./ue5-setting-project.md)
-	- [Blueprint Event Graph](./ue5-blueprint-event-graph.md)
-	- [Physics Simulation](./ue5-physics.md)
-
-		- Detail->physics
-
-			- Simulation Physics
-			- Enable Gravity
-			- Mass
-
-	- Objects and References
-
-		- Objects
-		- Glossary
-
-			- Objects - Collections of data and functionality
-			- Actors - Object that can go in a level
-			- Component - Objects that can go on an actor
-			- Reference - Where to find an object
-			- Data Pin - The input or output data for a node
-			- Excution Pins - When to run this node
-
-		- e.g.
-
-			- GetDisplayName
-			- GetTheMass
-
-	- Adding an Impulse
-
-		- Content Sensitive
-
-			- True means it filters down the nodes available to the ones that use the static mesh component object.
-
-		- Force and Impulse
-
-			- Force=Mass*Acceleration
-			- Impulse=Mass*Velocity Change
-
-		- Add Impulse(Component)
-
-			- Impulse(vector3 value)
-			- Vel Change(checkbox)
-
-				- change nowtick speed
-
-	- Blueprint Classes and Instances
-
-		- Glossary
-
-			- BP_Class
-
-				- Detail->Convert ...
-
-			- linked copy
-			- instance
-
-	- Spawning Actors
-
-		- Glossary
-
-			- Spawning
-
-				- Creating an object while playing
-
-			- Transform
-
-				- Location, rotation and scale
-
-			- Return pin
-
-				- Output of a node
-
-		- Hook Up The Impulse
-
-			- Hook up the execution pins
-			- "Add Impulse" should happen affter spawing
-			- Hook up the data pins
-			- What should we be adding the impulse to?
-
-	- Data Types
-
-		- Can't get a square peg in a round hole
-		- Glossary
-
-			- Integer
-			- Float
-			- String
-			- Bool
-			- Struct
-
-				- An object that is usually small
-				- e.g.
-
-					- Transform
-
-			- Objects
-
-				- e.g.
-
-					- Actors
-
-						- Cube
-
-					- Components
-
-						- StaticMeshComponent
-
-				- Collections of data and functionality
-
-			- Data type
-
-				- The "Shape" of your data
-
-	- Pawns and Actor Location
-
-		- Player Start (Pawn)
-		- Get Player Pawn (Node)
-
-	- Control Rotation
-
-		- ActorRotation vs. ControlRotation
-
-			- ActorRotation
-
-				- belong to actor
-
-			- ControlRotation
-
-				- associate with inner camera
-				- belong to controller
-
-			- controller control actor
-
-				- Pawn->Use Controller Rotation
-
-	- Vector Addition & Multiplication
-
-		- What Are Vectors?
-
-			- Mathematically
-
-				- Direction
-				- Size(Magnitude)
-
-			- Programmatically
-
-				- 3 Floats
-				- XYZ
-
-		- Addition/Subtraction
-		- Multiplication
-
-	- Get Forward Actor
-	- Import Assets
-
-		- Windows
-		- Mac
-
-			- Content Browser-><select Assets or Folder><right click>->Migrate
-
-	- Geometry Brushes (BSP)
-
-		- Place Actors
-
-			- Brush Type
-
-				- substract
-
-		- Set Default Map
-
-			- Project Settings->Project->Maps&Modes
-
-	- Materials and Lighting
-
-		- Materials
-		- Lighting
-
-			- Light Source
-			- Skylight
-
-	- Actor Component
-
-		- Parent and Child Actor
-
-	- Collision Meshes
-
-		- VIEW MODE
-
-			- Locate: <Viewport> -> <Left-up Corner> -> VIEW MODE
-			- modes
-
-				- Lit
-				- wireframe
-				- Player Collision
-
-		- Change Collider
-
-			- Static Mesh Editor
-
-				- toolbat->Collision->Remove Collision
-
-		- problem
-
-			- flying through
-
-				- move too fast
-
-	- Variables
-
-		- Variables Are Like Boxes
-
-			- Variables help us store, manipulate and refer to  information
-			- Each variable
-
-				- has a NAME
-				- contains DATA
-				- is of a particular TYPE
-
-		- My Blueprint
-
-			- Locate
-
-				- Level Blueprint
-
-					- Option->Window->My Blueprint
-
-			- VARIABLES
-
-				- function
-
-					- Get
-					- Set
-
-			- subtract
-
-				- Get the ammo value from variable
-				- Subtract one from it
-				- Store it back in the ammo variable
-				- Print the result
-
-	- Booleans and Branches
-
-		- Glossary
-
-			- Branch
-
-				- Do something or do not, based on a bool
-
-			- Booleans
-
-				- What Is A Bool?
-
-					- Bools are types that can store one of two values - true or false
-					- They are often used with if statements to decide whether something happens or not
-					- Certain nodes return bools
-
-				- A yes or no data tyoe
-
-			- Comparison
-
-				- Less than, Greater than, Equal, etc.
-
-	- Functions
-
-		- commet block
-
-			- hotkey
-
-				- C
-
-			- put some node into a block
-
-		- What Are Functions?
-
-			- Function execute blocks of blueprint that makes our game do thins.
-			- Many node provided are functions.
-
-				- It (node) has a little f symbol in the top left that stands for function
-
-			- But we can create our own too.
-			- They allow us to stay organised.
-			- And reuse blocks of code.
-
-		- How to
-
-			- (Select some nodes)->(Right-click)->Convert to Function
-
-		- Good Naming
-
-			- Code is communiction.
-			- Measure of code quality = WTHs / Minute
-			- Functions should be bert
-			- Talk to somebody else!
-
-	- Return Types
-
-		- Details
-
-			- Outputs
-
-				- DataNode
-
-			- Inputs
-
-				- DataNode
-
-	- Pure Function
-
-		- Side Effect
-
-			- When a function has an observable effect
-
-		- What Is A Pure Function
-
-			- A Function with no side effects
-			- Only return values
-
-		- Make Function Pure
-
-			- Select and set the checkbox
-			- What happen to the execution flow
-
-	- Member Fuctions
-
-		- Glossary
-
-			- Robecje Oriented Programming - Fuctions live with the data they manipulated.
-			- Member functions - A function on a class, always called on an particular instance.
-			- Self - A node available in member functions, always points to the current instance.
-
-	- Loading Levels & Delay Nodes
-
-		- Open Level
-
-			- by Name
-
-		- Get Current Level Name
-		- Delay
-
-	- Wrap-up and Recap
-
-		- What We've Learnt
-
-			- Blueprint Basics: nodes, pins
-			- Programming basics: variables, strings, references, functions
-			- Unreal basics: maps, actors, components, transforms, vectors
-			- Object Oriented basics: objects/structs, classes, member functions.
+	- [project setting](./ue5/ue5-editor-setting-project.md)
+	- [Blueprint Event Graph](./ue5/ue5-blueprint-event-graph.md)
+	- [Physics Simulation](./ue5/ue5-physics-base.md)
+	- [Adding an Impulse](./ue5/ue5-physics-force.md)
+	- [Blueprint Classes and Instances](./ue5/ue5-blueprint-class.md)
+    - [Transform](./ue5/ue5-transformation.md)
+	- [Import Assets](./ue5/ue5-editor-import-assets.md)
+	- [Materials and Lighting](./ue5/ue5-render-material-and-light.md)
+	- [Actor Component](./ue5/ue5-component-base.md)
+	- [Collision Meshes](./ue5/ue5-physics-collision.md)
+	- [Variables](./ue5/ue5-blueprint-variable.md)
+	- [Booleans and Branches](./ue5/ue5-blueprint-branch.md)
+	- [Functions](./ue5/ue5-blueprint-function.md)
+    - [Level](./ue5/ue5-blueprint-level.md)
 
 - Obstacle Assault
-
-	- Section Intro
-
-		- Action Plan
-
-			- 1. Create a project with our assets
-			- 2. Install the tools we need for C++
-			- 3. Learn same C++ basics
-			- 4. Make a platform that moves
-			- 5. Configure our moving platforms
-			- 6. Send the platform back
-			- 7. Rotating platforms.
-
-		- What We Will Learn
-
-			- Functions, Variables and Branches in C++
-			- Creating a C++ Actor
-			- C++ node structure
-			- C++ Compilation and Live Coding
-			- Linking Blueprint to C++
-			- Setting our own custom character class.
 
