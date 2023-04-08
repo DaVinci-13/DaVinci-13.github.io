@@ -2,7 +2,7 @@
 title: 坐标变换
 layout: doc
 date:   2023-04-05 16:54:00 +0800
-categories: transform, graphics
+categories: transform, graphics, vector
 ---
 
 # 坐标变换
@@ -19,5 +19,3 @@ categories: transform, graphics
 [1 1 1 1]  
 
 ### 位置 (03，13，23)
-
-## MVP变换

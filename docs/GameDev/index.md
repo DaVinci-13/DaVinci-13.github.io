@@ -16,32 +16,32 @@ permalink: /gamedev/
         - 渲染
 
 	        - drawcall
-		        - [Batcher](./render-batch.md): dynamic、static、GPU Instancing、SRP Batcher
-		        - 减少[复杂计算](./render-shader.md)
+		        - [Batcher](./render/render-batch.md): dynamic、static、GPU Instancing、SRP Batcher
+		        - 减少[复杂计算](./render/render-shader.md)
 		        - 模型网格的裁减与合并
 			    - 字符图集
 			    - 特效清理
 		        - [lightmap](./u3d/u3d-lightmap.md)
 		        
 	        - overdraw
-			    - [earlyZ & preZ](./render-earlyZ-and-preZ.md)
+			    - [earlyZ & preZ](./render/render-earlyZ-and-preZ.md)
 		        - [Partical System](./u3d/u3d-ParticalSystem.md)
-		        - [AlphaClip & AlphaBlend](./render-AlphaClip-and-AlphaBlend.md)
+		        - [AlphaClip & AlphaBlend](./render/render-AlphaClip-and-AlphaBlend.md)
 
 	        - 带宽
 
-		        - [model](./art-Modeling.md)
+		        - [model](./art/art-Modeling.md)
 		            - 降低复杂度
 			        - [lod](./u3d/u3d-lod.md)
 
-		        - [texture](./art-texture.md)
+		        - [texture](./art/art-texture.md)
 		            - 程序化纹理 
 		        - SharedMaterial 共享材质
 
         - 脚本
 
-	        - [UGUI Batch](./render-ugui.md)
-	        - [GC](./clr-gc.md)
+	        - [UGUI Batch](./u3d/u3d-render-ugui.md)
+	        - [GC](./cs/clr-gc.md)
 	        - [u3d优化](./u3d/u3d-optimize.md)
 
     - 分析工具
@@ -56,7 +56,7 @@ permalink: /gamedev/
 	    - [UI](./u3d/u3d-ugui.md)
 		    - [TextMeshPro](./u3d/u3d-textmeshpro.md)
 	    - Camera
-	    - [Transform](./render-transformation.md)
+	    - [Transform](./render/render-transformation.md)
 	    - 【Time】
 
 		- Input
@@ -83,11 +83,11 @@ permalink: /gamedev/
 	    - [AssetBundle & Addresable](./u3d/u3d-addresable.md)
 
     - 物理
-		- [碰撞](./physics-collision.md)
+		- [碰撞](./physics/physics-collision.md)
 
     - 异步
-	    - [C#线程](./cs-thread.md)
-	    - [C#异步](./cs-async.md)
+	    - [C#线程](./cs/cs-thread.md)
+	    - [C#异步](./cs/cs-async.md)
 	    - [Unity协程](./u3d/u3d-corotinue.md)
 		
     - [热更新](./u3d/u3d-hotpatch.md)
@@ -101,372 +101,38 @@ permalink: /gamedev/
 ### Shading
 
 - 图形学
-
-	- 光栅化
+	- 渲染
+	    - [渲染流水线](./render/render-Pipeline.md)
+	        - [u3d渲染管线](./u3d//u3d-pipeline-base.md)
+	            - [URP](./u3d/u3d-pipeline-URP.md)
+	            - [HDRP](./u3d/u3d-pipeline-HDRP.md)
+	    - 渲染技术
+		    - [体渲染](./render/render-volume.md)
+		    - [视差](./render/render-parallax.md)
+		    - [风格化](./render/render-stylized.md)
+		- [后处理](./render/render-postprocess.md)
+		- [Gamma](./render/render-gamma.md)
+		- ShaderLab
+		    - [MetaPass](./u3d/shaderlab-metapass.md)
+			- [Shader变体](./u3d/shaderlab-variant.md)
  
 	- 几何
-
-		- MVP变换
-		- 向量计算
+		- [MVP变换](./render/render-mvp.md)
+		- [向量计算](./render/render-transformation.md)
 
 	- 光线追踪
-
-		- PBR
-
-			- 原理
-				- 微表面理论
-				- 能量守恒
-				- BRDF
-
-			- BRDF
-				- NDF
-				- GO
-				- Fresnel
-
-			- 贴图
-				- BaseTex
-				- Normal
-				- Metallic/Speculiar
-				- AO
-				- Ambient
-				- 环境色
+		- [PBR](./render/render-pbr.md)
 
 	- 动画模拟
 
-- 渲染理论
-
-	- 渲染流水线
-
-		- 应用阶段
-
-			- 粗粒度剔除
-
-				- 遮挡剔除
-				- 视锥体剔除
-
-			- 渲染设置
-			- 准备数据
-
-		- 几何阶段
-
-			- Vertex Shader
-			- Tesselation Shader
-			- Geometry Shader
-			- 视锥体裁剪
-			- MVP
-
-		- 光栅化阶段
-
-			- 渲染三角形
-
-				- 设置
-				- 遍历
-
-			- AA 抗锯齿
-
-		- 片元处理 Fragment Shader
-
-			- 三大测试
-
-				- AlphaTest 裁剪测试
-				- Stencil Test
-				- Depth Test
-
-			- 颜色混合
-
-		- 后处理
-
-	- 渲染管线
-
-		- Forward
-		- Deferred 延迟
-
-			- 与场景模型复杂度无关
-			- 解决大量关照渲染
-			- 实质为后处理进行光照计算
-
-	- 渲染技术
-
-		- 体渲染
-
-			- 云
-
-		- 视差
-
-			- 云
-			- 冰
-
-		- PBR
-		- Stylized
-
-			- 水
-			- 火
-
-		- 后处理
-
-			- AA
-			- Outline/Rim
-			- Bloom
-
-				- GaussBlur
-
-			- Dof
-			- AO
-
-	- Gamma矫正
-	- 算法
-
-		- 高斯模糊
-		- AA
-		- AO
-
-			- SSAO
-			- HBAO
-
-		- Dof
-		- PBR
-
-			- BRDF
-
-- 实践
-
-	- unity
-
-		- 管线
-
-			- build-in
-			- urp
-
-				- 只第一个pass起作用
-				- 定制后处理插入点
-				- SRP Batcher
-
-			- hdrp
-
-		- 路径
-
-			- 前向
-			- 延迟
-
-		- Shader
-
-			- MetaPass
-
-				- 为光照映射和动态全局光照提取表面信息的Pass块
-
-			- Shader变体
-
-				- 类型
-
-					- multi_complie
-					- shader_feature
-
-						- feature在打包（build）的时候不会把未使用的 variants 打进去， 因此应该使用shader_feature来声明那些material设置的关键词，全局代码使用的关键词最好用shader_compile来声明
-
-				- [*]_local
-
-					- 局部
-
-						- 可用数量：64
-
-					- 全局
-
-						- 可用数量：200-
-
-							- 总数(256)-Unity内部占用(60-)
-
-				- #pragma multi_compile __ METHOD1
-
-					- 该指令生成了两个着色器变体，一个未定义的“__”，和一个“METHOD1 ”，如此可以避免把两个关键字都用完
-
-				- 计算
-
-					- multi_compile A B C
-multi_compile D E
-6=3*2
-
-				- C#调用
-
-					- Shader.EnableKeyword：启用全局关键字
-					- Shader.DisableKeyword：禁用全局关键字
-					- CommandBuffer.EnableShaderKeyword：使用CommandBuffer来启用全局关键字
-					- CommandBuffer.DisableShaderKeyword：使用CommandBuffer可以禁用全局关键字
-					- Material.EnableKeyword：为常规着色器启用本地关键字
-
-						- 若不存在，则创建全局关键字
-
-					- Material.DisableKeyword：禁用常规着色器的本地关键字
-					- ComputeShader.EnableKeyword：为计算着色器启用本地关键字
-					- ComputeShader.DisableKeyword：禁用计算着色器的本地关键字
-
-				- unity内置
-
-					- 类型
-
-						- multi_compile_fwdbase 编译PassType.ForwardBase所需的所有变体。这些变体处理不同的光照贴图类型，并且启用或禁用了主方向光的阴影。
-						- multi_compile_fwdadd 编译PassType.ForwardAdd的变体。这将编译变体以处理定向，聚光或点光源类型，以及带有cookie纹理的变体。
-						- multi_compile_fwdadd_fullshadows 与相同multi_compile_fwdadd，但还包括灯光具有实时阴影的功能。
-						- multi_compile_fog 扩展为多种变体以处理不同的雾类型（关闭/线性/ exp / exp2）。
-
-					- 跳过
-
-						-  #pragma skip_variants
-
-				- 其他
-
-					- Graphics tiers and shader variants（图形层和着色器变体
-
-						- Unity将检查GPU的功能，并确定其对应的图形层，我们可以为每一个图层创建一组着色器变体，并通过“#pragma hardware_tier_variants renderer（其中renderer是有效的渲染平台）” 设置不同的图形层 （此功能仅与内置渲染管线兼容）
-
-							- d3dll
-
-								- Direct3D 11/12
-
-							- glcore
-
-								- OpenGL 3.x/4.x
-
-							- gles
-
-								- OpenGL ES 2.0
-
-							- gles3
-
-								- OpenGL ES 3.x
-
-							- metal
-
-								- IOS/Mac
-
-							- vulkan
-							- d3dll_9x
-
-								- Direct3D 11 9.x
-
-							- xboxone
-							- ps4
-							- n3ds
-							- wiiu
-
-						- eg
-
-							- #pragma hardware_tier_variants gles3
-
-						- Unity还会为每个着色器生成三个着色器变体
-
-							- UNITY_HARDWARE_TIER1  
-
-								- //第一图形层（低）-对应于着色器定义UNITY_HARDWARE_TIER1。
-								- //选择此级别的对象是：-不支持OpenGL ES 3的Android设备-iPhone 5、5C和更早的版本-iPod Touch第5代或更早版本-iPad 4或更早版本-iPad Mini第1代-台式机上的DirectX 9类硬件-HoloLens
-
-							- UNITY_HARDWARE_TIER2
-
-								- //第二个图形层（中）-对应于着色器定义UNITY_HARDWARE_TIER2。
-								- //选择此等级的用户包括：-支持OpenGL ES 3.0+的Android设备-iPhone 5S及更高版本-iPod Touch第6代-iPad Air及更高版本-iPad Mini第2代及更高版本-Apple TV
-
-							- UNITY_HARDWARE_TIER3
-
-								- //第三图形层（高）-对应于着色器定义UNITY_HARDWARE_TIER3。
-								- //选择此层可用于：-台式机上的OpenGL或DirectX 11+类硬件-Mac上的Metal
-
-	- unreal
-
-		- shader脚本
 
 ### 动画
-
-- 通用
-
-	- 挑战
-
-		- 可交互
-
-			- 动画状态机
-
-		- 实时
-
-			- 动画压缩
-
-		- 真实感
-
-			- Motion Matching
-
-	- 动画类型
-
-		- 序列帧动画
-
-			- 2D
-			- 仿3D
-
-				- 各视角采样
-
-			- e.g.
-
-				- unity:Animation
-
-		- 骨骼动画
-
-			- 2D
-
-				- 2D拆分
-
-					- spine
-
-				- live2D
-
-					- 网格控制
-					- 深度控制
-
-			- 3D
-
-				- theory
-
-					- 骨骼蒙皮绑定
-					- 通过骨骼带动皮肤运动，也就是通过骨骼的移动动态计算mesh上的点的位置
-
-				- e.g.
-
-					- unity：Generic
-
-						- 1个顶点最多控制n个骨骼
-
-							- unity设置
-
-								- 1
-								- 2
-								- 4
-								- auto
-
-						- 无法动画重定向
-
-		- 顶点动画
-
-			- theory
-
-				- 物理模拟
-				- 动画烘焙
-				- 离线
-
-			- e.g.
-
-				- unity：Skinned Mesh Renderer->Mesh Renderer
-
-		- 表情动画
-
-			- Morph Target Animation
-
-				- theory
-
-					- 顶点动画变体
-					- 插值
-
-				- e.g.
-
-					- 捏脸
-
-			- e.g
-
-				- unity:BlendShape
+- [通用](./anime/anime-index.md)
+- 动画类型
+	- [序列帧动画](./anime/anime-sequence.md)
+    - [骨骼动画](./anime/anime-skeletal.md)
+    - [顶点动画](./anime/anime-vertex.md)
+    - [表情动画](./anime/anime-morph.md)
 
 		- 蒙皮动画
 
