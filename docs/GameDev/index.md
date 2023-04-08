@@ -41,14 +41,14 @@ permalink: /gamedev/
 ---
 ### Unity Base
 1. Unity Component
-- [UI](./u3d/u3d-ugui.md)  
-    - [TextMeshPro](./u3d/u3d-textmeshpro.md)  
-- Camera  
-- [Transform](./render/render-transformation.md)
-- Time
-- Input
-	- InputManager
-	- InputSystem
+    - [UI](./u3d/u3d-ugui.md)  
+        - [TextMeshPro](./u3d/u3d-textmeshpro.md)  
+    - Camera  
+    - [Transform](./render/render-transformation.md)  
+    - Time  
+    - Input
+	    - InputManager
+	    - InputSystem
 2. [ScriptableObject](./u3d/u3d-ScriptableObject.md)
 
 3. [UnityEditor](./u3d/u3d-editor-scripting.md)
