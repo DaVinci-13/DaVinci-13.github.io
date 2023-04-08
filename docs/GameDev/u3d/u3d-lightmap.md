@@ -10,3 +10,10 @@ categories: Unity, light, lightmap
 ## 原理：UV2
 
 ## 烘焙
+
+## 动态加载环境光
+```csharp
+    RenderSettings.skybox = clip;
+	DynamicGI.UpdateEnvironment();
+
+```
