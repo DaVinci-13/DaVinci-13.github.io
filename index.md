@@ -13,7 +13,7 @@ layout: home
  
     - [GL](/gl/)
  
-    - [Script](/script/)
+    - [Programme](/programme/)
  
     - [AI](/ai/)
  
