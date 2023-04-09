@@ -153,7 +153,7 @@ permalink: /gamedev/
     - ML agent
 
 
-### [FAQ](./FAQ.md)
+### [Solution](./Solution.md)
 
 
 ## Unreal Engine 5
