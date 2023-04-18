@@ -246,3 +246,67 @@ categories: C#, CLR
 ## 基本类型
 14. 字符、字符串和文本处理
     1. 字符
+        - .NET Framework: 16bit Unicode
+        - System.Char
+    2. System.String  
+        不可变（immutable）的顺序字符集，继承于Object
+        1. 构造字符串
+            - 基元类型
+            - Idstr(load string)指令:CLR用一种特殊方式构造字面值String对象
+            - unsafe
+            - 转义机制
+            - GC：
+                - 字面值String在编译时连接，最终只有一个字符串放入模块元数据
+                - 非字面值String使用 +操作符 ，连接时在运行时进行，在堆上创建多个String对象，需要垃圾会说，对性能有影响
+            - 逐字字符串(verbatim string)：引号之间的所有字符会都被视为字符串的一部分
+                - @
+                - 通常用于制定文件和目录的路径
+                - 与正则表达式搭配使用
+        2. 字符串是不可变的
+            - GC：
+                - String类的字符串操作会在对上创建大量的String对象，造成更频繁的垃圾回收，从而影响性能。
+                - StringBuilder,高效执行大量字符串操作
+            - 不会发生线程同步问题
+            - 字符串留用（string interning）：CLR可通过一个String对象共享多个完全一致的String内容，这样能减少系统中的自服从数量，从而节省内存
+            - String和CLR紧密集成，出于对性能呢个考虑，String类是密封类
+        3. 比较字符串 - 语言文化
+        4. 字符串留用
+            - 显式调用：String。Interrn
+            - 标志
+                - System.Runtime.CompilerServices.CompilationRelaxationsAttribute
+                - System.Runtime.CompilerServices.CompilationRelaxations.NoStringInterning
+            - CLR内部可能对某些字符串进行留用，但不要依赖于CLR的这个行为（CLR版本不同行为不同）
+            - 字符串留用虽然有用，但留用本身操作需要花时间，所以使用必须谨慎
+        5. 字符串池：编译器只在模块的元数据中的字面值字符串值写入一次。引用该字符串的所有代码都被修改成引用元数据中的统一字符串。
+        6. 检查字符串中的字符和文本元素 -  StringInfo
+        7. 其他字符串操作
+    3. 高效率构造字符串 - StringBuilder
+        1. 构造StringBuilder对象
+            - 最大容量：Intel.MaxValue
+            - 容量：默认16,动态扩容（倍增，复制到新数组，原始数组可以被垃圾回收）
+            - 字符数组：
+        2. StringBuilder的成员
+            - 分配新对象的两种情况：
+                - 动态构造字符串其长度超过了设置的容量
+                - 调用ToString方法
+            - 缺点：不方便、效率低
+    4. 获取对象的字符串表示：ToString  
+        定义类型时总应该重写ToString方法
+        1. 制定具体的格式和语言文化
+            - 实现System.IFormattable接口
+            - 实现System.IFormatProvider接口
+        2. 将多个对象格式化成一个字符串
+            e.g. String.Format("On {0:D}, {1} is {2:E} years old.", new DateTime(2012,4,22,14,35,5),"Aidan",9)
+        3. 提供定制格式化器
+    5. 解析字符串来获取对象： Parse
+    6. 编码：字符和字节的相互转换
+        1. 字符和字节流的编码和解码
+        2. Base-64字符串的编码和解码
+    7. 安全字符串 - System.Security.SecureString
+        - 字符加密，性能一般
+        - 实现了IDisposable接口
+        - GC：非托管，回收后内容清0，不再存在于内容中
+
+15. 枚举类型和位标志
+    1. 枚举类型
+    2. 位标志
