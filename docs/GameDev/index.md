@@ -159,7 +159,7 @@ permalink: /gamedev/
 ## Unreal Engine 5
 Unreal Engine 5 C++ Developer:Learn C++ & Make Viedeo Games | Udemy
 - Welcome
-    - [Intro & setup](./ue5/ue5-Intro-and%20Setup.md)
+    - [Intro & setup](./ue5/ue5-Intro-and-Setup.md)
     - [Viewport](./ue5/ue5-editor-navigate-viewport.md)
     - [Actor](./ue5/ue5-blueprint-actor.md)
 	- [help us to help you](./ue5/ue5-FAQ.md)
@@ -181,3 +181,5 @@ Unreal Engine 5 C++ Developer:Learn C++ & Make Viedeo Games | Udemy
     - [Level](./ue5/ue5-blueprint-level.md)
 
 - Obstacle Assault
+    - [Project Setup](./ue5/ue5-project-setup.md)
+    - [Customizing The Character]
