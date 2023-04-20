@@ -384,8 +384,36 @@ categories: C#, CLR
     3. 用委托返回实例方法
     4. 委托揭秘
         - 声明委托后，编译器会定义一个派生自FCL定义的System.MulticastDelegate类的一个完整的类
-            - 包含构造器、Invoke、BeginInvoke（异步）、EndInvoke（异步）方法
-            - 最重要的三个非公共字段：
-                - _target:System.Object，静态回调返回null，实例回调返回方法要操作的对象
-                - _methodPtr:System.IntPtr，CLR用来标识要回调的方法的整数值
-                - _invocationList:System.Object，构造委托链时引用的委托数组
+        - 包含构造器、Invoke、BeginInvoke（异步）、EndInvoke（异步）方法
+        - 最重要的三个非公共字段：
+            - _target:System.Object，静态回调返回null，实例回调返回方法要操作的对象
+            - _methodPtr:System.IntPtr，CLR用来标识要回调的方法的整数值
+            - _invocationList:System.Object，构造委托链时引用的委托数组
+    5. 用委托回调多个方法（委托链）
+        - 添加：
+        - 删除：每次只会删除委托链从后往前匹配到的第一个委托对象
+        - 调用：循环调用委托，完成后返回最后一个委托的结果（其余结果被i舍弃）
+        1. C#对委托链的支持：+=、-=
+        2. 取得对委托链调用的更多控制
+            - 问题：健壮性
+            - 解决：new MulticastDelegate().GetInvocationList()
+    6. 委托定义不要太多（泛型委托）
+        - 泛型委托支持逆变和协变
+        - 使用ref、out、params就必须定义自己的委托类型
+    7. C#为委托类型提供的简化语法（语法糖）
+        - lambda表达式
+        - 匿名函数：private static
+    8. 委托和反射
+        - System.Delegate.MethodInfo.CreateDelegate(Type delegateType)
+        - System.Delegate.DynamicInvoke(params Object[] args)
+
+18. 定制特性(custom attribute)  
+    定制特性可以宣告式地为代码构造添加**注解**来实现特殊功能。  
+    定制特性允许为每一个元数据表记录项定义和应用信息。这种可扩展的元数据信息能在运行时查询，从而动态改变代码的执行方式。
+    1. 使用定制特性
+        - C#只允许将特性应用于定义以下任何目标元素的源代码：AssemblyDef程序集、ModuleDef模块、TypeDef类型（类、结构、枚举、接口、委托）、FieldDef字段、MethodDef方法（含构造器）、ParamDef方法参数、方法返回值、PropertyDef属性、EventDef事件和泛型类型参数
+        - 特性必须前缀明确
+        - CLS要求，定制特性类必须直接或间接从公共抽象类System.Attribute派生
+        - 定位参数 positional parameter
+        - 命名参数 named parameter
+    
