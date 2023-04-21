@@ -414,6 +414,44 @@ categories: C#, CLR
         - C#只允许将特性应用于定义以下任何目标元素的源代码：AssemblyDef程序集、ModuleDef模块、TypeDef类型（类、结构、枚举、接口、委托）、FieldDef字段、MethodDef方法（含构造器）、ParamDef方法参数、方法返回值、PropertyDef属性、EventDef事件和泛型类型参数
         - 特性必须前缀明确
         - CLS要求，定制特性类必须直接或间接从公共抽象类System.Attribute派生
-        - 定位参数 positional parameter
-        - 命名参数 named parameter
-    
+        - 定位参数 positional parameter：构造器参数，必须
+        - 命名参数 named parameter：字段或属性参数，可选
+    2. 定制自己的特性类
+        - System.AttributeUsageAttribute 指定特性应用类型
+        - 注意:CLR默认定制特性应用于所有目标元素
+    3. 特性构造器与字段/属性数据类型
+        - 构造器只支持 基元类型 参数，及其SZ数组（会影响与CLS的相容性，应尽量避免）
+        - 应用特性时必须传递一个编译时常量表达式，它与特性类定义的类型匹配
+            - 在特性类定义了一个Type参数、Type属性或者Type字段的任何地方，都必须使用**C# typeof**操作符
+            - 在特性类定义了一个Object参数、Object属性或者Object字段的任何地方，都可以传递Int、String或者常量表达式
+            - 若常量表达式代表值类型，则会发生装箱
+    4. 检测定制特性
+        - 原理：反射
+        - 方法：
+            - System.Type
+            - System.Reflection.CustomAttributeExtensions
+                - IsDefined
+                - GetCustomAttributes
+                - GetCustemAttribute
+            - sealed：防止检测到特性类的派生类
+    5. 两个特性实例的相互匹配
+        - System.Attribute.Equal() 利用反射比较两个特性对象的字段之
+        - virtual System.Attribute.Match() 默认为Equal()
+    6. 检测定制特性时不创建从Attribute派生的对象
+        - System.Reflection.CustomAttributeData() 查找特性时禁止执行特性类的代码
+        - 解决了安全隐患：Attribute.GetCustomAttribute会内部调用构造器和可能调用属性的set方法
+    7. 条件特性类
+        System.Diagnostics.ConditionalAttribute 只有在代码满足编译器条件时（e.g. TEST或Verify 使用代码分析工具）才会在元数据里生成特性信息（造成元数据膨胀，文件变得更大，增大进程的工作及，损害应用程序性能）
+
+19. 可空值类型
+    0. 引言
+        - CLR的值类型不能为null，会造成一定问题，e.g. 
+            - java的Data为引用，而CLR的DataTime为值，在交互时Java可能发送null
+            - 数据库的一个列可能为空，则FCL处理就会变得困难
+        - 解决：`System.Nullable<T>`
+    1. C#对可空值类型的支持
+        - 正式写法：Nullable<Iny32>
+        - 语法糖:Int32?
+        - 支持操作符
+        - **注意** 操纵可控实例会生成大量IL代码，速度变慢
+    2. 
