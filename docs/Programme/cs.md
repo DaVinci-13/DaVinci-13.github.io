@@ -464,3 +464,76 @@ categories: C#, CLR
         4. 接口方法
 
 ## IV 核心机制
+20. 异常和状态管理
+    - 错误处理的步骤：
+        - 首先要定义到底什么是错误。
+        - 然后要讨论如何判断代码正在经历一个错误，以及如何从错误中恢复。  这个时候，状态就成为一个要考虑的问题，因为错误常常在不恰当的时候发生。代码可能在状态改变的中途发生错误。
+        - 当然，还要讨论代码如何同志调用者有错误发送。
+    - CLR异常处理：未处理的异常、约束执行区域(constraind execution region, CER)、代码协定、运行时包装的异常以及未捕捉的异常
+    
+    1. 定义“异常”
+        - 异常是指成员没有完成它的名称所宣称的行动。
+        - 许多面向对象的构造——构造器、获取和设置属性、添加和删除事件、调用操作符重载和调用转换操作符等——都没办法返回错误代码，但他们仍然需要报告错误。FCL和所有编程语言都通过异常处理来解决这个问题。
+    2. 异常处理机制：try{}catch{}finally{}
+        - FCL异常处理机制 时用Microsoft Windows提供的结构化异常处理(Structured Exception Handling, SEH)机制构建的。
+        - C#另一套异常处理关键字：try{}handle{}compensate{}cleanup{}
+        - CLR2.0引入新的RuntimeWrappedException类，将非CLS相容的异常自动构造实例，并初始化该实例的私有字段，使之引用世纪抛出的对象。这样CLR就将非CLS相容的异常转变成了CLS相容的异常。
+    3. System.Exception类
+        - System.Diagnostics.StrackTrace
+        - System.Diagnostics.Debuggabletrribute
+    4. FCL定义的异常类
+        - 原计划：
+            - 基类：Systm.Exception
+            - 应用程序抛出异常：System.ApplicationException，自基类派生
+            - CLR抛出异常：System.SystemException，自基类派生
+        - 规则没有得到严格遵守
+    5. 抛出异常
+        - 抛出有意义的Exception派生类型，**建议**
+            - 强烈建议定义浅而宽的异常类型层次结构，一创建尽量少的基类
+            - 谨慎抛出任何基类异常类型
+        - 抛出异常时应包含的字符串消息：说明方法为什么无法完成任务
+    6. 定义自己的异常类
+        - 必须序列化 ``[Serializable]``
+    7. 用可靠性换取开发效率
+        - 未处理的异常会造成应用程序终止。
+        - 而捕捉System.Exception异常并允许应用程序继续运行，一个很大的问题时状态可能遭受破坏。e.g.涉及交易行为
+        - 环节对状态的破坏，可以：
+            - catch-finaly块中代码CLR不允许线程终止。
+            - 用System.Diagnostics.Contracts.Contract向方法应用代码协定。
+            - 使用约束执行区域(Constrained Execution Region, CER)消除CLR的某些不确定性
+            - 取决于状态存在于何处，可利用事务(transaction)来确保状态要么都修改，要么都不修改。见Systm.Transactions.TransactionScope类。必须P/Invoke（平台调用）本机代码。
+            - 将自己的方法设计的更明确：
+                - 在线程同步锁的情况下，现在的建议时根本不用随同异常处理使用它们。
+                - 如果确定状态已损坏到无法修复的程度，应销毁所有损坏的状态，防止造成根多的伤害，然后重启应用程序，将状态初始化到良好状态，并寄希望于状态不再损坏。
+                - 如果状态过于糟糕，应该调用Environment.FialFast()方法终止进程，以不再运行任何的try/finally块或者Finalize方法
+    8. 设计规范和最佳实践
+        1. 善用finally块
+            - 抛出异常后清理已启动的操作
+            - 显示释放对象以避免资源泄漏
+            - ``lock``.``using``,``foreach``,析构器``Finalize``自动生成try/finally块
+        2. 不要什么都捕捉
+            - 应该永续异常在调用栈中向上移动，rang应用程序针对性地处理
+            - 可在一个线程捕捉异常，在另一个线程中重新抛出异常
+        3. 得体地从异常中恢复
+        4. 发生不可恢复的异常时回滚部分完成的操作——维持状态
+        5. 隐藏实现细节来维系协定
+            - 有时需要捕捉一个异常并重新抛出不同的异常
+            - 使用``dynamic``基元类型来调用成员，编译器身成的代码就不会捕捉全部异常并抛出一个TargetInvocationException对象：最初抛出的异常对象就会正常地在调用栈中向上传递
+    9. 未处理的异常
+        - Microsoft建议应用参训开发人员接受CLR的默认策略：发生未处理的异常时，Windows会向事件日志写一条记录
+        - Windows查看
+            - Windows日志 -> 应用程序
+            - Windows操作中心 -> 查看可靠性历史记录
+            - Windows操作中心 -> 可靠性监视程序
+            - Windows错误报告（Windows Error Reporting）
+        - CLR认为本机代码(native code)抛出的异常时损坏状态异常(corrupted state exceptions, CSE)，由于他们一般由CLR自身的bug造成，或者由托管开发人员无法控制的本级代码的bug造成。CLR默认不让托管代码捕获这些异常
+    10. 对异常进行调试- Visual Studio设置
+    11. 异常处理的性能问题
+        - 代价：
+            - 非托管编译器会生成大量薄记(bookkeeping)代码：必须生成代码，以跟踪对象被成功构造，以及捕捉到异常时调用已成功构造对象的析构函数。
+            - 托管编译器通过GC监视，则生成代码更少
+            - 不好判断异常处理到底会使应用程序增大多少额外的开销
+        - 必要：异常处理所造成的额外开销，带来的收益远大于对性能的影响
+        - 面向对象编程为了提高程序员的编程效率，采取的措施是：不再类型的成员中暴露错误代码
+    12. 约束执行区域（CER）
+    13. 代码协定
