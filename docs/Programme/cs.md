@@ -536,4 +536,29 @@ categories: C#, CLR
         - 必要：异常处理所造成的额外开销，带来的收益远大于对性能的影响
         - 面向对象编程为了提高程序员的编程效率，采取的措施是：不再类型的成员中暴露错误代码
     12. 约束执行区域（CER）
+        - CER时必须对错误有适应力的代码块。
+        - PrepareConstrainedRegions 提前编译catch和finally代码
+        - ReliabilityContractAttribute 特性
+        - 保证代码得以执行
+            - RuntimeHelper
+            - CriticalFinalizerObject
+        - **待续**
     13. 代码协定
+        - 提供了直接在代码中声明代码设计决策的一种方式
+        - 协定采取以下形式
+            - 前条件：一般用于对实参进行验证
+            - 后条件：方法因为一次普通的返回或者抛出异常而终止时，对状态进行验证
+            - 对象不变性(Object Invariant)：在对象的整个生命期内，确保对象的字段的良好状态
+        - 核心：System.Diagnostics.Contracts.Contract
+        - CCRewrite.exe: 协定的运行工作方式：
+            - 前条件协定时方法调用时验证的
+            - 后条件协定通过CCRewrite.exe工具时所有返回点在方法返回前执行代码
+        - CCChecker.exe:Assert和Assume
+            - CCChecker.exe工具可以分析IL代码验证有没有违反协定
+            - 有时会由于工具的限制无法验证断言
+        - CCRefGen.exe工具：创建一个独立的包含协定的引用程序集
+            - 只包含对协定进行描述的元数据和IL
+            - 向程序集的定义元数据表应用了System.Diagnostics.Contracts.ContractReferenceAssemblyAttribute
+        - CCDocGen.exe:在生成的XML文档中添加协定信息
+        - **待续**
+        
