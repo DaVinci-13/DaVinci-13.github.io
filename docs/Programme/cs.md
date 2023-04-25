@@ -664,3 +664,40 @@ categories: C#, CLR
             - PerfView
             - SOS Debugging Extension(SOS.dll)
     3. 使用需要特殊清理的类型
+        0. 引言
+            - 终结(finalization)：CLR允许对象在被判定为垃圾后，但在对象回收之前执行一些代码。
+                - 本机资源的终结：CLR判定一个对象不可达时，对象将终结它自己，释放它包装的本机资源。之后，GC会从托管堆回收对象。
+                - 避免为引用类型的字段定义可终结对象：可终结对象在回收时存活，造成被提升到另一代，造成了对象活得比正常时间长，增大了内存消耗。更糟的是，可终结对象被提升时，其字段引用的所有对象也会被提升。
+            - GC判定对象时垃圾后，会调用对象的Finalize方法。
+                - GC完成后才执行Finalize方法
+                - CLR不保证多个Finalize方法的执行顺序
+                - CLR用一个特殊的、高优先级的专用线程调用Finalize方法避免死锁
+                - Finalize方法是为释放本机资源设计的。问题很多，使用须谨慎。强烈建议不要重写。
+            - System.Runtime.InteropServices.SafeHandle：封装本级资源的托管类型应该从此类派生。
+                - 派生自System.Runtime.ConstrainedExecution.CriticalFinalizerObject.CLR赋予这个类三个功能：
+                    - 首次构造该类及派生类对象是，CLR就立即对继承层次结构中的所有Finalize方法进行JIT编译（构造对象时就编译方法），确保该类对象肯定得到释放。否则，内存紧张时，CLR找不到足够的内存编译Finalize方法，方法执行被阻塞，本机资源泄漏。另外，Finalize方法中的代码引用了另一程序及中的类型，但CLR定位该程序集失败，那么资源将得不到释放。
+                    - 继承该类的Finalize方法在非继承该类的Finalize方法的调用之后彩绘调用。托管资源类可以在Finalize方法成功访问CriticalFinalizerObject派生类型的对象。e.g.FileStream的Finalize可以放心的将数据从内存缓冲区flush到磁盘，因为磁盘文件此时还没有关闭。
+                    - 如果AppDomain被一个宿主应用程序（e.g. Microsoft SQL Server或Microsoft ASP.NET）强行中断，CLR将调用该类的Finalize方法。这个功能确保本级资源得以释放。
+                - SafeHandle是抽象类，必须重写其受保护的构造器，抽象方法，抽象方法和抽象属性的get访问器方法。FCL已经集成了SafeHandle的派生类但为公开。
+                    - SafeHandle派生类保证本级资源在垃圾回收时得以释放。
+                    - SafeHandle派生类在与本级代码交互操作时会获得CLR的特殊对待。
+                    - SafeHandle派生类使用引用计数防止有人利用潜在的安全漏洞——句柄循环使用：一个线程可能试图使用一个本机资源，另一个线程试图释放该资源。
+                - System.Runtime.InteropServies.CriticalHandle:牺牲安全性换取性能，不用操作计数器
+        1. 使用包装了本机资源的类型：实现dispose模式允许使用者控制类所包装的本级资源的生存期
+        2. 一个有趣的依赖性问题：FileStream必须在StramWriter后终结，StreamWriter不支持终结
+        3. GC为本级资源提供的其他功能
+            - 监视内存压力：
+                - 原因：本级资源会消耗大量内存，但包装它的托管对象只占用很少内存
+                - 解决：GC.AddMemoryPressure(Int64 bytesAllocated)、GC.RemoveMemoryPressure(Int64 bytesAllocated)
+            - System.Runtime.InteropServices.HandleCollector：CLR判断进程允许使用的资源数量
+        4. 终结的内部原理
+            - 表现：创建对象，当其被GC时，调用Finalize()。
+            - 条件：Finalize()必须被重写
+            - 终结列表(finalization list):对象的类型定义Finalize()，则在实例构造器被调用之前，会将指向该对象的指针放入终结列表。
+            - F-reachable队列：GC内部数据结构。可终结对象被GC时，会被置入该队列，等待一或多个特殊的高优先级的CLR线程专门调用Finalize(),以避免潜在的线程同步问题。
+                - 由于线程多个，所以多个对象的Finalize()调用时机不定。
+                - Finalize()中的代码不应该对执行代码的线程做任何假设
+                - 需要两次GC：队列中的对象，及引用对象在本次GC时被复活，在Finalize()执行完成后成为真正的垃圾
+        5. 手动监视和控制对象的生存期
+            - GC句柄表(GC Handle table)：包含对托管堆中的一个对象的引用，以及指出如何监视或控制对象的标志。
+            - **待续**
