@@ -692,12 +692,131 @@ categories: C#, CLR
             - System.Runtime.InteropServices.HandleCollector：CLR判断进程允许使用的资源数量
         4. 终结的内部原理
             - 表现：创建对象，当其被GC时，调用Finalize()。
-            - 条件：Finalize()必须被重写
+            - 条件：``Finalize()``必须被重写
             - 终结列表(finalization list):对象的类型定义Finalize()，则在实例构造器被调用之前，会将指向该对象的指针放入终结列表。
-            - F-reachable队列：GC内部数据结构。可终结对象被GC时，会被置入该队列，等待一或多个特殊的高优先级的CLR线程专门调用Finalize(),以避免潜在的线程同步问题。
+            - ``F-reachable``队列：GC内部数据结构。可终结对象被GC时，会被置入该队列，等待一或多个特殊的高优先级的CLR线程专门调用Finalize(),以避免潜在的线程同步问题。
                 - 由于线程多个，所以多个对象的Finalize()调用时机不定。
                 - Finalize()中的代码不应该对执行代码的线程做任何假设
                 - 需要两次GC：队列中的对象，及引用对象在本次GC时被复活，在Finalize()执行完成后成为真正的垃圾
         5. 手动监视和控制对象的生存期
             - GC句柄表(GC Handle table)：包含对托管堆中的一个对象的引用，以及指出如何监视或控制对象的标志。
+            - ``System.Runtime.InteropServices.GCHandle``类
+                - 在GC句柄表中添加删除记录项
+                - Alloc()传递想控制/监视的对象的引用
+                - 传递GCHandleType，制定方式如何控制/监视对象：
+                    - Weak：GC可检测GC什么时候判定对象不可达，GC时，将其放入F-reachable队列变为WeakTrackResurrection
+                    - WeakTrackResurrection：GC可检测GC什么时候判定对象不可达，Finalize()执行后，回收内存
+                    - Normal：即使没有根引用该对象内存也必须留在内存中，可以压缩
+                    - Pinned：即使没有根引用该对象内存也必须留在内存中，不可以压缩，e.g.异步IO操作中，字节数组缓存区在内存中不可移动
+            - ``fixed``：编译器定义，效果同GCHandle.Pinned
+            - ``System.WeakReference<T>``弱引用：
+                - 效果同GCHandle.Weak
+                - 优点：简便、安全
+                - 缺点：实例必须在堆上分配
+                - 应用场景：缓存情形
+            - ``System.Runtime.CompilerServices.ConditionALWeakTable<TKey,TValue>``:将数据与单独对象关联
             - **待续**
+22. CLR寄宿和AppDomain
+    0. 引言
+        - CLR COM服务器：Windows为CLR定义了一个标准COM接口。
+        - 寄宿(hosting)：使现有的应用程序至少能部分使用托管代码编写。还提供了通过编程来进行自定义和扩展的能力。
+        - AppDomain:允许第三方的不受信任的代码在现有的进程中运行，而CLR保证数据结构、代码和安全上下文不被滥用和破坏。
+        - 寄宿、AppDomaon与程序集的家在和反射经常一起使用
+    1. CLR寄宿：
+        - CLRCreateInstance():MetaHost.h中声明。MSCorEE.dll中实现            
+        - MSCorEE.dll：垫片(shim)。决定创建CLR的版本。见ICLRMetaHost.GetRuntime()，应用程序中的XML配置文件中的requiredRuntime和supportedRuntime.
+        - ICLRRuntimeHost:
+            - 设置宿主管理器
+            - 获取CLR管理器
+            - 初始化并启动CLR
+            - 加载程序集并执行其中的代码
+            - 终止CLR
+    2. AppDomain
+        - CLR COM服务器初始化时创建AppDomain。AppDomain在进程终止时销毁。
+        - AppDomain的功能
+            - CLR创建的第一个AppDomain时默认
+            - 隔离：一个AppDomain中的代码不能直接访问另一个AppDomain中的代码创建的对象。
+                - 即使两个AppDomain加载了同一个程序集的同一类型，他们的Loader堆也会分别分配一个类型对象
+                - AppDomain中立：有的程序集可以分配在特殊的Loader堆，由所有AppDomain共享。缺点是只能在Windows进程终止时才能回收资源
+            - AppDomain可以卸载：但不能卸载AppDomain中的特定程序集
+            - AppDomain可以单独保护
+            - AppDomain可以单独配置
+        - 跨越AppDomain边界访问对象
+            - 机制：
+                - 按引用封送(Marshal-by-Reference)
+                - 按值封送(Marshal-by-Value)
+                - 完全不能封送
+            - 租约管理器(lease manager)：非默认Appdomain中的对象默认存活5分钟。5分钟内没有代理调用，则时效；若有，则续约。
+            - **待续**
+    3. 卸载AppDomain
+        - AppDomain.Unload()：
+            1. CLR挂起进程中执行国托管代码的所有线程
+            2. CLR检查所有的线程栈，若栈上有要写在的AppDomain,CLR会强迫对应的线程抛出一个``ThreadAbortException``（同时恢复线程的执行）。这将导致线程展开(unwind)，并执行遇到的所有finally块一清理资源。如果没有代码捕捉``ThreadAbortException``，CLR将会“吞噬”（当异常没有发生）这个未处理的异常；终止线程，进程继续运行。
+            3. CLR遍历堆，在无效的代理对象上设置标志，表示引用其的对象已经不在了。
+            4. CLR强制垃圾回收已卸载的AppDomain的任何内存。
+            5. 恢复生于线程的执行。
+        - 同步
+    4. 监视AppDomain——AppDomian.MonitoringEnabled
+    5. AppDomain FirstChance异常通知
+        异常首次抛出，通知所有FirstChanceException回调，所没有catch处理，则CLR终止线程
+    6. 宿主如何使用AppDomain
+        **待续**
+    7. 高级宿主控制
+        1. 使用托管代码管理CLR——System.AppDomainManager
+        2. 写健壮的宿主应用程序
+            - 得体的终止线程或AppDomain
+            - 设置升级策略(escalation policy)告诉CLR如何处理托管代码的错误
+        3. 宿主如何拿回它的线程：落跑(runaway)线程问题
+            **待续**
+
+23. 程序集加载和反射
+    1. 程序集加载
+        - 普通加载方式：
+            - System.Reflection.Assembly.Load()
+            - System.Reflection.Assembly.LoadFrom()
+            - System.Reflection.Assembly.LoadFile()
+        - 反射分析程序集并禁止代码执行
+            - System.Reflection.Assembly.ReflectionOnlyLoad()
+            - System.Reflection.Assembly.ReflectionOnlyLoadFrom()
+            - 标记程序集以通知CLR不自动加载：
+                - AppDomain.ReflectionOnlyAssemblyResolve事件
+                - AppDomain.ResolveAssembly事件：引用嵌入EXE内的DLL资源
+    2. 使用反射构建动态可扩展应用程序
+        - System.Reflection反射元数据表
+        - 适用情况：
+            - 类库需要理解类型的定义才能提供丰富的功能；
+            - 应用程序需要从特定程序集加载特定类型以执行特定任务，e.g.晚期绑定；
+    3. 反射的性能
+        - 缺点：
+            - 编译时无法保证类型安全性；
+            - 速度慢。
+        - 避免使用反射动态发现和构造类型
+            - 让类型从编译时已知的基类型派生；
+            - 让类型实现编译时一直的接口。
+        1. 发现程序集中定义的类型——new Assembly().ExportedTypes
+        2. 类型对象的准确含义
+            - 巴克斯-诺尔范式(Backus0NaurForm, BNF)：构造传给反射方法的字符串时，要使用类型名臣或限定了程序集的类型名称。
+            - 使用操作符并根据已知的类型名称来获得Type对象。e.g. `` typeof ``
+            - `` TypeInfo ``:CLR加载类型定义的程序集以进行解析，可能代价高昂。
+        3. 构建Exception派生类型的层次结构
+        4. 构造类型的实例
+            - System.Activator.CreateInstance():接受Type和String
+            - System.Activator.CreateInstanceFrom()：不接受Type
+            - new System.AppDomain().CreateInstanceXXX()
+            - new System.Reflection.ConstructorInfo().Invoke()
+    4. 设计支持加载项的应用程序：程序集的版本控制问题
+        **待续**
+    5. 使用反射发现类型的成员
+        1. 发现类型的成员—— System.Reflection.MemberInfo
+        2. 调用类型的成员
+            - PropertyInfo
+            - EventInfo
+            - BindToMemberThenInvokeTheMember
+            - BindToMemberCreateDelegateToMemberTherInvokeTheMember
+            - UseDynamicToBindAndInvokeMember
+        3. 使用绑定句柄减少进程的内存消耗
+            - RuntimeTypeHandle
+            - RuntimeFiledHandle
+            - RuntimeMethodHandle
+
+24. 运行时序列化
