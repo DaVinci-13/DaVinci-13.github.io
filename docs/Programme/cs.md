@@ -716,6 +716,7 @@ categories: C#, CLR
                 - 应用场景：缓存情形
             - ``System.Runtime.CompilerServices.ConditionALWeakTable<TKey,TValue>``:将数据与单独对象关联
             - **待续**
+
 22. CLR寄宿和AppDomain
     0. 引言
         - CLR COM服务器：Windows为CLR定义了一个标准COM接口。
@@ -820,3 +821,80 @@ categories: C#, CLR
             - RuntimeMethodHandle
 
 24. 运行时序列化
+    0. 引言
+        - 序列化是将对象或对象图转换成字节流的过程。
+        - 反序列化是将字节流转换回对象图的过程。
+        - 对象图(object graph)是对象系统在特定时间点的一个视图。
+        - e.g.
+            - 应用程序的状态可以轻松的保存到磁盘文件或数据库，，并在应用程序下次运行时恢复。
+            - 克隆一组对象作为“备份”。
+            - 通过网络把一组对象从一台机器发送到另一台机器的进程
+            - 一次对象可复制到系统的剪贴板，在粘贴会同一个或另一个应用程序。
+            - 加密和压缩。
+        - 难点：通信协议、客户端/服务器数据类型不匹配（比如低位优先/高位优先问题）、错误处理、一个对象引用了其他对象、in和out参数以及有结构构成的数组等。
+    1. 序列化/反序列化快速入门
+        - 格式化器：BinaryFormatter、SoapFormatter（生产环境废弃）
+        - 注意事项：
+            - 序列化和反序列化使用相同的格式化器
+            - 序列化时，类型的全名和类型定义的程序集的全名会被写入流。反序列化时，格式化器首先获取程序集标识信息，并通过反序列化方法家在程序集到AppDomain。若字段不完全匹配则抛出异常。
+    2. 使类型可序列化——``[Serializable]``特性
+        - 应用于引用类型(class)、值类型(struct)、枚举(enum，默认可序列化)、委托(delegate，默认可序列化)
+        - 基类不允许序列化，派生类不可序列化
+    3. 控制序列化和反序列化
+        - ``[NonSerialized]``特性：定制序列化类型中不应序列化的字段。e.g，经序列化后无效的信息（如句柄）；很容易计算的信息（以增强性能）。
+        - ``[OnSerializing]``、``[OnSerialized]``、``[OnDeserializing]``、``[OnDeserialized]``特性：序列化和反序列化回调
+        - ``[OptionFiled]``：为方便版本控制，可序列化不包含该字段的对象
+    4. 格式化器如何序列化类型实例
+        - 序列化流程——格式化器使用``FormatterServices``序列化对象：
+            1. 调用``FormatterServices.GetSerializableMembers``方法利用反射获取public和private实例字段置入``MemberInfo[]``返回；
+            2. ``FormatterServices.GetObjectData()``接收``MemberInfo[]``为参数并返回``Object[]``（MemberInfo数组的值数组，一一对应）；
+            3. 格式化器将程序集表示和类型完整名称写入流中；
+            4. 遍历``MemberInfo[]``和``Object[]``,将每个成员的名称和值写入流中。
+        - 反序列化流程：
+            1. 格式化器从流中读取程序集标识和完整类型名称。将程序集加载到AppDomain中，将程序集表示信息和类型全名传给``FormatterServices.GetTypeFromAssembly``，该方法返回一个``System.Type``对象；
+            2. 格式化器调用``FormatterServices.GetUninitializedObject()``为对象分配内存但不调用构造器；
+            3. 格式化器调用``FormatterServices.GetSerializableMembers()``方法构造并初始化``MemberInfo[]``；
+            4. 格式化器根据流中包含的数据创造并初始化``Object[]``；
+            5. 将新分配对象、``MemberInfo[]``以及``Object[]``的引用传给``FormatterServices.PopulateObjectMembers()``，将对象的每个字段初始化成对应的值。
+    5. 控制序列化/反序列化的数据——``ISerializable``接口
+        - 优点：完全控制。
+        - 要实现ISerializable但基类没有实现怎么办？手动序列化基类的字段：获取他们的值并添加到SerializationInfo集合中。
+    6. 流上下文——``StramingContext``
+        通过流上下文标志一不同的方式生疮它的状态，从而深科隆对象图中的所有对象。
+    7. 类型序列化为不同类型以及对象反序列化为不同对象
+        序列化单例，继承ISerializable接口
+    8. 序列化代理 —— ``ISerializationSurrogate``接口
+        对于注册了代理的类型的对象进行序列化和反序列化，使用代理对象定义的方法。
+    9. 反序列化对象是重写程序集/类型 —— ``SerializationBinder``类
+        非常简单的将一个对象反序列化成不同类型。
+
+25. 与WinRT(Window Runtime)组件互操作
+    **待续**（win8定义Windows Store应用的开发环境，不常用）
+
+## 线程处理
+26. 线程基础
+    1. 历史：
+        - 职责：（单CPU时期）对CPU进行虚拟化，为进程提供了一个专用的线程
+    2. 线程开销
+        - 线程组成要素：
+            - 线程内核对象(thread kernel object)：数据结构，包含一组对线程进行描述的属性。            
+            - 线程环境块(thread environment block, TEB)：
+                - 是在用户模式（应用程序代码能快速访问的地址空间）中分配和初始化的内存块。
+                - 耗用1个内存页。
+                - 包含 异常处理链首、线程本地存储，以及GDI(Graphics Device Interface, 图形设备接口)和部分OpenGL图形数据结构。
+            - 用户模式栈(user-mode stack)：
+                - 存储方法的局部变量和实参。还包括方法返回后继续运行的地址。
+                - 默认分配1MB内存。
+            - 内核模式栈(kernel-mode stack)
+                - OS内部处理的地址空间。
+                - 32位大小时12KB，64位是24KB。
+            - DLL线程连接(attach)和线程分离(detach)通知：新创建和销毁线程会通知所有非托管DLL的DLLMain()
+        - 上下文切换
+            - 步骤：
+                1. 将寄存器的值保存在正在运行的线程的内和对象内部的一个上下文结构中；
+                2. 从现有线程集合中选出一个线程供调度；
+                3. 将所选上下文结构中的值加载道CPU的寄存器中。
+            - 量程(量quantum，时间片)，上下文切换的单位，时间片到期则执行时间片切换。Windows大约每30ms执行一次时间片切换。
+            - 性能损耗：
+            - 速度取决于CPU架构和速度。
+            - 尽量避免线程，因为耗用大量内存，而且需要耗时管理。
