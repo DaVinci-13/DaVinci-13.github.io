@@ -914,3 +914,83 @@ categories: C#, CLR
         - PC应该CPU利用率100%进行工作。除非使用电池供电。
         - 数据中心需要在CPU运行和散热维护费用间作平衡。
     8. 线程调度和优先级
+        - windows被称为抢占式多线程(preemptive multithreaded)操作系统，是因为线程可在任何时间被抢占并调度另一个线程。
+        - 饥饿：系统以一种轮流(round-robin)的方式检查与调度线程，只要存在可调度的优先级31的线程，系统就永远不会将0-10的任何线程分配给CPU。
+        - 零页线程(zero page thread)：整个系统中唯一优先级为0的线程，在没有其他线程需要调度时，零页线程将系统RAM的所有空闲页清零。
+        - 优先级类(priority class)：Windows支持6个进程优先级类和7个线程优先级类，映射成了0-31优先级。
+        - System.Diagnostics.Process和ProcessThread分别提供了进程和线程的Windows视图。
+    9. 前台线程和后台线程
+        - 一个进程的前台线程停止，所有后台线程将被强行终止。
+        - 前台线程会保证托管执行环境一直运行。如果应用程序退出，造成它的前台线程终止，则CLR仍需保持活动并运行，使其他应用程序能继续运行。所有应用程序都退出，他们的所有前台线程都终止后，整个进程就可以被销毁了。
+        - Thread.IsBackground：线程的生存期可在任何时候进行前后台转换。
+    10. 继续学习
+
+27. 计算限制的异步操作
+    1. CLR线程池基础
+        - 线程池(thread pool)：每个CLR一个线程池。
+        - 记录项追加(entry)与派发(dispatch)：应用程序执行一个异步操作，就调用某个方法将一个记录项追加到线程池的队列中。线程池的代码从这个队列中提取记录项，将这个记录派发给一个线程池线程。如果线程池中没有线程，就创建一个新线程；当线程完成任务后，会返回线程池进入空闲状态，等待响应一个新请求。但一个线程池空闲一段时间后，线程会自己唤醒来终止自己以释放资源。
+    2. 执行简单的计算限制操作
+    3. 执行上下文(execution context)
+        - 执行上下文包括的东西有 安全设置（压缩栈、Thread的Principal属性和Windows身份）、宿主设置（参见System.Threading.HostExecutionContextManager）以及逻辑调用上下文数据（参见System.Runtime.Remoting.Messaging.CallContext的LogicalSetData和LogicalGetData方法）。
+        - 默认情况下，CLR自动造成初始线程的执行上下文“流向”任何辅助线程，但这会对性能造成一定影响。
+        - System.Threading.ExecutionContext类中ThreadPool.QueueUserWorkItem允许控制线程的执行上下文流动。
+    4. 协作式取消和超时——System.Threading.CancelletionTokenSource
+        - 协作式：显示支持取消
+        - 取消回调的注册与删除
+        - 链接两个CancelletionTokenSource对象
+        - 延时取消
+    5. 任务——**System.Threading.Tasks**
+        1. 等待任务完成并获取结果——**new Task().Wait();**
+        2. 取消任务
+        3. 任务完成时自动启动新任务——**new Task().ContinueWith(task=>{});**
+        4. 任务可以启动子任务
+            - 一个任务创建的一个或多个Task对象默认时顶级任务，他们与创建它们的任务无关。
+            - TaskCreationOptions.AttachedToParent标志将一个Task和创建它的Task关联。
+        5. 任务内部揭秘
+            - Task对象有代价，需要为其任务的状态分配内存。
+            - 建议不要再代码中为Task对象显式调用Dispose；应该让垃圾回收器清理任何不再需要的资源。
+            - TaskStatus:readonly,了解它在其生存期的什么位置。
+        6. 任务工厂——**TaskFactory**
+            创建一组共享相同配置的Task对象。
+        7. 任务调度器——**TaskScheduler**
+            - 线程池任务调度器(thread pool task scheduler)：默认情况下使用，将任务调度给线程池的工作者线程。
+            - 同步上下文任务调度器(synchronization context task scheduler)，适合提供了图形应户界面的应用程序。他将所有人物都调度给应用程序的GUI线程，使所有任务代码都能成功更新UI组件。该调度器不使用线程池。
+    6. **System.Threading.Tasks.Parallel**的静态For，ForEach和Invoke方法
+        - Glossary：
+            - 前提：工作项必须并行运行。
+            - 避免会修改任何共享数据的工作项。
+            - 有开销。适用于大量可由多个线程处理的工作项。
+        - For和ForEach方法的一些重载版本允许传递3个委托：
+            - 任务局部初始化委托(localInit)
+            - 主体委托(body)
+            - 任务局部终结委托(localFinally)
+        - ParallelLoopState：通过i这个对象和参与工作的其他任务进行交互。
+        - ParallelLoopResult：检查实例的属性来了解循环的结果。
+    7. 并行语言集成查询(PLINQ)
+        - Microsoft的语言继承查询(Language Integrated Quert,LINQ)的并行版本，将LINQ的顺序查询转换成并行查询。
+        - **System.Linq.ParallelEnumerable**
+        - **ParallelEnumerable.AsSequential()**：将PLINQ转回LINQ
+        - **ParallelEnumerable.ForAll()**：功能为LINQ的ForEach方法
+        - 避免多线程使用**Consel.WriteLine()**，因为内部会进行线程同步
+        - **ParallelEnumerable.AsOrdered()**
+            - PLINQ结果是无序的：由于 多线程，并发。
+            - 使用该方法将保持顺序，但损害性能
+            - WithMergeOptions()向查询传递某个ParallelMergeOptions标志（default, NotBuffered, AutoBuffered, FullyBuffered），从而控制结果的缓冲与合并方式。
+        - 其他方法：
+            - **WithCancellation()**：允许传递一个CancellationTokem使查询处理提前停止。
+            - **WithDegreeOfParallelism()**：制定最多允许多少个线程处理查询。
+    8. 执行定时计算限制操作——**System.Threading.Timer**
+        - 用它让一个线程池定时调用一个方法。
+        - 线程池为所有Timer对象只使用了一个线程。
+        - FCL提供了几个计时器：**System.Threading.Timer**,**System.Windows.Forms.Timer**,**System.Windows.Threading.Timer**,**Windows.UI.Xaml.DispatcherTimer**,**System.Timers.Timer**
+    9. 线程池如何管理线程
+        1. 不要设置线程池限制
+        2. 如何管理工作者线程
+            - 在**ThreadPool.QueueUserWorkItem()**和**Timer**类中，工作者线程采用先入先出（first-in-first-out，FIFO）算法将工作项从全局队列取出。
+            - 在TaskScheduler，Task对象被添加到调用线程的本地队列。采用的时后入先出算法（LIFO）。
+            - 一工作者线程发现自己的本地队列变空了，可能尝试从另一工作者线程的本地对了“偷”一个Task。
+
+28. I/O限制的异步操作
+    1. Windows如何执行I/O操作
+        - 异步I/O操作：
+    2. C#的异步函数
