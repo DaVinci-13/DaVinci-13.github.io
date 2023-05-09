@@ -939,23 +939,23 @@ categories: C#, CLR
         - 取消回调的注册与删除
         - 链接两个CancelletionTokenSource对象
         - 延时取消
-    5. 任务——**System.Threading.Tasks**
-        1. 等待任务完成并获取结果——**new Task().Wait();**
+    5. 任务——``System.Threading.Tasks``
+        1. 等待任务完成并获取结果——``new Task().Wait();``
         2. 取消任务
-        3. 任务完成时自动启动新任务——**new Task().ContinueWith(task=>{});**
+        3. 任务完成时自动启动新任务——``new Task().ContinueWith(task=>{});``
         4. 任务可以启动子任务
             - 一个任务创建的一个或多个Task对象默认时顶级任务，他们与创建它们的任务无关。
-            - TaskCreationOptions.AttachedToParent标志将一个Task和创建它的Task关联。
+            - ``TaskCreationOptions.AttachedToParent``标志将一个Task和创建它的Task关联。
         5. 任务内部揭秘
             - Task对象有代价，需要为其任务的状态分配内存。
             - 建议不要再代码中为Task对象显式调用Dispose；应该让垃圾回收器清理任何不再需要的资源。
             - TaskStatus:readonly,了解它在其生存期的什么位置。
-        6. 任务工厂——**TaskFactory**
+        6. 任务工厂——``TaskFactory``
             创建一组共享相同配置的Task对象。
-        7. 任务调度器——**TaskScheduler**
+        7. 任务调度器——``TaskScheduler``
             - 线程池任务调度器(thread pool task scheduler)：默认情况下使用，将任务调度给线程池的工作者线程。
             - 同步上下文任务调度器(synchronization context task scheduler)，适合提供了图形应户界面的应用程序。他将所有人物都调度给应用程序的GUI线程，使所有任务代码都能成功更新UI组件。该调度器不使用线程池。
-    6. **System.Threading.Tasks.Parallel**的静态For，ForEach和Invoke方法
+    6. ``System.Threading.Tasks.Parallel``的静态For，ForEach和Invoke方法
         - Glossary：
             - 前提：工作项必须并行运行。
             - 避免会修改任何共享数据的工作项。
@@ -968,29 +968,108 @@ categories: C#, CLR
         - ParallelLoopResult：检查实例的属性来了解循环的结果。
     7. 并行语言集成查询(PLINQ)
         - Microsoft的语言继承查询(Language Integrated Quert,LINQ)的并行版本，将LINQ的顺序查询转换成并行查询。
-        - **System.Linq.ParallelEnumerable**
-        - **ParallelEnumerable.AsSequential()**：将PLINQ转回LINQ
-        - **ParallelEnumerable.ForAll()**：功能为LINQ的ForEach方法
-        - 避免多线程使用**Consel.WriteLine()**，因为内部会进行线程同步
-        - **ParallelEnumerable.AsOrdered()**
+        - ``System.Linq.ParallelEnumerable``
+        - ``ParallelEnumerable.AsSequential()``：将PLINQ转回LINQ
+        - ``ParallelEnumerable.ForAll()``：功能为LINQ的ForEach方法
+        - 避免多线程使用``Consel.WriteLine()``，因为内部会进行线程同步
+        - ``ParallelEnumerable.AsOrdered()``
             - PLINQ结果是无序的：由于 多线程，并发。
             - 使用该方法将保持顺序，但损害性能
             - WithMergeOptions()向查询传递某个ParallelMergeOptions标志（default, NotBuffered, AutoBuffered, FullyBuffered），从而控制结果的缓冲与合并方式。
         - 其他方法：
-            - **WithCancellation()**：允许传递一个CancellationTokem使查询处理提前停止。
-            - **WithDegreeOfParallelism()**：制定最多允许多少个线程处理查询。
-    8. 执行定时计算限制操作——**System.Threading.Timer**
+            - ``WithCancellation()``：允许传递一个CancellationTokem使查询处理提前停止。
+            - ``WithDegreeOfParallelism()``：制定最多允许多少个线程处理查询。
+    8. 执行定时计算限制操作——``System.Threading.Timer``
         - 用它让一个线程池定时调用一个方法。
         - 线程池为所有Timer对象只使用了一个线程。
-        - FCL提供了几个计时器：**System.Threading.Timer**,**System.Windows.Forms.Timer**,**System.Windows.Threading.Timer**,**Windows.UI.Xaml.DispatcherTimer**,**System.Timers.Timer**
+        - FCL提供了几个计时器：``System.Threading.Timer``,``System.Windows.Forms.Timer``,``System.Windows.Threading.Timer``,``Windows.UI.Xaml.DispatcherTimer``,``System.Timers.Timer``
     9. 线程池如何管理线程
         1. 不要设置线程池限制
         2. 如何管理工作者线程
-            - 在**ThreadPool.QueueUserWorkItem()**和**Timer**类中，工作者线程采用先入先出（first-in-first-out，FIFO）算法将工作项从全局队列取出。
+            - 在``ThreadPool.QueueUserWorkItem()``和``Timer``类中，工作者线程采用先入先出（first-in-first-out，FIFO）算法将工作项从全局队列取出。
             - 在TaskScheduler，Task对象被添加到调用线程的本地队列。采用的时后入先出算法（LIFO）。
             - 一工作者线程发现自己的本地队列变空了，可能尝试从另一工作者线程的本地对了“偷”一个Task。
 
 28. I/O限制的异步操作
     1. Windows如何执行I/O操作
         - 异步I/O操作：
-    2. C#的异步函数
+    2. C#的异步函数:async-await
+        - 实现：Task+状态机
+        - 限制：
+            - 应用函数的Main方法不能转变为异步函数，另外，构造器、属性访问器方法和事件访问器方法不能转变为异步函数。
+            - 异步函数不能使用out或ref函数。
+            - 不能在catch，finally或unsafe块中使用await操作符。
+            - 不能在await操作符之前获取一个支持线程所有权或递归的锁，并在await操作符之后释放它。这是因为await之前是一个时间片由一个线程执行，之后的代码是另一个时间片由另一个线程执行。
+            - 在查询表达式中，await操作符只能在初始from子句的第一个集合表达式中使用，或者在join子句的集合表达式中使用。
+    3. 编译器如何将异步函数转换成状态机
+        **待续**
+    4. 异步函数扩展性
+        **待续**
+        - 增强使用Task时的灵活性。
+        - 编译器可以在await的任何操作数上调用GetAwaiter。
+    5. 异步函数和事件处理程序
+        - ```csharp
+            void EventHanlerCallback(Object sender, EventArgs e); 
+          ```
+        - 异步函数可以返回void。
+        - 没有办法知道返回void的异步函数在什么时候运行完毕。
+    6. FCL的异步函数
+        - 异步编程模型：
+            - BeginXxx/EndXxx方法和IAsyncResult接口，过时。
+            - 基于事件的编程模型，提供XXXAsync方法（部返回Task对象），过时。
+            - 使用Task的新模型。
+        - **待续**
+    7. 异步函数和异常处理
+        - 设备驱动程序会向CLR的线程池post已完成的IRP。一个线程池线程会完成Task对象并设置异常。状态机恢复时，await操作符发现操作失败并引发该异常。
+        - 当返回void的异步函数抛出未处理的异常时，编译器生成的代码将捕捉它，并使用调用者的同步上下文重新抛出它。
+    8. 异步函数的其他功能
+        - Visual Studio的调试。
+        - **待续**
+    9. 应用程序及其线程处理模型
+        - 控制台应用程序：没有引入任何线程处理模型，任何线程可以在任何时候作它想做的任何事情。
+        - GUI应用程序：UI元素只能由创建它的线程更新。
+        - ``System.Threading.SynchronizationContext``同步上下文：将应用程序模型连接到它的线程处理模型。
+        - **待续**
+    10. 以异步方式实现服务器
+        **待续**
+    11. 取消I/O操作
+        - 问题：
+            - 没有办法告诉服务器忘记请求，只能能等待请求完成返回后丢弃响应信息。
+            - 竞态条件：取消请求的请求可能正好在服务器发送响应的时候到来。
+        - 解决：**待续**
+    12. 有的I/O操作必须同步进行
+        - e.g.
+            - CreateFile
+            - 打开文件
+            - 访问注册表、访问事件日志、获取目录的文件/子目录或者更改文件/目录的属性等等。
+        - 问题：创建更多的线程
+        - 解决：``Windows.Storage.StorageFile.OpenAsync()``
+        - FileStream特有的问题：
+            - 创建FileStream对象时，如果不指定FileOptions.Asynchronous标志，则默认以同步方式执行文件操作。即使使用ReadAsync方法，也是在内部使用另一线程模拟异步行为。纯属浪费，影响性能。
+    13. I/O请求优先级
+        - 问题：低优先级线程可能挂起高优先级线程。一个低优先级的线程放入成百上千的I/O请求，由于I/O请求一般需要时间来执行。
+        - ThreadIO.BeginBackgroundProcessing()：在同一进程内部，Windows允许线程发出I/O请求时制定优先级。FCL可能没有包含此功能。
+
+29. 基元线程同步构造
+    0. 引言
+        - 线程同步锁的问题：
+            - 繁琐易错；
+            - 损害性能；
+            - 一次只允许一个线程访问资源，可能阻塞一个线程造成更多的线程被创建。
+        - 尽可能地避免线程同步。
+    1. 类库和线程安全
+        - FCL保证所有静态方法是线程安全的，而实例方法是非线程安全的。
+    2. 基元用户模式和内核模式构造
+        - 基元(primitive)线程同步构造:用户模式(user-mode)和内核模式(kernek-mode)：
+        - 用户模式
+            - 显著快于内核模式：使用了特殊CPU指令来协调线程
+            - 操作系统无法检测到线程在该构造的阻塞。
+            - 只有Windows操作系统内核才能停止一个线程的运行（防止它浪费CPU时间）。
+            - 活锁(livelock)：拥有构造的线程一直不释放，则线程将一直在一个CPU上运行。即浪费CPU时间，有浪费内存（线程栈等）。
+        - 内核模式
+            - 避免使用内核模式构造；
+            - 模式构造切换会招致巨大的性能损失；
+            - 线程通过内核模式的构造来获取其他线程拥有的资源时，Windows会阻塞线程以避免他浪费CPU时间。当资源变得可用时，Windows会恢复线程，允许它访问资源。
+            - 死锁(deadlock)：有构造的线程一直不释放，则线程将阻塞。
+        - 混合构造
+    3. 用户模式构造

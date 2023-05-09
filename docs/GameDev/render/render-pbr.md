@@ -13,7 +13,7 @@ categories: render, Graphic, PBR
 ## BRDF
 1. NDF
 2. GO
-3. Fresnel
+3. Fresnel菲涅尔
 ## 贴图
 - BaseTex
 - Normal
