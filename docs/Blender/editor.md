@@ -47,3 +47,25 @@ categories: blender
     | | |
 
 2. Navigating
+- navigate
+    | Name | Function |
+    | ---  | ---    |
+    | rotate | MMB |
+    | pan | SHIFT+MMB |
+    | Scale | CTRL+MMB or Scroll
+- View
+    - three-view:    
+        - numpad
+        - Preferences -> Input -> Emulate Numpad
+    - Orthographic View and Perspective View
+    - Camera View
+- Walk Navigating:  View->Navigation->Walk Navigation
+- Debug:
+    - Frame Selected:    
+        - 小键盘点号键
+        - View->Frame Selected
+    - Orbit Around Selection:    Preferences->Navigation
+    - Zoom to Mouse Position
+    - Auto Depth
+
+3. Load & Save
