@@ -185,7 +185,3 @@ Unreal Engine 5 C++ Developer:Learn C++ & Make Viedeo Games | Udemy
 - Obstacle Assault
     - [Project Setup](./ue5/ue5-project-setup.md)
     - [Customizing The Character]
-
-# Art
-## Blender
-- [blender](./art/art-blender.md)
