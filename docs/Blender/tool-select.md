@@ -2,7 +2,7 @@
 title: 选择工具
 layout: doc
 date:   2023-06-25 14:30:00 +0800
-categories: blender
+categories: blender,tool,select
 ---
 # 选择工具
 |功能|Hotkeys|
