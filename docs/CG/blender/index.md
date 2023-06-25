@@ -1,5 +1,5 @@
 ---
 title: Blender - Zach's CG Boost 
 layout: doc
-permalink: /blender/
+permalink: /cg/blender/
 ---
