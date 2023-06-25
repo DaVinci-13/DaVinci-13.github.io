@@ -36,3 +36,9 @@ categories: blender,tool,transfrom
 |功能|Hotkeys|
 |---|---|
 |坐标系切换|G/R/S+XX/YY/ZZ|
+
+# 精确的旋转缩放变换
+与鼠标与物体的距离有关
+
+# Transform Pivot Point 变换质心点
+多选状态下的轴点位置规则

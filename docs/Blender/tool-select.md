@@ -48,7 +48,10 @@ categories: blender,tool,select
 |选择菜单|Alt+LMB|
 
 # 主动选择与被动选择
-多选情况下，最后一个被选中对象为主动选择，其余对象为被动选择
+多选情况下，最后一个被选中对象为主动选择，其余对象为被动选择。
+
 |功能|Hotkeys|
 |---|---|
 |Select/Transfer Data|Ctrl+L|
+
+多数情况下的变换只对主动选择应用，若应用到全部选择对象，按住Alt。
