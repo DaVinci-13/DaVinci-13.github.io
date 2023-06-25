@@ -1,8 +1,8 @@
 ---
-title: Blender - Zach's CG Boost
+title: 编辑器界面
 layout: doc
 date:   2023-06-20 10:15:00 +0800
-categories: blender
+categories: blender,editor
 ---
 
 # Editor Interface
