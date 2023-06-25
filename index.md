@@ -5,6 +5,8 @@
 layout: home
 ---
 
+# index
+
 - Study Note Nav:
 
     - [GameDev](/gamedev/)
