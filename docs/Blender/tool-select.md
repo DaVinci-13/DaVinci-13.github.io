@@ -55,3 +55,8 @@ categories: blender,tool,select
 |Select/Transfer Data|Ctrl+L|
 
 多数情况下的变换只对主动选择应用，若应用到全部选择对象，按住Alt。
+
+# Cavity and DoF
+Viewport Shading：Solid
+方便编辑，不会被渲染
+ToolMenu->Shading->Show Cavity/Distance of Field

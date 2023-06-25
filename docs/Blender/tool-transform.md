@@ -42,3 +42,6 @@ categories: blender,tool,transfrom
 
 # Transform Pivot Point 变换质心点
 多选状态下的轴点位置规则
+
+# 随机变换
+ToolMenu->Object->Transform->Random Transform
