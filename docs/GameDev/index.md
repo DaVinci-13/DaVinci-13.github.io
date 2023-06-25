@@ -146,14 +146,16 @@ permalink: /gamedev/
 - [数据协议](./network/net-proto-data.md)
 
 
-### [AI](./u3d/u3d-ai.md)
-- 状态机
-- 行为树
-- AI
-    - ML agent
+### AI
+- [All](./u3d/u3d-ai.md)
+    - 状态机
+    - 行为树
+    - AI
+        - ML agent
 
 
-### [Solution](./Solution.md)
+### Solution
+- [All](./Solution.md)
 
 
 ## Unreal Engine 5
@@ -186,4 +188,4 @@ Unreal Engine 5 C++ Developer:Learn C++ & Make Viedeo Games | Udemy
 
 # Art
 ## Blender
-[blender](./art/art-blender.md)
+- [blender](./art/art-blender.md)

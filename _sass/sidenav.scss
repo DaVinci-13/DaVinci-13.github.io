@@ -1,0 +1,38 @@
+ /* 侧边栏菜单 */
+ .sidenav {
+    height: auto; /* 全高：如果你想要 "auto" 高度，请删除它 */
+    width: 320px; /* 设置侧边栏的宽度 */
+    position: fixed; /* 固定侧边栏（滚动时保持原位）*/
+    z-index: 1; /* 保持领先 */
+    top: 80px; /* 保持在顶部 */
+    left: 10px;
+    background-color: #eee; /* 黑色 */
+    overflow-x: hidden; /* 禁用水平滚动 */
+    padding: 8px;
+  }
+  
+  /* 导航菜单链接 */
+  .sidenav a {
+    padding: 0;
+    text-decoration: none;
+    font-size: 18px;
+    color: #2196F3;
+    display: block;
+  }
+  
+  /* 当您将鼠标悬停在导航链接上时，更改它们的颜色 */
+  .sidenav a:hover {
+    color: #064579;
+  }
+
+  /* 样式页面内容 */
+  main {
+    margin-left: 400px; /* 与侧边栏宽度相同 */
+    padding: 0px 10px;
+  }
+  
+  /* 在高度小于 450 像素的小屏幕上，更改侧边栏的样式（更少的填充和更小的字体大小）*/
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 15px;}
+  } 
