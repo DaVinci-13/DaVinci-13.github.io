@@ -1,6 +1,7 @@
  /* 侧边栏菜单 */
  .sidenav {
-    height: 80%; /* 全高：如果你想要 "auto" 高度，请删除它 */
+    height: auto; /* 全高：如果你想要 "auto" 高度，请删除它 */
+    max-height: 80%;
     width: 320px; /* 设置侧边栏的宽度 */
     position: fixed; /* 固定侧边栏（滚动时保持原位）*/
     z-index: 1; /* 保持领先 */
