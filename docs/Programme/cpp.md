@@ -7,87 +7,56 @@ categories: C++
 
 # Primer C++
 
-1. C++基础
-- 变量与基本类型
-	- 基本内置类型
-		- arithmetric type 算术类型
-			- 整型
-				- 字符
-				- bool
-			- 浮点型
-				- 单精度
-				- 双精度
-				- 扩展
-			- unsigned 无符号类型
-		- void 空类型
-		- convert 类型转换
-			- ps
-				- 避免无法预知和依赖实验环境的行为
-					- 编译器优势不能检测错误也能正常运行
-				- 切勿混用带符号和无符号性
-			- undefined 未定义
-				- 带符号类型赋值超出表示范围
-			- 无符号型表达式
-		- literal 字面值常量
-	- variable 变量
-		- definition 定义
-			- object 对象
-			- type specifer 类型说明符
-			- value 值
-			- initialized 初始化
-				- list initialization 列表初始化
-					- 花括号初始化变量
-					- C++11新特性
-				- default initialized 默认初始化
-				- uninitialized 不被初始化
-					- 函数体内部的内置类型变量
-		- declaration 声明
-		- identifier 标识符
-			- 命名规范
-			- 关键字
-		- scope 作用域
-			- 嵌套
-				- inner scope 内层作用域
-				- outer scope 外层作用域
-				- theory
-					- 函数体内外
-	- compound type 复合类型
-		- reference 引用
-			- other
-				- rvalue reference 右值引用
-			- theory
-				- lvalue reference 左值引用
-				- 别名
-			- &
-		- pointer 指针
-			- theory
-				- * 解引用
-				- & 取地址
-				- 必须初始化
-			- 初始化
-				- int *p;
-			- nullptr 空指针
-				- NULL
-					- preprocessor variable 预处理变量
-			- 无效指针
-			- 操作
-				- ==/!=
-					- 判断存放地址值
-			- void* 指针
-				- 存放任意对象地址
-			- ** 指向指针的指针
-				- int **pp=*p;
-			- *& 指向指针的引用
-				- int *&r=p;
-	- const
-		- introduce
-			- 初始化
-			- extern
-				- 多文件共享const对象
-		- reference to const 常量引用
-			- 不能直接修改绑定对象
-			- 引用及对应对象都是常量
-		- pointer to const 常量指针
+## C++基础
+### 1 开始
+### 2 变量与基本类型
+1. 基本内置类型
+- arithmetric type 算术类型
+	- 整型：
+	    - 字符和bool
+	    - 其他整型：带符号 signed、无符号 unsigned
+	- 浮点型： 单精度值、双精度值、扩展精度值
+- convert 类型转换：
+	- 建议：避免无法预知和依赖实验环境的行为。因为编译器无须（有时是不能）检测错误也能正常运行。
+	- 提示：*切勿混用带符号和无符号性。*
+- literal 字面值常量
+    - 整形字面值：十进制、八进制（以0开头）、十六进制（以0x开头）
+    - 浮点字面值：小数、科学计数法
+    - 字符和字符串字面值
+    - 转义序列 escape sequence
+    - 指定字面值的类型
+    - 布尔字面值：true/false
+    - 指针字面值：nullptr
+2. variable 变量
+	- 变量定义（definition）
+		- 对于C++:变量可以互换对象
+		    - object，对象，一块能存储数据并具有某种类型的内存空间。
+		    - value，值，只读的数据。
+		- type specifer 类型说明符：（类型）关键字
+		- 初始化（initialized，创建变量时赋予一个初始值）与赋值（擦出当前值，以新值替代）		
+	
+	- **external**，声明declaration）而非定义
+
+- compound type 复合类型
+	- 引用（reference）：别名，给一个以存在的对象起了另一个名字。
+			
+	- pointer 指针
+	    - 与引用的不同：
+	        1. 本身就是对象，允许对指针赋值和拷贝，在生命周期内可以先后指向多个不同的对象。 
+            2. 无须在定义时赋值。若未被初始化，则有一个不确定的值。
+        - 指针的4种状态
+            1. 指向一个对象；
+            2. 指向紧邻对象所占空间的下一个位置；
+            3. 空指针，*nullptr*，指针没有指向任何对象；
+            4. 无效指针：上述情况之外的其他所有值。
+        - 解引用（*）：**仅适用于确定了指向某个对象的有效指针**。
+        - **建议：初始化所有指针。**
+        - void*指针：**可以存放任意对象的地址。无法确定地址的对象类型**。
+
+	- const限定符
+		- 使用**external**关键字在多文件共享const对象
+		- 对常量的引用（reference to const）
+		- 常量指针（pointer to const）
 		- top-level const顶层const
 			- 任意对象为常量
 				- int * const p1=&i;
