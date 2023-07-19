@@ -184,4 +184,14 @@ Unreal Engine 5 C++ Developer:Learn C++ & Make Viedeo Games | Udemy
 
 - Obstacle Assault
     - [Project Setup](./ue5/ue5-project-setup.md)
-    - [Customizing The Character]
+    - [Editor and Compiler](./ue5/ue5-editor-compiler.md)
+    - [Live Coding](./ue5/ue5-editor-livecoding.md)
+    - [Pseudo](./ue5/ue5-editor-livecoding.md)
+    - [Variable](./ue5/ue5-code-variables.md)
+    - [Operator](./ue5/ue5-code-pseudo.md)
+    - [Statements](./ue5/ue5-code-statements.md)
+    - [Function](./ue5/ue5-code-function.md)
+    - [Struct](./ue5/ue5-code-structs.md)
+    - [Class](./ue5/ue5-code-class.md)
+    - [Lifetime](./ue5/ue5-engine-lifetime.md)
+    - [Character Component](./ue5/ue5-engine-character.md)
