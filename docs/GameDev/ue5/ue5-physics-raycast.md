@@ -14,3 +14,10 @@ categories:    ue5, physics, raycast
 ## Shape Tracing
 
 # Sweap
+
+## Geometry Sweeping
+
+- about api:
+    - SweepSingleByChannel
+    - FHitResult
+    - FCollisonShape

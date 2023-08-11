@@ -18,4 +18,11 @@ categories:    ue5, code, reference
 |Changing the address|ActorPtr=&Actor|Not allowed|
 |Changing the value|*ActorPtr=Actor|ActorRef=Actor|
 
-## Const References
+## Const References & Out Parameters
+常量引用传参不允许在方法内修改参数的值
+```cpp
+void Function(const float &parm)
+{
+    //parm=2; //will error
+}
+``````

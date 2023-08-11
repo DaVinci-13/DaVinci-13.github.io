@@ -9,3 +9,6 @@ categories:    ue5, code, component, actor, scene
 
 # Scene Componentt
 Actor+Transformaiton
+
+# Component Function
+## FindComponentByClass
