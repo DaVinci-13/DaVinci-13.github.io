@@ -69,56 +69,87 @@ categories: C++
         - void*指针：**可以存放任意对象的地址。无法确定地址的对象类型**。
 
 4. const限定符
+    0. 
+        - const对象必须初始化
 		- 使用**external**关键字在多文件共享const对象
-		- 对常量的引用（reference to const）
-		- 常量指针（pointer to const）
-		- top-level const顶层const
-			- 任意对象为常量
-				- int * const p1=&i;
-			- low-level const 底层常量
-				- 指针指向的对象是常量
-				- const int *p2=&i;
-			- 拷贝
-				- 拷贝时对象必须有相同的底层const资格
-				- 或者两个对象的数据类型必须能转换
-					- 非常量可以转换成常量
-		- const expression 常量表达式
-			- constexpr变量
-				- C++11新特性
-				- 编译器验证变量是否为常量表达式
-	- 处理类型
-		- type alias 类型别名
-			- typedef
-			- alias declaration 别名声明
-				- C++11
-				- using SI=Sales_Item；
-		- auto
-			- C++11
-			- 编译器通过初始值推算变量类型
-			- e.g.
-				- auto i=42;
-		- decltype
-			- C++11
-			- 选择并返回操作数(结果)的数据类型
-			- e.g.
-				- decltype(f()) sum=x;
-			- ps
-				- decltype((i)) d;
-					- 双括号结果必为引用
-	- 自定义数据类型
-		- data member 数据成员
-			- in-class initializer 类内初始值
-				- C++11
-		- 头文件
-			- preprocessor 预处理器
-				- header guard 头文件保护符
-					- 预处理变量
-						- #define
-						- #ifdef
-						- #ifndef
-						- #endif
-					- 防止重复包含
-					- 无视作用域
+
+	1. 对常量的引用（reference to const）
+        - 常量对象只能使用常量引用来引用
+        - 初始化常量引用时可以使用临时量（temporary）对象
+            - 临时量：当编译器需要一个空间来暂存表达式的求值结果时临时创建的一个未命名对象。
+        - 常量引用可能引用一个非const对象：此时不允许常量引用修改它的值，但允许通过其他途径修改。
+    
+    2. 常量指针（pointer to const）
+        - 常量对象只能使用常量指针来指向
+        - const指针
+        - **待续**
+
+    3. 顶层const（top-level const）
+        - 顶层const：指针本身是个常量。
+        - 底层const：指针指向的对象是常量，可以改变指针的值。
+        - 靠右的const是顶层const，靠左的是底层const。
+            - ``int const *p1``
+            - ``const int *p2``
+        - 拷贝：**待续**
+
+	4. 常量表达式（const expression）
+        - 常量表达式是指值不会改变并且在编译过程就能得到计算结果的表达式。
+            - e.g. 字面值、用常量表达式初始化的const对象。		
+		- constexpr变量
+			- 允许将变量声明为constexpr类型由编译器验证变量是否为常量表达式。
+			- 声明为constexpr的变量一定是一个常量，而且必须用常量表达式初始化。        
+        - 字面值类型：声明constexpr时用到的类型
+            - e.g. 算术类型、引用和指针
+            - 函数体内定义的变量一般来说并非存放在固定地址中，因此constexpr指针不能指向这样的变量；相反的，定义于所有函数体之外的对象其地址固定不变，能用来初始化constexpr指针。特别的，允许函数定义一类有效范围超出函数体本身的变量，这类变量一样也有固定地址，因此能被constexpr指向和引用。
+        - 指针和constexpr：如果constexpr声明中定义了一个指针，限定符constexpr仅对指针有效，与指针所指的对象无关。
+	
+	5. 处理类型
+		1. 类型别名（type alias）
+			- 两种方法：typedef、using
+		
+		2. auto：编译器通过初始值推算变量类型
+		
+		3. decltype：选择并返回操作数(结果)的数据类型
+            - **注意**：对于decltype的表达式来说，如果变量名加上了以对括号，编译器就会把它当成是一个表达式。变量是一种可以作为赋值语句左值的特殊表达式，所以这样的decltype就会得到引用类型。切记：decltype((*variable*))的结果永远是引用。
+
+	6. 自定义数据类型
+		- 预处理器（preprocessor）：确保头文件多次包含仍能安全工作的常用技术。
+		- 头文件保护符（header guard）：依赖于预处理变量（`#define`、`#ifdef`、`#ifndef`、`#endif`），作用是防止重复包含。
+
+## 3 字符串、向量和数组
+1. 命名空间的using声明
+
+2. 标注库类型string
+    1. 定义和初始化string对象： 直接初始化（``string s("hiya");``）和拷贝初始化(``string s="hiya";``)的区别是是否使用等号（=）。
+    2. string对象上的操作：读写、size函数与`string::size_type`类型、比较、赋值、相加
+    3. 处理string对象值中的字符
+
+3. 标注库类型vector
+    1. 定义和初始化vector对象：值初始化（value-initialized，使用小括号）和列表初始化（list-initialized，使用中括号）。
+    2. 向vector对象中添加元素
+    3. 其他vector操作：**注意**，ector对象的下标运算符可用于访问已存在的元素，而不能用于添加元素。
+
+4. 迭代器（iterator）
+    1. 使用迭代器
+    2. 迭代器运算（iterator arithmetic）
+        - 迭代器的距离：类型是`difference_type`的到符号整数
+
+5. 数组
+    1. 定义和初始化内置数组：（与vector不同）大小固定不变，不允许数组间的拷贝和赋值。
+    2. 访问数组元素
+    3. 指针和数组：标准库函数begin和end
+    4. C风格字符串
+    5. 与旧代码的接口：使用数组初始化vector对象
+    6. 多维数组
+
+## 4 表达式
+1. 基础
+    - 组合运算符和运算对象：运算符优先级
+    - 运算对象转换：里氏转换
+    - 重载运算符（overloaded operator）
+    - 左值和右值
+
+
 - STL, class template
 	- using与namespace
 		- 头文件不应包含using
