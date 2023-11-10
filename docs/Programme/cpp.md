@@ -191,476 +191,229 @@ e.g. 算术类型、引用和指针
 1. 把一个较大的算术类型赋给较小的类型
 2. 编译器无法自动执行的类型转换
 ##### dynamic_cast
+支持运行时类型识别。
 ##### const_cast
+“去掉const性质（cast away the const）”，将常量对象转换成非常量对象。
+特点：  
+1. 只能改变运算对象的底层const；
+2. 只能改变表达式的常量属性，不能改变表达式的类型。
 ##### reinterpret_cast
-
-- STL, class template
-	- using与namespace
-		- 头文件不应包含using
-		- e.g.
-			- std::cin
-			- using std;
-			- using std::cin;
-	- std::string
-		- 初始化
-			- 直接初始化
-				- string s4(10,'c');
-				- string s4("ccccccccccc");
-			- copy initialization 拷贝初始化
-				- string s4="cccccccccc";
-		- 读写
-			- 读
-				- getline
-		- empty()
-		- size()
-			- 返回string::size_type
-				- 无符号整型
-			- 字符串长度
-		- 比较
-			- ==/!=
-				- 字符串长度相等并包含字符全都相同
-			- <\<=\>\>=
-				- 字典顺序比较
-				- 大小写敏感
-		- ps
-			- 字符串字面值不是string对象
-				- 历史原因
-				- 与C兼容
-		- 遍历
-			- for(auto c:str)
-			- for(auto &c:str)
-				- c是引用，直接在原字符串修改
-			- for(i=0;i<size(str);i++)
-	- std:vector
-		- instantiation 实例化
-			- vector<int> v;
-		- 初始化
-			- 列表初始化
-				- {}
-			- value-initialized 值初始化
-				- 指定数量
-				- ()
-		- push_back()
-			- ps
-				- 不能使用下标添加元素
-		- 遍历
-			- for(auto &i:v)
-			- for(auto i:v)
-	- iterator 迭代器
-		- 成员
-			- begin
-			- end
-				- off the end 尾后
-				- one past the end 尾元素下一位置
-		- 运算
-			- ==/!=
-			- ++/--
-		- e.g.
-			- for(auto it=s.begin();it!=s.end();++it)
-		- 迭代器类型
-			- vector<T>::iterator
-			- vector<T>::const_iterator
-		- 成员访问
-			- 解引用
-			- ->
-		- ps
-			- 限制/失效
-				- 不能范围for循环添加元素
-				- 可能改变容器容量操作
-	- 数组
-		- ps
-			- 字符数组必须留空间存放空字符
-			- 不允许拷贝和赋值
-				- 某些编译器的编译器扩展支持数组赋值
-		- 遍历
-		- 缓冲溢出
-		- 指针和数组
-			- 指针迭代器
-			- 指针运算
-				- 位置迭代
-			- 解引用与指针运算
-			- 下标与指针
-		- 与旧代码接口
-			- CString
-				- strlen(p)
-				- strcmp(p1,p2)
-					- 比较
-				- strcat(p1,p2)
-					- 附加
-				- strcpy(p1,p2)
-					- 拷贝
-			- 数组初始化vector
-		- 多维数组
-			- 初始化
-			- 下标引用
-				- int *ip[4]
-					- 整型指针数组
-				- int (*ip)[4]
-					- 指向含有4个整数的数组
-			- 类型别名简化多为数组的指针
-				- typedef int int_array[4]
-				- using int_array=int[4]
-	- 泛型编程
-- 表达式
-	- 基础
-		- operand 运算对象
-			- order of evaluation 求值顺序
-			- 转换
-				- promoted 提升
-					- 小整数型通常会被提升到大整数类型
-		- result 结果
-		- expression 表达式
-		- operator 运算符
-			- unary operator 一元运算符
-			- binary operator 二元运算符
-			- precedence 优先级
-			- associativity 结合律
-			- overloaded operator 重载运算符
-		- 左值和右值
-			- rvalue 右值
-				- 一个对象被用作右值时，用的是对象的值（内容）
-			- lvalue 左值
-				- 左值表达式
-					- 求值结果
-						- 对象
-						- 函数
-				- 可以在赋值语句左侧
-					- 某些左值不能作为赋值语句的左侧运算对象
-						- 常量对象
-				- 当对象被用作左值时，用的是对象的身份（内存地址）
-				- 用到左值的情况
-					- 赋值运算符左侧必须是可修改的左值
-						- 非常量
-					- 取地址符
-						- 作用于左值对象
-						- 返回指向该左值对象指针
-							- 右值
-					- 内置解引用运算符、下标运算符、迭代器解引用运算符、string和vector运算符的求值结果
-					- 内置类型和迭代器的递增递减运算符
-						- 作用于左值对象
-						- 结果为左值
-			- theory
-				- 需要右值的地方可以用左值替代
-		- 优先级和结合律
-		- 求值顺序
-			- 先求运算符左侧运算对象值
-				- &&
-				- ||
-				- ？：
-				- ，
-	- 算术运算符
-		- 异常
-			- 溢出
-		- +、-、*、/、%
-	- 逻辑和关系运算符
-		- &&/||/！
-			- short-circuit evaluation 短路求值：当左侧运算对象无法确定表达式结果时才会计算右侧运算对象值
-		- </<=/>/>=/==/!=
-	- 赋值运算符
-		- =
-		- +=/-=
-	- 递增递减运算符
-		- *pbeg++
-			- *(pebg++)
-				- 把pbeg的值加1，然后返回pbeg的初始值的副本作为求值结果
-			- 输出当前值并把指针pbeg向前移动一个元素
-			- 简洁可以成为一种美德
-		- ++/--
-	- 成员访问运算符
-		- ->
-			- 作用于指针类型的运算对象
-			- 结果：左值
-		- .
-			- 解引用运算符*优先级>点运算符.
-			- 成员所属对象是左值，结果是左值；成员所属对象是右值，结果是右值。
-	- 条件运算符
-		- ？：
-		- 输出表达式尽量不使用
-			- 若使用加（）
-			- 产生意想不到的结果
-			- 输出符合满足右结合律，优先级高于条件运算符
-	- 位运算符
-		- ~
-		- <</>>
-		- &/^/|
-	- sizeof
-		- 返回
-			- 一条表达式或一个类型名字所占的字节数
-			- size_t类型的常量表达式
-	- ，
-	- 类型转换
-		- theory
-			- conversion 相互转换
-		- implicit conversion 隐式转换
-			- arithmetric conversion 算术转换
-				- integral promotion 整型提升：小整数类型转换成较大的整数类型
-				- 无符号类型运算对象
-			- 其他隐式转换
-				- 数组转换指针
-				- 指针的转换
-				- 转换成bool
-				- 转换成常量
-				- 类类型定义的转换
-		- 显示转换
-			- cast-name<type>(expression);命名的强制类型转换
-
-				- static_cast
-
-					- 不包含底层const
-					- 不在乎潜在精度损失
-					- 较大的算术类型赋值给较小的类型
-					- 对编译器无法自动执行的类型转换起作用
-
-						- 找回void*指针：
-                    void* p=&d;
-                    double *dp=static_cast<double*>(p);
-
-					- dynamic_cast
-
-						- 运行时类型识别
-
-					- const_cast
-
-						- 只能改变底层const
-						- cast away the const, 去掉const性质
-
-							- 将常量对象转换成非常量的行为
-							- 编译器不再阻止对该对象进行写操作
-
-						- 常用场景：重载函数上下文
-
-					- reinterpret_cast
-
-						- 通常为运算对象的位模式提供较低层次上的重新解释
-						- e.g.
-
-							- 将int对象重新解释为char对象
-
-								- 可能在运行时导致异常
-
-						- 充满风险
-
-					- 建议：避免强制类型转换
-
-		- 语句
-
-			- 简单语句
-
-				- expression statement 表达式语句
-
-					- 执行表达式并丢弃掉求值结果
-					- 输入输出语句
-
-				- null statement 空语句
-
-					- 只有一个单独分号
-
-				- compound statement 复合语句
-
-					- block 块
-
-			- 作用域
-			- if statement 条件语句
-
-				- if-else
-				- switch
-
-			- 迭代/循环语句
-
-				- for
-				- while
-				- do-while
-
-			- 跳转语句
-
-				- break
-				- continue
-				- goto
-
-					- 无条件跳转到同一函数内的另外一条语句
-					- labeled statement 带标签语句
-
-						- e.g.
-
-							- end: return;
-
-						- 标识符+":"+语句
-
-					- 不能将程序的控制权从变量的作用域外转移到作用域内
-					- 向后跳过一个已经执行的定义是合法的
-					- 调回到变量定义之前意味着系统将销毁该变量，然后重新创建它
-
-				- return
-
-			- try语句块与异常处理
-
-				- throw expression
-				- try block
-
-					- catch
-
-						- 未能找到匹配的catch子句
-
-							- terminate标准库函数
-
-					- exception safe 异常安全
-
-						- 异常发生期间正确执行了“清理”工作
-
-				- exception class
-
-					- exception
-
-						- exception头文件
-
-					- stdexcept头文件
-
-						- exception
-
-							- what()
-
-								- 返回const char*
-								- 提供关于异常的文本信息
-								- 内容与异常对象类型有关
-
-						- 运行时错误
-
-							- runtime_error
-
-								- 只有在运行时才能检测出问题
-
-							- range_error
-
-								- 值域范围
-
-							- overflow_error
-
-								- 上溢
-
-							- underflow_error
-
-								- 下溢
-
-						- 逻辑错误
-
-							- logic_error
-							- domain_error
-
-								- 参数对应结果值不存在
-
-							- invalid_argument
-
-								- 无效参数
-
-							- length_error
-
-								- 试图创建一个超出该类型最大长度的对象
-
-							- out_of_range
-
-								- 使用一个超出有效范围的值
-
-					- bad_alloc
-
-						- new头文件
-
-					- bac_cast
-
-						- type_info头文件
-
-		- 函数
-
-			- 函数基础
-
-				- base
-
-					- function 函数
-
-						- return type 函数组成
-						- parameter 形参：0+
-						- 函数名
-						- function body 函数体
-
-					- 执行
-
-						- call operator 调用运算符
-						- argument 实参
-						- calling function 主调函数
-						- called function 被调函数
-
-				- 局部对象
-
-					- lifetime 生命周期
-					- local variable 局部变量
-
-						- 仅参数作用域可见
-						- 隐藏在外层作用域中同名的其他声明中
-
-					- automatic object 自动对象
-
-						- 只存在于块执行期间
-						- 块末尾销毁，值变为未定义
-
-					- local static object 局部静态对象
-
-						- 执行路径第一次经过对象定义语句时初始化
-						- 程序终止时销毁
-						- 局部变量定义为static
-						- e.g. 函数计次
-
-				- function prototype 函数声明/函数原型
-
-					- 建议变量在头文件爱你中声明
-					- 函数在头文件中声明在源文件中定义
-
-				- separate compilation 分离时编译：把程序分割到几个文件中，每个文件独立编译
-
-			- 参数传递
-
-				- 形参
-
-					- passed by reference 引用传递 / called by reference 传引用调用
-					- 使用引用避免拷贝
-
-						- 如果无需改变引用形参的值，最好声明常量引用
-
-					- 使用引用形参返回额外信息
-
-				- 实参
-
-					- passed by value 值传递 / called by value 传值调用
-
-				- const参数
-
-					- 顶层const
-
-						- 实参初始化形参是忽略顶层const
-						- 当形参有顶层const时，传给它常量对象或者非常量对象都是可以的
-
-					- 指针和引用形参
-
-						- 底层const
-
-					- 尽量使用常量引用
-
-				- 数组形参
-
-					- 数组
-
-						- 不允许拷贝
-						- 使用时转为指针
-
-					- 形参写成类似数组的形式
-
-			- 返回
-			- 函数重载
-			- 特殊用途语言特性
-			- 函数匹配
-			- 函数指针
-
-		- 类
-
-	- C++标准库
-	- 类设计者的工具
-	- 高级主题
-	- C++11新特性
+通常为运算对象的位模式提供较低层次上的重新解释。
+虽然经过了重新解释，但本质上为发生变化，使用就可能运行时发生错误。
+**非常危险**：其中的关键问题是类型改变了，但比哦安一起没有给出任何警告或者错误的提示信息。
+**WARNNING**：本质上依赖于及其。要想安全的使用，就必须对涉及的类型和编译器实现转换的过程都非常了解。
+##### 建议：避免强制类型转换
+##### 旧式的强制类型转换
+包含：函数形式的强制类型转换、C语言风格的强制类型转换。
+
+### 12. 运算符优先级表
+
+## 5 语句
+### 1. 简单语句
+表达式语句（expression statement）：执行表达式并丢弃掉求值结果。  
+空语句（null statement）
+复合语句（compound statement）：也叫块（block）。
+
+### 2. 语句作用域
+
+### 3. 条件结构
+#### 1. if语句
+#### 2. switch语句
+
+### 4. 迭代语句
+#### 1. while语句
+#### 2. 传统的for语句
+#### 3. 范围for语句
+#### 4. do while语句
+
+### 5. 跳转语句
+#### 1. break语句
+#### 2. continue语句
+#### 3. goto语句
+#### 4. return语句
+
+### 6. try语句块和异常处理
+#### 1. throw表达式
+#### 2. try语句块
+鲁棒性
+#### 3. 标准异常
+C++标准库的异常类的头文件：
+- exception头文件:定义了最通用的异常类exception，只报告异常的发生，不提供任何额外信息。
+- stdexcept头文件：定义了几种常用的异常类。
+    - exception：最常见的问题
+    - runtime_error：只有在运行时才能检测出的问题
+    - range_error：运行时错误，生成的结果超出了有意义的值域范围。
+    - overflow_error：运行时错误，计算上溢。
+    - underflow_error：运行时错误，计算下溢。
+    - logic_error：程序逻辑错误。
+    - domain_error：逻辑错误，参数对用的结果值不存在。
+    - invalid_error：逻辑错误，无效参数。
+    - length_error：逻辑错误，试图创建一个超出该类型最大长度的对象。
+    - out_of_range：逻辑错误，使用一个超出有效范围的值。
+- new头文件：定义了bad_alloc异常类型。
+- type_info头文件：定义了bad_cast异常类型。
+
+what()函数：异常类型的唯一成员函数，返回值是一个指向C风格字符串的`const char *`，目的是提供关于异常的一些文本信息。
+
+## 6 函数
+### 1. 函数基础
+函数（function）：返回类型（return type）、函数名、形参（parameter）列表以及函数体（function body）。  
+调用运算符（call operator）：实参（argument）
+#### 1. 局部对象
+生命周期（lifetime）  
+局部变量（local variable）,隐藏同名  
+局部静态对象（local static object）
+
+#### 2. 函数声明/函数原型（function prototype）
+建议在头文件中进行函数声明
+
+#### 3. 分离式编译（separate compilation）
+
+### 2. 参数传递
+引用传递（passed by reference）或者传引用调用（called by reference）
+值传递（passed by alue）或者传值调用（called by value）
+
+#### 1. 传值参数
+#### 2. 传引用参数
+避免拷贝
+返回额外信息
+#### 3. const形参和实参
+指针或引用形参与const：**待续**  
+尽量使用常量引用
+#### 4. 数组形参
+#### 5. main：处理命令选项
+可以通过命令行向程序传递两个（可选的）形参给main函数。
+```cpp
+int main(int argc, char *argv[]){ return 0; }
+```
+第二个形参argv是一个指向C风格字符串数组的指针；第一个元素是数组中字符串的数量。   
+main函数也可定义成：
+```cpp
+int main(int argc, char **argv){ return 0; }
+```
+#### 6. 含有可变形参的函数
+##### initializer_list形参
+标准库类型，用于存储某种特定类型的值的数组。  
+情况：实参数量未知但是全部实参的类型都相同。  
+```cpp
+void error_msg(intializer_list<string> i1)
+{
+    for (auto beg = i1.begin(); beg != i1.end(); ++beg)
+        cout<< *beg << " ";
+    cout << endl;
+}
+```
+##### 省略符形参
+```cpp
+void foo(param_list,...);
+```
+##### 可变参数模板
+**待续**
+
+### 3. 返回类型和return语句
+#### 1. 无返回值函数
+#### 2. 有返回值函数
+- 函数指针
+- 引用返回左值
+#### 3. 返回数组指针
+##### 指针函数
+##### 使用尾置返回类型（trailing return tyoe）
+```cpp
+auto func(int i) -> int(*)[10];
+```
+##### 使用decltype
+```cpp
+int odd[]={1,3,5,7,9};
+decltype(odd) *arrPtr(int i)
+{
+    return &odd;
+}
+```
+### 4. 函数重载
+##### 重载和const形参
+有无顶层const形参在函数重载中无法区分。
+##### const_cast和重载
+const_cast在重载函数的场景中最有用。
+##### 调用重载的函数
+函数匹配（function matching）：最佳匹配（best match）、无匹配（no match）、二义性调用（ambiguous call）  
+重载确定（overload resolution）
+
+### 5. 特殊用途语言特性
+#### 1. 默认实参（default argument）
+默认实参只能在参数列表的尾部
+#### 2. 内联函数（inline）和constexpr函数
+内联函数可避免函数调用的开销：将函数指定为内联函数，通常就是将它在每个调用点上“内联地”展开。  
+很多编译器不支持内链递归函数。  
+constexpr函数是指能用于常量表达式的函数。函数的返回类型及所有形参的类型都得是字面值类型，而且函数体中必须有且只有一条return语句。  
+内联函数和constexpr函数通常被定义在头文件内。
+#### 3. 调试帮助
+##### assert预处理宏（preprocessor marco）
+```cpp
+asset(expr);
+```
+首先对*expr*求值，如果表达式为假（即0），assert输出信息并终止程序的执行。
+##### NDEBUG预处理变量
+定义NDEBUG则assert则不会执行运行时检查。
+
+### 6. 函数匹配
+确定候选函数（candidate function）:1.同名；2.声明在调用点可见。  
+可行函数（viable function）：1.形参数量与实参相等；2.实参类型与对应形参类型相同，或者可以实参类型转换。
+寻找最佳匹配
+含有多个形参的函数匹配：二义性调用。  
+
+### 7. 函数指针
+函数指针指向的是函数而非对象。
+##### 使用函数指针
+##### 重载函数的指针
+##### 函数指针形参
+形参可以是指向函数的指针.
+##### 返回指向函数的指针
+##### 将auto和decltype用于函数指针类型
+
+## 7. 类
+### 1. 定义抽象数据类型(abstract data type)
+- 成员函数
+- 构造函数（constructor）
+- 拷贝、赋值和析构
+- 接口(interface)和实现(implementation)
+
+### 2. 访问控制和封装（encapsulation）
+访问说明符（access specifiers）：*private*、*public*
+##### 使用class和struct关键字
+唯一区别：struct的默认访问权限是public，而class则是private。
+
+#### 1. 友元（friend）
+类可以允许其他类或者函数访问它的非公有成员。  
+友元声明只能出现在类定义的内部，但是具体位置不限。  
+友元不是类的成员，也不受所在区域的访问控制级别的约束。  
+
+### 3. 类的其他特性
+#### 1. 成员
+可变数据成员（mutable data member）：即使在const成员函数中也可以改变一个可变成员的值。  
+
+#### 2. 返回*this的成员函数
+建议：对于公共代码使用私有功能函数。
+
+#### 3. 类类型
+前向声明（forward declaration）：仅声明类而暂时不定义，此时该类是一个不完全类型（incomplete type）。
+
+#### 4. 友元
+##### 类之间的友元关系：友元类
+##### 令成员函数作为友元
+必须明确指出该成员函数属于哪个类。
+##### 函数重载和友元
+需要对函数重载的一组函数中的每一个分别声明友元。
+##### 友元声明和作用域
+```cpp
+struct X{
+    friend void f() {}
+    void h();
+};
+void f();
+void X::h()
+{
+    return f();
+}
+```
+
+### 4. 类的作用域
