@@ -5,7 +5,7 @@ date:   2023-04-09 15:20:00 +0800
 categories: C++
 ---
 
-# C++基础
+# I C++基础
 ## 1 开始
 ## 2 变量与基本类型
 ### 1. 基本内置类型
@@ -370,7 +370,7 @@ asset(expr);
 ##### 返回指向函数的指针
 ##### 将auto和decltype用于函数指针类型
 
-## 7. 类
+## 7 类
 ### 1. 定义抽象数据类型(abstract data type)
 - 成员函数
 - 构造函数（constructor）
@@ -466,3 +466,33 @@ constexpr构造函数：必须初始化所有数据成员，初始值或者使�
 定义：`static`关键字值出现在类内部的声明语句。  
 初始化：通常情况下，类的静态成员不应该在类的内部初始化。  
 静态成员能用于某些场景，而普通成员不能。  
+
+# II C++标准库
+## 8 IO库
+### 1. IO类
+IO库类型和头文件：
+| 头文件 | 类型 | 类型（支持宽字符） | 功能 |
+|----|----|----|----|
+| iostream | istream | wistream | 从流读取数据 |
+|  | ostream | wostream | 向流写入数据 |
+|  | iostream | wiostream | 读写流 |
+| fstream | ifstream | wifstream | 从文件读取数据 |
+|  | ofstream | wofstream | 向文件写入数据 |
+|  | iosftream | wiofstream | 读写文件 |
+| sstream | istringstream | wistringstream | 从string读取数据 |
+|  | ostringstream | wostringstream | 向string写入数据 |
+|  | stringstream | wstringstream | 读写string |
+
+IO类型间的关系：ifstream和istringstream继承自istream。  
+标准库是我们能忽略这些不同类型的流之间的差异，这是通过继承机制（inheritance）实现的。
+e.g. 我们可以用`>>`读取数据，而不用关是从一个控制台窗口，一个磁盘文件，还是一个string读取。
+
+#### 1. IO对象无拷贝和赋值
+
+#### 2. 条件状态（condition state）
+IO操作一个与生俱来的问题是可能发生错误。一些错误是可恢复的，而其他错误则发生在系统深处，已经超出了应用程序可以修正的范围。因此IO类定义了一些函数和标志，可以帮助我们访问和操纵流的条件状态。  
+由于流可能处于错误状态，因此代码通常应该在使用一个流之前检查它是否处于良好状态。确定一个流对象的状态的最简单法哪个法是将它当作一个条件来使用。
+
+### 2. 文件输入输出
+
+### 3. string流
