@@ -573,3 +573,81 @@ ifstream，ofstream，fstream
 带r的版本返回反向迭代器；  
 带c的版本返回const迭代器，只有对const对象才能得到const版本。  
 #### 4. 容器定义和初始化
+将一个容器初始化为另一个容器的拷贝  
+列表初始化  
+与顺序容器大小相关的构造容器  
+##### 标准库array具有固定大小
+声明时必须同时指定元素类型和大小。  
+默认构造的array是非空的：包含了与其大小一样多的元素。  
+我们不能对内置数组进行拷贝和对象赋值，但array无此限制。
+#### 5. 赋值和swap
+由于右边运算对象的大小可能与左边运算对象的大小不同，因此array类型不支持assign，也不允许用花括号包围的值列表进行赋值。  
+##### 使用assign（仅顺序容器）
+相对于赋值‘=’，assign允许一个不同但相容的类型赋值。
+##### 使用swap
+swap操作交换两个相同容器的内存（除array外，只是交换了容器的内部数据结构）。  
+除array（会真正交换元素）外，swap不进行任何拷贝、删除或插入，因此可以保证常数时间内完成。  
+除string外，指向容器的迭代器、引用和指针在swap操作之后都不会失效。  
+*建议：使用非成员版本的swap*
+#### 6. 容器大小操作
+size（forward_list不支持）、empty、max_size
+#### 7. 关系运算符
+比较两个容器实际上是进行元素的逐对比较。工作方式与string关系运算类似：
+- 两个元素大小相同且所有元素两两对应相等，则相等。
+- 大小不同且一个容器是另一个容器的前缀子序列，则第一个小于第二个。
+- 其他情况，比较结果取决于第一个不相等元素的比较结果。
+##### 容器的关系运算符使用元素的关系运算符完成比较
+若元素类型不支持所需运算符，那么容器就不能使用相应的关系运算。
+
+### 3. 顺序容器操作
+#### 1. 向顺序容器添加元素
+##### 使用push_back
+array和forward_list不支持。  
+**关键概念：容器元素是拷贝。**  
+##### 使用push_front
+vector和string不支持。  
+##### insert：在容器中的特定位置添加元素
+vector、deque、list、string都支持，forward_list提供了特殊版本的insert成员。
+##### insert：插入范围元素
+##### 使用insert的返回值
+一个等价于push_front的insert循环：
+```cpp
+list<string> lst;
+auto iter=lst.begin();
+while(cin>>word)
+    iter=lst.insert(iter,word);//等价于调用push_front
+```
+##### 使用emplace操作
+这些操作直接构造元素而不是拷贝元素。  
+emplace_front、emplace和emplace_back分别对应push_front、insert和push_back  
+
+#### 2. 访问元素
+如果容器中没有元素，访问操作的结果是未定义的。  
+front成员函数：返回首元素的引用。  
+back成员函数：返回尾元素的引用，不支持forward_list。  
+##### 访问成员函数返回的是引用
+
+##### 下标操作和安全的随机访问
+提供快速随机访问的容器（string、ector、deque和array）也都提供下标运算符。下标运算符不检查合法。  
+at成员函数：安全的访问。
+
+#### 3. 删除元素
+erase：forward_list有特殊版本 ，从容器内部删除一个或迭代器范围元素。
+pop_back：forward_list不支持，删除尾元素。  
+pop_front：vector和string不支持，删除首元素。  
+clear：删除所有元素。  
+
+#### 4. 特殊的forward_list操作
+原理：改变给定元素之后的元素。  
+insert_after、emplace_after、erase_after  
+forward_list定义了before_begin，返回了一个首前（off-the-beginning）迭代器。这个迭代器允许我们在链表首元素之前并不存在的元素“之后”添加或删除元素（亦即在链表首元素之前添加删除元素）。
+
+#### 5. 改变容器大小
+resize函数：不支持array
+
+#### 6. 容器操作可能使迭代器失效
+建议：管理迭代器，每次改变容器的操作之后都必须正确地重新定位迭代器。
+
+##### 编写改变容器的循环程序
+
+##### 不要保存end返回的迭代器
