@@ -749,4 +749,30 @@ find()、 count()、 accumulate()、 equal()
 使用容器操作删除元素：
 
 #### 3. 定制操作
-  
+##### 1. 向算法传递函数
+谓词（predicate）:一元谓词（unary predicate, 只接受单一参数）和二元谓词（binary predicate，意味着有两个参数）。  
+排序算法：stable_sort算法，大小重排的同时，保持相同长度的单词按字典序排列。  
+
+##### 2. lambda表达式（lambda expression）
+介绍lambda：
+- 可调用对象（callable object）：对于一个对象或一个表达式，如果可以对其使用调用运算符，则称它为可调用的。可调用对象有函数、函数指针、重载了函数调用运算符的类，以及lambda表达式。  
+- 一个lambda表达式表示一个可调用的代码单元。可以理解为一个未命名的内联函数。
+    - 与函数的相同点：都有一个返回类型，一个参数列表和一个函数体。
+    - 与函数的不同：lambda表达式可能定义在函数内部。
+    - 一个lambda表达式具有如下形式：
+``
+[capture list](parameter list) -> return type { function body }
+``
+        - capture list（捕获列表）是一个lambda所在函数中定义的局部变量的列表（通常为空）
+        - return type：返回类型，lambda必须使用尾置返回，可以忽略
+        - parameter list：参数列表，可以忽略
+        - function body：函数体
+向lambda传递参数：一个lambda调用的实参数目永远与形参数目相等。  
+使用捕获列表：  
+- 一个lambda只有在其捕获列表中捕获一个它所在函数中的局部变量，才能在函数体中使用该变量。
+- 捕获列表值用于局部非static变量，lambda可以直接使用局部static变量和它所在之外声明的名字。
+调用find_if  
+for_each算法  
+完整biggies
+
+##### 3. lambda捕获和返回
