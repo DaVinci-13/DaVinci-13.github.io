@@ -112,6 +112,6 @@ categories: unity3d, Addresable, Assetbundle
 		- IOS
 ---
 
-# Addresable
+# Addressable
 	- 基于assetbundle
 	- 更方便地管理
