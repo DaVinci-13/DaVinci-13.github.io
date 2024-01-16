@@ -1,117 +1,163 @@
 ---
-title: addresable
+title: Addressable
 layout: doc
-date:   2023-04-05 17:27:00 +0800
-categories: unity3d, Addresable, Assetbundle
----
-
-
-# AssetBundle
-
-- 内存管理
-	- 释放时机
-		- 引用计数
-		- 非即时
-			- 应避免资产流失
-	- 释放方法
-		- release instance
-		- release handle
-		- Resource.UnloadunUsedAsset
-	- 内存开销
-		- 加载缓存
-		- 类型树 Type Trees
-			- 同一个bundle保持资源类型一致
-			- 首选简单的数据类型
-			- 关闭类型树（unrecommend）
-				- BuildAssetBundleOptions.DisableWriteTypeTree
-				- 加载旧版本bundle可能会序列化错误
-		- 内容表 Table of contents
-			- 资源名称映射
-		- 预先加载表 Preload table
-			- 资源依赖
-	- 句柄管理
-		- 组
-- 资源加载
-	- 依赖加载
-	- 异步加载
-	- 同步等待
-		- WaitForCompletion()
-		- 实质：while循环
-	- 清理缓存
-- 打包
-	- 场景文件及涉及的资源单独打包
-- Catalog
-- URL转换
-- AB与AA区别
-	- AA自动管理依赖
-	- AA增加Label属性
-	- AA增加组模式
-	- AA不需要初始化下载完所有资源
-
-- AssetBundle
-	- .manifest
-		- .manifest
-		- 校验码
-	- 原理
-		- 当AssetBundle 解压加载到内存之后，我们可以通过WWW.assetbundle属性获得AssetBundle对象（上图的粉色框部分）来得到各个Assets，并对这些Assets进行加载或者实例化操作
-		- unity会将AssetBundle中的数据流转变成unity可识别的信息类型。加载完成之后，我们就可以对其进行更多操作了
-	- 打包
-		- 冗余
-		- 原生资源
-		- 设置
-			- 平台
-			- 压缩方式
-				- LZMA
-					- 压缩的包更小，但是加载时间更长
-					- 用之前需要整体解压。一旦被解压，这个包会使用LZ4重新压缩
-				- LZ4
-					- 以加载指定资源而不用解压全部
-				- 不压缩
-					- 包大，加载快
-			- 增量打包
-				- 新文件
-				- 老文件更新
-		- 打包方案
-			- 分组
-				- 将需要同时加载的资源放在同一个包里
-			- 场景文件中会单独打包
-				- 其中有预制体又会被打包一次
-	- 加载
-		- 原理
-			- Manifest文件
-				- 得到某个包的依赖
-			- 依赖加载
-		- AB包
-			- WWW  /  UnityWebRequest
-			- AssetBundle.LoadFromFile
-				- AssetBundle.LoadFromFile
-	- 卸载
-		- 方案
-			- 引用计数管理
-				- 避免重复对象
-			- 弱引用
-		- Asset
-			- Resources.UnloadAsset(obj)
-		- AssetBundle
-			- Unload(bool)
-				- true
-					- 卸载AB包及场景内正在使用
-				- false
-					- 只卸载AB包，切断资源引用
-					- 再次加载产生重复对象
-			- Resources.UnloadUnusedAssets()
-				- 没有额外附加特性地加载一个场景。这将消除当前场景的所有对象，并自动调用 Resources.UnloadUnusedAssets。
-				- 该接口作用于整个系统
-		- 实例化对象
-			- Destroy
-				- unity会将真正的删除操作延后到一个合适的时机统一进行处理，但会在渲染之前
-			- DestroyImmediately
-	- 平台差异
-		- PC
-		- Android
-		- IOS
+date:   2024-01-16 10:28:00 +0800
+categories: unity3d, Asset Management, Addressable
 ---
 
 # Addressable
-	- 基于assetbundle
-	- 更方便地管理
+基于assetbundle； 更方便地管理
+
+## 设置
+
+### Addressable Groups
+1. 获取所有的Addressable Name：
+读取对应的Addressable Asset Group设置的YAML格式的*.asset文件内容，使用文件和字符串相关类进行操作，取得“m_address”属性。
+
+2. 创建Group
+
+3. 设置Build Path和Load Path
+
+4. Build
+
+5. Play Mode Script模式
+    - Use Asset Database（fastest）：编辑器下调试使用，直接从AssetDatavase加载
+    - Simulate Groups（advanced）：
+        - 在不打包的情况下模拟AssetBundle操作
+        - Send Profiler Events：bundle包加载释放分析
+    - Use Existing Build（requires built groups）：实际上是从AssetBundle打包和加载
+
+6. Label： Addressable Asset Group设置中Build Mode可根据Label进行aa包的简单分包
+    - 一个资源可以标记多个Label
+    - 批量按Label加载：
+
+
+### 缓存
+AA包下载缓存路径设置：Initialization Objects
+
+### Addressable Profiles
+1. 四个路径
+LocalBuildPath  
+LocalLoadPath  
+RemoteBuildPath  
+RemoteLoadPath  
+
+2. Local和Remote的区别：包体内的资源包和包体外的资源包
+
+3. 脚本动态设置路径方法：
+    1. 选择custom,输入``{NameSpace.ClassName.StaticStr}``，
+        - 原理：根据反射得到对应类的静态string类型值
+        - 限制：应用运行过程中修改值无效
+    2. E直接修改catalog.json中的m_InternalIds属性
+        - 位置：  
+            Editor环境下，[ProjectPath]/Library/com.unity.addressable/aa/{BuildTarget}/catalog.json；  
+            Windows环境下，[AppPath]/[AppName]_Data/StreamingAssets/aa/catalog.json.
+        - 限制：只有PC才能获得StreamingAssets路径下的读写权限
+
+### Event Viewer
+查看调试信息：bundle包的时间线分（加载、释放、引用计数）  
+
+
+## 加载资源
+1. 通过Addressable Name加载
+2. 通过Asset Reference加载：
+Assets弱引用
+```csharp
+public class Main:MonoBehaviour
+{
+    public AssetReference ref;
+    void Start()
+    {
+        ref.LoadAssetAsync<GameObjcet>().Cpmpleted += (obj)=>{};
+    }
+}
+```
+3. AA包查找顺序：本地缓存->远程资源
+
+4. 释放：``  Addressable.Release(obj); ``
+
+## 增量更新
+1. 基本操作
+前提：`Addressable Group Setting`设置打开`Build Remote Catalog`。  
+原理：Build AA时除了AA包还会生成本次构建的catalog的`.hash`和`.json`文件。根据这两个文件本地缓存与Remote资源比对进行增量更新。
+操作：`Update a Previous Build`
+注意：**使用时更新**，只有用到此资源时才去检测更新，但可以通过脚本API更改为应用启动时更新。
+
+2. 应用启动时更新
+步骤： ``CheckForCatalogUpdates`` -> ``UpdateCatalogs`` -> ``GetDownloadSizeAsync`` -> ``DownloadDependciesAsync``  
+注意：更新过程中可能存在用户操作和网络问题，此时可以通过AsyncOperationHandle的Status状态码进行处理，并提示重试。
+e.g. 
+```csharp
+public class CheckUpdateAndDownload : MonoBehaviour
+{
+    void Start()
+    {
+        StartCoroutine(DoUpdateAddressable());
+    }
+    IEnumerator DoUpdateAddressable()
+    {
+        AsyncOperationHandle<IResourcesLocator> initHandle = Addressables.InitializeAsync();
+        yield return initHandle;
+        //检测更新
+        var checkHandle = Addressables.CheckForCatalogUpdates(true);
+        yield return checkHandle;
+        if(checkHandle.Status != AsyncOperationStatus.Succeed)
+        {
+            Debug.LogError("CheckForCatalogUpdates Errors\n" + checkHandle.OperationException.ToString());
+            yield break;
+        }
+        if(checkHandle.Result.Count>0)
+        {
+            var updateHandle = Addressables.UpdateCatalogs(checkHandle.Result, true);
+            if(updateHandle.Status != AsyncOperationStatus.Succeed)
+            {
+                Debug.LogError("UpdateCatalogs Errors\n" + updateHandle.OperationException.ToString());
+                yield break;
+            }
+            //更新列表迭代器
+            List<IResourceLocator> locators=updateHandle.Result;
+            foreach(var locator in locators)
+            {
+                List<object> keys=new List<object>();
+                keys.AddRange(locator.Keys);
+                //获取待下载文件总大小
+                var sizeHandle = Addressables.GetDownloadSizeAsync(keys.GetEnumerator());
+                yield return sizeHandle;
+                if(sizeHandle.Status != AsyncOperationStatus.Succeed)
+                {
+                    Debug.LogError("GetDownloadSizeAsync Errors\n" + sizeHandle.OperationException.ToString());
+                    yield break;
+                }
+                long totalDownloadSize=sizeHandle.Result;
+                if(totalDownloadSize>0)
+                {
+                    //下载
+                    var downloadHandle = Addressables.DownloadDependciesAsync(keys, true);
+                    while(!downloadHandle.S=IsDone)
+                    {
+                        if(downloadHandle.Status == AsyncOperationStatus.Failed)
+                        {
+                            Debug.LogError("DownloadDependciesAsync Errors\n" + downloadHandle.OperationException.ToString());
+                            yield break;
+                        }
+                        float percetage = downloadHandle.PercentCompelete;
+                        Debug.Log($"已下载{percetage}");
+                        yield return null;
+                    }
+                    if(downloadHandle.Status == AsyncOperationStatus.Succeed)
+                    {
+                        Debug.Log("下载完毕！");
+                    }
+                }
+            }
+        }
+        else{
+            Debug.Log("没有检测到更新");            
+        }
+        //todo： EnterGamePlayLogic
+    }
+}
+```
+
+## 打包工具继承
+官方：Build -> Defaut Build Script。

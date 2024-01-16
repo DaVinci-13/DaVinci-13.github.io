@@ -1,0 +1,113 @@
+---
+title: AssetBundle
+layout: doc
+date:   2023-04-05 17:27:00 +0800
+categories: unity3d, Asset Manage, Assetbundle
+---
+
+
+# AssetBundle
+
+- 内存管理
+	- 释放时机
+		- 引用计数
+		- 非即时
+			- 应避免资产流失
+	- 释放方法
+		- release instance
+		- release handle
+		- Resource.UnloadunUsedAsset
+	- 内存开销
+		- 加载缓存
+		- 类型树 Type Trees
+			- 同一个bundle保持资源类型一致
+			- 首选简单的数据类型
+			- 关闭类型树（unrecommend）
+				- BuildAssetBundleOptions.DisableWriteTypeTree
+				- 加载旧版本bundle可能会序列化错误
+		- 内容表 Table of contents
+			- 资源名称映射
+		- 预先加载表 Preload table
+			- 资源依赖
+	- 句柄管理
+		- 组
+- 资源加载
+	- 依赖加载
+	- 异步加载
+	- 同步等待
+		- WaitForCompletion()
+		- 实质：while循环
+	- 清理缓存
+- 打包
+	- 场景文件及涉及的资源单独打包
+- Catalog
+- URL转换
+- AB与AA区别
+	- AA自动管理依赖
+	- AA增加Label属性
+	- AA增加组模式
+	- AA不需要初始化下载完所有资源
+
+- AssetBundle
+	- .manifest
+		- .manifest
+		- 校验码
+	- 原理
+		- 当AssetBundle 解压加载到内存之后，我们可以通过WWW.assetbundle属性获得AssetBundle对象（上图的粉色框部分）来得到各个Assets，并对这些Assets进行加载或者实例化操作
+		- unity会将AssetBundle中的数据流转变成unity可识别的信息类型。加载完成之后，我们就可以对其进行更多操作了
+	- 打包
+		- 冗余
+		- 原生资源
+		- 设置
+			- 平台
+			- 压缩方式
+				- LZMA
+					- 压缩的包更小，但是加载时间更长
+					- 用之前需要整体解压。一旦被解压，这个包会使用LZ4重新压缩
+				- LZ4
+					- 以加载指定资源而不用解压全部
+				- 不压缩
+					- 包大，加载快
+			- 增量打包
+				- 新文件
+				- 老文件更新
+		- 打包方案
+			- 分组
+				- 将需要同时加载的资源放在同一个包里
+			- 场景文件中会单独打包
+				- 其中有预制体又会被打包一次
+	- 加载
+		- 原理
+			- Manifest文件
+				- 得到某个包的依赖
+			- 依赖加载
+		- AB包
+			- WWW  /  UnityWebRequest
+			- AssetBundle.LoadFromFile
+				- AssetBundle.LoadFromFile
+	- 卸载
+		- 方案
+			- 引用计数管理
+				- 避免重复对象
+			- 弱引用
+		- Asset
+			- Resources.UnloadAsset(obj)
+		- AssetBundle
+			- Unload(bool)
+				- true
+					- 卸载AB包及场景内正在使用
+				- false
+					- 只卸载AB包，切断资源引用
+					- 再次加载产生重复对象
+			- Resources.UnloadUnusedAssets()
+				- 没有额外附加特性地加载一个场景。这将消除当前场景的所有对象，并自动调用 Resources.UnloadUnusedAssets。
+				- 该接口作用于整个系统
+		- 实例化对象
+			- Destroy
+				- unity会将真正的删除操作延后到一个合适的时机统一进行处理，但会在渲染之前
+			- DestroyImmediately
+	- 平台差异
+		- PC
+		- Android
+		- IOS
+---
