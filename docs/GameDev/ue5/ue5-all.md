@@ -409,3 +409,159 @@ trick：
     1. 设置sweep
     2. 蓝图中同一Tick设置Delta变化，e.g. 先加1后减1
     3. 得到Actor的Rotation并设置在组件上
+
+---
+## Modular Level Design & Layout
+模块化水平设计
+
+### Modular Level Design
+模块化关卡设计：三视图
+
+### Modular Level Layout
+模块化关卡布局
+
+### Solution:Modular Level Layout
+模块化关卡解决方案
+
+---
+## Light
+灯光
+### Light Types
+灯光类型：
+1. Directional Loght 平行光
+2. Point Light 点光源
+3. Spot Light 聚光灯
+4. Rect Light 区域光
+5. Sky Light 天光
+捕捉远处静态光线，e.g.天空球,作用类似于光照烘焙。
+
+### Lumen
+UE新全局光照引擎  
+light bleed/光照出血 *：一些老的材质不支持流明而出现渲染错误或异常。需要修改材质编辑器以解决问题。
+
+### Level Lighting
+
+---
+## Character Blueprint
+
+### First Person Character Controller
+
+### Third Person Character Controller
+
+---
+## Design Mode 设计模式
+
+### Inheritance 继承
+A child class automatically has all the functionalirt of the parent. The child "is a" parent.
+
+### Composition 组合
+Class A has an instance of Class B, it can choose to use it's functionality but doesn't have to. Class A "has a“ Class B.
+
+---
+## Components
+
+### Actor Component
+
+### Scene Componentt
+Actor+Transformaiton
+
+### Component Function
+``FindComponentByClass``
+
+---
+## Pointer 指针
+
+### The * and &(取址符) Symbols in Context
+
+|Symbol|Code Examples|Context|Syntax|Meaning|
+|---|---|---|---|---|
+|*|UActor *ActorPtr;|Declaring| UActor * |Point to UActor|
+||CopyofActor=*ActorPtr;|Using| *ActorPtr |Contents at ActorPtr|
+|&|UActor &ActorRef;|Declaring| UActor & |Reference to UActor|
+||ActorAddress=&Actor;|Using| &Actor <br> &ActorRef |Address of Actor or ActorRef|
+
+### ->
+
+---
+## References 引用
+### Comparing Pointers to References
+
+||Pointers|References|
+|---|---|---|
+|What is stored|Memory Address|
+|Can be re-assigned<br>(to another adddress)|Yes|No|
+|Can be null|Yes(use nullptr)|No, must be initialised|
+|Accessing contents|*ActorPtr|ActorRef|
+|Accessing address|ActorPtr|&ActorRef|
+|Changing the address|ActorPtr=&Actor|Not allowed|
+|Changing the value|*ActorPtr=Actor|ActorRef=Actor|
+
+### Const References & Out Parameters
+常量引用传参不允许在方法内修改参数的值
+```cpp
+void Function(const float &parm)
+{
+    //parm=2; //will error
+}
+```
+
+---
+## Compilation Steps
+### Standard C++ Compilation Steps
+|Step|FileType|Content|
+|---|---|---|
+|(Original)|.cpp & .h|C++代码+头文件|
+|Preprecessor|.i|合并C++代码和头文件|
+|Compiler|.obj|二进制代码文件|
+|Linker|.exe|可执行程序|
+
+### UE Compilation Steps
+|Step|FileType|Content|
+|---|---|---|
+|Unreal Header Tool|.cpp & .h|UHT代码、C++代码、头文件|
+|标准C++编译步骤|... ...|... ...|
+
+### Unreal Header Tool (UHT)
+#### Blueprint Callable
+蓝图可交互
+
+---
+## Math
+
+### FMath::VInterpConstantTo
+向量插值
+
+---
+## Debug
+
+### UE_LOG()
+
+### DrawDebugLine
+
+---
+## Keywords
+
+### Out
+
+---
+## UWorld
+world可以包含多个level
+
+---
+## Input Action Mapping
+
+---
+## Raycast Trace
+
+- trace channel：
+	- Line Tracing
+	- Shape Tracing
+
+### Sweap
+
+#### Geometry Sweeping
+
+- about api:
+    - SweepSingleByChannel
+    - FHitResult
+    - FCollisonShape
