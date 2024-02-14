@@ -411,6 +411,9 @@ trick：
     3. 得到Actor的Rotation并设置在组件上
 
 ---
+# Crypt Raider
+
+---
 ## Modular Level Design & Layout
 模块化水平设计
 
@@ -534,9 +537,9 @@ void Function(const float &parm)
 ---
 ## Debug
 
-### UE_LOG()
-
-### DrawDebugLine
+UE_LOG()  
+DrawDebugLine()  
+DrawDebugSphere()
 
 ---
 ## Keywords
@@ -551,17 +554,182 @@ world可以包含多个level
 ## Input Action Mapping
 
 ---
-## Raycast Trace
+## Raycast
 
-- trace channel：
+1. trace channel：
 	- Line Tracing
 	- Shape Tracing
 
-### Sweap
-
-#### Geometry Sweeping
-
+2. Sweap
+Geometry Sweeping 
 - about api:
     - SweepSingleByChannel
     - FHitResult
     - FCollisonShape
+
+---
+## Grab
+- about api:
+	- UPhysicsHandleComponent*
+	- GrabComponentAtLocationWithRotation()
+	- SetTargetLocationAndRotation()
+
+---
+## Wake Physics Handle
+- about apo:
+	- WakeAllRigidBodies()
+
+---
+## Return Out Parameters
+Use References
+
+---
+## Overlap Events
+
+1. Understand
+Overlap==Unity's Trigger  
+Block==Unity's Collider
+
+2. Create The Component
+Create By BoxComponent
+
+---
+## Constructor
+1. UHT
+```cpp
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent)) 
+```
+2. Enable ticking in constuctor  
+need reopen editor
+```cpp
+PrimaryComponentTick.bCanEverTick=true;
+```
+
+---
+## TArray
+
+e.g. GetOverlappingActors()
+
+---
+## Loops
+1. while
+2. for
+3. foreach
+
+---
+## Actor Label
+1. about api:
+	- ActorHasTag()
+2. Make The Tag Configurable
+
+---
+## Dependency Injection
+依赖注入：“I need another object but can't find it myself.”  
+通常做法：通过蓝图机制的函数调用来实现。
+
+---
+## Casting & Actor Attachment
+1. (api): AttachToComponent
+2. Cast
+3. (api): SetSimulatePhysics
+
+---
+## Tag: Add & Remove
+Actor->Tags  
+
+---
+## Boolean Logical Operators
+布尔逻辑运算
+
+---
+## Level Polish
+PostProcessVolume
+
+---
+# ToonTanks
+
+---
+## Pawn Class Creation
+Choosing a class
+|Actor|Pawn|Character|
+|Can be placed in the world|Can Be possessedby a Controller|Has Character specific stuff(Character Movement Component, etc.)|
+|Can have a visual representation(Mesh, etc.)|Handles movement input|Movement nodes(flying)|
+||Actor类的基类|适合人形角色|
+
+---
+## Components
+1. USenceComponet
+	- Has a transform
+	- Suppots attrachment
+	- No visual representation
+2. UCapsuleComponent
+	- Handles collision
+3. UStaticMeshComponent
+	- Visual represtation
+4. RootComponet
+
+---
+## Forward Declaration
+前置声明
+1. 问题：
+	- 头文件互相包含
+	- 头文件生成的代码过大
+2. 解决的方法：
+	- 在.cpp文件中做.h文件的引用
+	- .h文件中需要用到该类型时前面加``class``关键字来屏蔽编译错误
+3. 其他方法：防止被多次包含``#pragma once``
+
+---
+## Constructing The Capsule
+创建Note：``CreateDefaultSubobject<*>(TEXT("*"))``  
+设置跟组件：``RootComponent=*;``  
+
+---
+## Static Mesh Conponent
+API：SetupAttachment()
+
+---
+## Deriving Blueprint Class
+
+---
+## Instance vs Default
+1. UPROPERTY Specifers:
+	- VisibleAnywhere
+	- VisibleInstanceOnly
+	- EditAnywhere
+
+---
+## Editing Exposed Variables
+1. More UPROPERTY Specifers:
+	- VisibleDefaultsOnly
+	- EditDefaultsOnly
+	- EditInstanceOnly
+2. Read/Write access in the Event Graph
+	- BlueprintReadWrite
+	- BlueprintReadOnly
+
+---
+## Exposing the Components
+1. 允许蓝图访问C++私有变量：`` UPROPERTY(meta=(AllowPrivteAccess="true")) ``
+2. `` UPROPERTY(Category="Category Name") ``
+
+---
+## Create Child C++ Classes
+SpringArm Component  
+Camera Component  
+
+---
+## Possessing the Pawn
+Set **Auto Possess Player** to Player 0
+
+---
+## Handling User Input
+1. Axis Mapping
+2. Binding   
+```cpp
+void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis(TEXT("MoveForward"),this,&ATank::Move);
+}
+```
