@@ -733,3 +733,25 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"),this,&ATank::Move);
 }
 ```
+
+---
+## Local Offset
+api：AddActorLocalOffset()
+
+---
+## Moving Speed
+1. Using DeltaTime
+	- CPU usage varies
+	- Thus DeltaTime varies
+	- More frames/second, more function calls!
+2. Getting DeltaTiem
+```cpp
+ UGameplayStatics::GetWorldDeltaSeconds(this);
+```
+
+---
+## Local Rotation
+```cpp
+ AddActorLocalRotation(Rotation, bSweep);
+```
+bSweep: 布尔值，只对根组件RootComponent的Block值为true时有效。
