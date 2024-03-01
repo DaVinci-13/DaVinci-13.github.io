@@ -1,8 +1,8 @@
 ---
 layout: doc
-title:  "DOTS - 学习1"
-date:   2023-04-05 15:37:00 +0800
-categories: Unity, dots, UI
+title:  "DOTS - 1.0"
+date:   2024-02-22 10:34:00 +0800
+categories: Unity, dots
 ---
 # Unity DOTS
 

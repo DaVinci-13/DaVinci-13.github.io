@@ -749,9 +749,220 @@ api：AddActorLocalOffset()
  UGameplayStatics::GetWorldDeltaSeconds(this);
 ```
 
----
 ## Local Rotation
+旋转：
 ```cpp
  AddActorLocalRotation(Rotation, bSweep);
 ```
 bSweep: 布尔值，只对根组件RootComponent的Block值为true时有效。
+
+## Cast
+类型转换--Casting：
+- Template function
+- Adapts to the type chosen
+- Pass in the type to cast to
+
+## Using The Mouse Cursor
+鼠标指针指向的World Location：通过射线实现
+```cpp
+FHitResult hit;
+PlayerControllerRef->GetHitResultUnderCursor(
+    ECollisionChannel::ECC_Visibility,
+    false,
+    hit
+);
+```
+
+## Rotating the Turret
+1. FVector::Rotation()
+
+2. FRotator
+- Pitch
+- Yaw
+- Roll
+
+## The Tower Class
+获取1号玩家的Pawn
+```cpp
+UGameplayStatics::GetPlayerPawn(this,0);
+```  
+两点间距离：
+```cpp
+FVector::Dist(location1,location2);
+```
+
+## Fire
+输入事件绑定Action
+```cpp
+void AClass::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
+    PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &AClass::Function);
+}
+```
+
+## Timers
+定时器
+```cpp
+FTimerHandle timerHandle;
+float delay=2.f;
+bool isLoop=true;
+GetWorldTimerManager().SetTimer(timerHandle, this, &AClass::Func, delay， isLoop);
+```
+
+## The Projectile Class
+
+## Spwaning the Projectile
+1. C++代码使用蓝图类——TSubclassOf
+- Template
+- Requires a type parameter
+- Stores a UClass
+    - Subclass of the chosen type
+    - Even Blueprints based on the type
+2. C++生成actor——Spawning Actors
+```cpp
+UPROPERTY(EditDefaultsOnly, Category="Combat")
+TSubclassOf<AProjectile> template;
+UWorld::SpawnActor<AProjectile>(template, location, rotation);
+```
+
+## Projectile Movement
+1. 投射物移动组件：UProjectileMovementComponnet
+- MaxSpeed
+- InitilaSpeed
+
+## Hit Events
+碰撞事件委托
+```cpp
+UFUNCTION()
+void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+void AClass::BeginPlay()
+{
+    UStaticMeshComponent* mesh=CreateDefaultSubobject<UStaticMeshCompnent>("Static Mesh");
+    mesh->OnComponentHit.AddDynamic(this, &AClass::OnHit);
+}
+
+void AClass::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+{
+}
+```
+
+## Health Component
+1. OnTakeAnyDamage Delegate——受伤委托
+```cpp
+UFUNCTION()
+void DamageTaken(AActor* DamagedAction, float Damage, const UDamageType* DamageType, class AController* Instigater, AActor* DamageCauser);
+
+void AClasee::BeginPlay()
+{
+    GetOwner()->OnTakeANyDamage.AddDynamic(this, &AClass::DamageTaken);
+}
+
+void DamageTaken(AActor* DamagedAction, float Damage, const UDamageType* DamageType, class AController* Instigater, AActor* DamageCauser)
+{
+}
+```
+
+## Applying Damage
+制造伤害
+```cpp
+UGameplayStatics::ApplyDamage(actor, demage, GetOwner()->GetInstigatorController(), this, UDamageType::StaticClass());
+```
+
+## The Game Mode Class
+1. The Game Mode
+- Set the default Pawn class
+- Handle death
+- Starting/ending the game
+2. GameModeBase
+
+## Handle Actor Death
+获取GmaeMode  
+```cpp
+AGameMode* AGameMode=Cast<AGameMode>(UGameplayStatics::GetGameMode(this));
+```
+
+## Custom Player Controller
+1. 启/禁用输入
+```cpp
+GetPawn()->EnableInput(this);
+GetPawn()->DisableInput(this);
+```
+2. 获取PlayerController
+```cpp
+APlayerController * aPC=Cast<APlayerController>(UGameplayStatics::GetPlayerController(this,0));
+```
+
+## Starting the Game
+定时器
+```cpp
+FTimerHandle playerEnableTimerHandle;
+FTimerDelegate playerEnableTimerDelegate=FTimerDelegate::CreateUObject(aPlayerController, &APlayerController::AFunc, true);
+GetWorldTimerManager().SetTimer(playerEnableTimerHandle, playerEnableTimerDelegate, delay, false);
+```
+
+## The Start Game Widget
+1. UI->Widget
+2. WidgetBlueprint
+    1. Create WBP Coolness Widget
+    2. Add to Viewport
+
+## Countdown Timer
+1. WBP>Event Graph
+2. WBP>"Switch" node
+
+## Displaying Countdown Time
+
+## Winning And Losing
+获得某一（C++或蓝图）类的全部演员
+```cpp
+TArray<AActor*> actors;UGameplayStatics::GetAllActorsOfClass(this, AClass::StaticClass(), actors);
+```
+
+## GameOver HUD
+1. WBP>"Create WBP End Game Widget Widget"
+2. WBP>"Select" node
+
+## Hit Particles 击中粒子效果
+生成粒子效果系统
+```cpp
+UParticleSystem* HitParticle;
+UGameplayStatics::SpawnEmitterAtLocation(this, HitParticle, location, rotation);
+```
+
+## Smoke Trail 烟雾轨迹
+粒子系统与粒子效果组件
+|UParticleSystem|UParticleSystemComponent|
+|---|---|
+|Not a componnent|Is a component|
+|Created with `` SpawnEmitterAtLocation ``|Created with `` CreateDefaultSubobject ``|
+||Attached to the root|
+||Has a Template variable|
+
+## Death Particle
+
+## Sounds
+播放声音
+```cpp
+UPROPERTY(EditAnywhere)
+USoundBase* launchSound;
+void AClass::BeginPlay()
+{
+    UGameplayStatics::PlaySoundAtLocation(this, launchSound, location);
+}
+```
+
+## Camera Shake 镜头摇晃
+1. Create a BP based on "CameraShake" Class
+2. 使用镜头摇晃
+```cpp
+UPROPERTY(EditAnywhere)
+UCameraShake* CameraShake;
+void AClass::BeginPlay()
+{
+    GetWorld()->GetFirstPlayerController()->ClientPlayCameraShake(CameraShake);
+}
+```
+## Polish And Wrap-Up
+1. 相机平滑：BP>Camera Lag
