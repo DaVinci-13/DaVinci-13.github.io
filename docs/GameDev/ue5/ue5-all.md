@@ -966,3 +966,52 @@ void AClass::BeginPlay()
 ```
 ## Polish And Wrap-Up
 1. 相机平滑：BP>Camera Lag
+
+# Simple Shooter
+## Section Intro
+
+## Project Setup
+
+## Pawn vs Character
+Pawn和Character的区别：
+- Character is a Pawn.
+- Adds character-like features
+- Movement
+- NavMesh movement
+
+## Character Movement Functions
+Character类下的特性：
+- AddMovementInput() 移动
+- AddControllerPitchInput() 左右旋转
+- AddControllerYawInput() 上下俯仰， 注意需要参考DeltaTime因子                                  
+- Jump() 跳
+
+## Controller Aiming
+
+## Third Person Camera Spring Arm
+
+## Skeletal Animations 骨骼动画
+
+## Editing Collision Meshes 编辑碰撞网格
+
+## Animation Blueprint
+
+## 2D Blend Spaces
+
+## Coonnecting Animation To Gameplay
+
+## Inverse Transforming Vectors
+
+## Calculating Animation Speeds
+根据动画文件的两步间的时间和位移
+
+## Gun Actor
+
+## Spawning Actors At Runtime
+
+## Attaching To Meshes Via Sockets
+1. 根据骨骼名隐藏网格
+```cpp
+GetMesh()->HideBoneByName(TEXT("bones"), EPhysBodyOp);
+```
+2. Skeleton蓝图Add Socket
