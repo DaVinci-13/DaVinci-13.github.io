@@ -214,7 +214,7 @@ https://www.bilibili.com/video/BV1be41137Kp/?p=13&spm_id_from=pageDriver
 ## Import Assets
 - Windows
 - Mac
-	- Content Browser-><select Assets or Folder><right click>->Migrate
+	- Content Browser->\<select Assets or Folder><right click>->Migrate
 
 
 ## Materials and Lighting /光和材质
@@ -1012,6 +1012,249 @@ Character类下的特性：
 ## Attaching To Meshes Via Sockets
 1. 根据骨骼名隐藏网格
 ```cpp
-GetMesh()->HideBoneByName(TEXT("bones"), EPhysBodyOp);
+GetMesh()->HideBoneByName(TEXT("bones"), EPhysBodyOp::PBO_None);
 ```
 2. Skeleton蓝图Add Socket
+3. 将Actor连接到Socket
+```cpp
+actor->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Socket"));
+actor->SetupOwner();
+```
+
+## Shooting Architecture
+
+## Spawning Particle Effects
+生成粒子效果
+```cpp
+UPROPERTY()
+UParticleSystem* particle;
+UGameplayStatics::SpawnEmitterAtLoction(this, particle, TEXT("SOCKET"));
+```
+
+## Player View Point
+玩家视角
+```cpp
+APawn* OwnerPawn=Cast<APawn>(GetOwner());
+AController* OwnerCtl=OwnerPawn->GetController();
+FVector location;
+FRotator rotation;
+OwnerCtl->GetPlayerViewPoint(location, rotation);
+DrawDebugCamera(GetWorld(), location, rotation. 90, 2, FColor::Red, true);
+```
+
+## Line Trace Bu Channel
+LineTraceTestByObjectType vs. LineTraceSingleByChannel
+```cpp
+FVector location=location;
+FVector end=location*rotation.Vector();
+DrawDebugPoint(GetWorld, location, 20, FColor::Red, true);
+FHitResult hit;
+GetWorld()->LineTraceSingleByChannel(hit,location,end,ECollisionChannel::ECC_GameTraceChannel1);
+```
+
+## Impact Effects
+粒子效果
+```cpp
+UParticleSystem* effect;
+UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), effect, location, (-rotation.Vector()).Rotation());
+```
+
+## Dealing Damage To Actors
+造成伤害
+```cpp
+FPointDamageEvent DamageEvent(damageNum, hitResult, direction, nullptr);
+actor->TakeDamage(damageNum, DamageEvent, OwnerController, this);
+```
+
+## Virtual Method in C++
+虚方法
+
+## Overriding TakeDamage
+
+## Blending Animation By Boolean
+ABP节点
+
+## Blueprint Pure Nodes
+1. 蓝图纯节点，没有执行引脚的节点。
+2. `` UFUCTION(BlueprintPure) ``
+
+## Create and Setup an AI controller
+1. AI控制器
+2. 基类：`` AIController ``
+
+## AI Aiming
+设置AI的关注点:``AIController->SetFocus(pawn);``  
+```cpp
+APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(),0);
+SetFocus(PlayerPawn);
+```
+
+## Nav Mesh And AI Movement
+1. Nav Mesh自动寻路
+	1. 节点：Place Actor>Nav Mesh Bounds Volume
+	2. BP组件>PathFollowingComponet
+2. AIController::MoveToActor()方法
+```cpp
+MoveToActor(actor,200);
+```
+3. 注意：需要NavMesh，MoveTo方法单次生效
+
+## Checking AI Line Of Sight
+判断AI视野中是否可以看到某个actor
+```cpp
+if(LineOfSightTo(pawn))
+{
+	ClearFocus(EAIFocusPriority::Gameplay);
+	StopMovement();
+}
+```
+
+## BehaviorTrees And Blackboards
+1. 行为树BT
+```cpp
+class UBehaviorTree* AIBehavior;
+void AIController::BeginPlay()
+{
+	RunBehaviorTree(AIBehavior);
+}
+```
+2. 黑板BB
+3. 顺序节点：Sequence
+
+## Setting Blackboard Keys In C++
+1. 获取黑板
+```cpp
+GetBlackboardComponent()->SetValueAsVector(TEXT("location"), location);
+```
+
+## Behavior Tree Tasks And Sequences
+1. Tasks
+	- MoveTo
+	- Wait
+
+## BT Decoratoes And Selectors
+1. 装饰器和选择节点
+2. 清除黑板值
+```cpp
+GetBlackboardComponent()->ClearValue(TEXT("location"));
+```
+
+## Custom BTTasks In C++
+自定义BT树任务
+1. BTTaskNode
+2. BTTask_BlackboardBase
+```cpp
+UBTTask_XXXBlackboradValue::UBTTask_XXXBlackboradValue()
+{
+	NodeName="XXX Value";
+}
+```
+3. 注意：XXX_Build.cs代码添加``GameplayTasks``模块
+
+## Excuting BTTask
+行为树任务生命周期：执行
+```cpp
+EBTNodeResult::Type UBTTask_XXXBlackboardValue::ExcueteTask(UBehaviorTreeComponent &OwnerComp, uinit NodeMemory)
+{
+	Supper::ExcuteTask(OwnerComp, NodeMemory);
+	OwnerComp.GetBlackboardComponent->ClearValue(GetSelectedBlackboardKey());
+	return EBTNodeResult::Succeeded;
+}
+```
+
+## BTTasks That Use The Pawn
+获取AIPawn——UBTTask::GetAIOwner()
+- BTTaskNode
+
+## BTServices In C++
+行为树任务生命周期：Tick
+```cpp
+EBTNodeResult::Type UBTTask_XXXBlackboardValue::TickNode(UBehaviorTreeComponent &OwnerComp, uinit NodeMemory, float DeltaSeconds)
+{
+	Supper::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
+}
+```
+
+## Ignoring Actors In Line Traces
+1. 射线检测时忽略actor
+```cpp
+FHitResult hit;
+FCollisionQueryParams params;
+params.AddIgnoredActor(this);
+params.AddIgnoredActor(GetOwner());
+bool bSuccess=GetWorld()->LineTraceSingleBuChannel(hit, location, end, ECollisionChannel::ECC_Channel1, params);
+```
+2. 分离控制器：``DetachFromControllerPendingDestroy();``
+3. 禁用组件的碰撞特性。
+```cpp
+DetachFromControllerPendingDestroy();
+GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollison);
+```
+
+## Ending The Game
+在Character里获取GameMode
+```cpp
+GetWorld->GetAuthGameMode<AGameModeBase>();
+```
+
+## Setting Timers In C++
+**注意**：DetachFromControllerPendingDestroy方法执行后就无法使用一些方法。
+
+## Displaying a Lose Screen
+C++代码中创建UI实例
+```cpp
+TSubclassOf<class UUserWidget> widgetClass;
+void AClass::BeginPlay()
+{
+	UUserWidget* loseScreen=CreateWidget(this, widgetClass);
+	loseScreen->AddToViewport();
+}
+```
+**注意**：XXX_Build.cs中需要添加**UMG**模块
+
+## Iterating Over Actors
+迭代Actor
+```cpp
+for(AController* ctl : TActorRange<AController>(GetWorld()))
+{	
+}
+```
+
+## Calculating The Win Condition
+
+## Refactoring PullTrigger
+
+## Weapon Sound Effects
+在Socket播放声音
+```cpp
+USoundBase* sound；
+UGameplayStatics::SpawnSoundAttached(sound, GetMesh(), TEXT("Socket"));
+UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound, location);
+```
+
+## Randomized Sound Cues
+1. 音效编辑器
+2. 路径"Add New>Sounds>Sound Cue"
+3. Randomlize节点
+
+## Sound Spatialization
+立体音效
+- Attenuation Distance
+- Attenuation Spatialization
+
+## Crosshairs and HUDs
+移除UI：``HUD->RemoveFromViewport();``
+
+## Health Bars
+ABP->Componet->XXX Property->Bind
+
+## AimOffsets
+ABP节点
+
+## Animation State Machines
+动画状态机
+
+## Complex State Machine
+
+## Wrap-up And Chanllenges
+1. 背景音/环境音效：“Place Actors>Ambient Sound”
