@@ -1,0 +1,4 @@
+baseURL = 'https://DaVinci-13.github.io/'
+languageCode = 'zh-cn'
+title = "DaVinci-13's Blog"
+theme= 'ananke'
