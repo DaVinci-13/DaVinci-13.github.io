@@ -5,4 +5,4 @@ theme= 'ananke'
 
 [caches]
   [caches.images]
-    dir = ':cacheDir/images'ß
+    dir = ':cacheDir/images'
