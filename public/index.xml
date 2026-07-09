@@ -1,19 +1,276 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>DaVinci-13&#39;s Blog</title>
-    <link>http://localhost:1313/</link>
+    <link>https://DaVinci-13.github.io/</link>
     <description>Recent content on DaVinci-13&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 15 Feb 2026 22:09:04 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Jul 2026 01:05:00 +0800</lastBuildDate>
+    <atom:link href="https://DaVinci-13.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我对 AI 的一点基础认识（一）：AI 开发可以再分两层</title>
+      <link>https://DaVinci-13.github.io/posts/ai-basics-notes/</link>
+      <pubDate>Fri, 10 Jul 2026 01:05:00 +0800</pubDate>
+      <guid>https://DaVinci-13.github.io/posts/ai-basics-notes/</guid>
+      <description>&lt;h2 id=&#34;写在前面&#34;&gt;写在前面&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这是一篇&amp;quot;主观认识&amp;quot;系列的开篇。我是一个做了十年游戏 / 客户端开发的工程师，今年才开始认真碰 AI，水平大致在&amp;quot;能调 API、看得懂科普、论文还吃力&amp;quot;的初级阶段。&lt;/p&gt;
+&lt;p&gt;这个系列不追求严谨，也不打算教别人什么——只是把我自己对 AI 的一些&lt;strong&gt;粗浅但真实&lt;/strong&gt;的认识记下来，既是梳理，也方便以后回看自己当时有多 naive。&lt;/p&gt;
+&lt;p&gt;第一篇，先聊一个对我来说很重要的&amp;quot;分法&amp;quot;：把&amp;quot;AI 开发&amp;quot;再拆成两层。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;一ai-开发可以再分两层算法侧-vs-应用侧&#34;&gt;一、AI 开发可以再分两层：算法侧 vs 应用侧&lt;/h2&gt;
+&lt;h3 id=&#34;概念我以前把做-ai想简单了&#34;&gt;概念：我以前把&amp;quot;做 AI&amp;quot;想简单了&lt;/h3&gt;
+&lt;p&gt;很长一段时间里，我默认&amp;quot;做 AI&amp;quot; ≈ &amp;ldquo;训练模型&amp;rdquo;。直到自己真上手去用 AI 做事，才发现这个词底下其实藏着两条几乎不相交的路：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AI 算法（模型侧 / Algorithm side）&lt;/strong&gt;：研究怎么&amp;quot;造出那个会思考 / 会生成的东西本身&amp;quot;。它关心模型架构、训练、微调、推理优化、底层框架（PyTorch / JAX 那一套）、数据和数学。这一侧的&lt;strong&gt;产出物是&amp;quot;模型 / 能力&amp;quot;&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AI 应用开发（工程侧 / Application side）&lt;/strong&gt;：拿到现成的、或别人微调好的模型，把它真正塞进产品和工作流里用起来。它关心 API 调用、Prompt 工程、RAG、Agent 编排、向量数据库、评估与线上监控。这一侧的&lt;strong&gt;产出物是&amp;quot;能用的功能 / 产品&amp;quot;&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;🔧 &lt;em&gt;技术校准（AI 专家视角）&lt;/em&gt;：这个二分法在业界有对应的说法。研究 / 模型侧常叫 &lt;strong&gt;ML Research / Deep Learning&lt;/strong&gt;；把模型落地成系统的那一侧，近年被 Chip Huyen 等人明确称为 &lt;strong&gt;AI Engineering&lt;/strong&gt;，也叫 &lt;strong&gt;Applied ML / ML Engineering&lt;/strong&gt;。需要注意：两层之间并没有一道墙——微调（fine-tuning）、MLOps、模型压缩这些恰好卡在中间，所以&amp;quot;算法&amp;quot;和&amp;quot;应用&amp;quot;更像光谱的两端，而不是非黑即白。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;对比两条路的难度维度根本不同&#34;&gt;对比：两条路的难度维度根本不同&lt;/h3&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;&lt;/th&gt;
+					&lt;th&gt;AI 算法（模型侧）&lt;/th&gt;
+					&lt;th&gt;AI 应用开发（工程侧）&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;像什么&lt;/td&gt;
+					&lt;td&gt;科研：深、窄、靠硬功&lt;/td&gt;
+					&lt;td&gt;工程：广、快、靠整合&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;核心门槛&lt;/td&gt;
+					&lt;td&gt;懂模型、懂数学 / 系统&lt;/td&gt;
+					&lt;td&gt;懂产品、懂怎么把模型用出价值&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;周期&lt;/td&gt;
+					&lt;td&gt;长，迭代慢&lt;/td&gt;
+					&lt;td&gt;短，能快速出 demo&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;我的位置&lt;/td&gt;
+					&lt;td&gt;门外，只浅尝过&lt;/td&gt;
+					&lt;td&gt;正在摸门&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;我自己是游戏 / 客户端工程师出身，&lt;strong&gt;天然更靠近应用侧&lt;/strong&gt;：我不需要从零训一个大模型，但我能用&amp;quot;API + RAG&amp;quot;很快把一个知识库变成能对话的东西。一度我因此产生一种错觉——&amp;ldquo;原来我也能做 AI 了&amp;rdquo;。后来才意识到，我做的只是应用侧里很薄的一层。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2026 下半年学习路线图</title>
+      <link>https://DaVinci-13.github.io/posts/2026-learning-roadmap/</link>
+      <pubDate>Fri, 10 Jul 2026 00:17:00 +0800</pubDate>
+      <guid>https://DaVinci-13.github.io/posts/2026-learning-roadmap/</guid>
+      <description>&lt;h2 id=&#34;为什么要写这个&#34;&gt;为什么要写这个&lt;/h2&gt;
+&lt;p&gt;跨四个领域的并行学习，如果不把路线拆清楚，很容易陷入&amp;quot;什么都想学、什么都推进不动&amp;quot;的状态。这篇路线图不是一份完美计划，而是一张&amp;quot;此刻的自我定位地图&amp;quot;——知道自己站在哪里、下一站去哪里、哪些路暂时不走。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>动画插件 Fresh Cooked Tween 入门：让 UE5 动画插值更顺手</title>
+      <link>https://DaVinci-13.github.io/posts/fresh-cooked-tween-intro/</link>
+      <pubDate>Wed, 08 Apr 2026 20:30:00 +0800</pubDate>
+      <guid>https://DaVinci-13.github.io/posts/fresh-cooked-tween-intro/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;在 UE5 日常开发里，我们经常需要做各种“过渡动画”：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UI 面板淡入淡出&lt;/li&gt;
+&lt;li&gt;物体平滑移动和缩放&lt;/li&gt;
+&lt;li&gt;相机参数渐变&lt;/li&gt;
+&lt;li&gt;数值从 A 过渡到 B（例如血条、进度条）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这些需求可以用 Timeline、动画蓝图或手写 Tick 实现，但当项目里“轻量过渡动画”越来越多时，代码和蓝图会逐渐分散。Fresh Cooked Tween 这类 Tween 插件的价值，就是把这类逻辑统一成更高复用、可读性更好的工作流。&lt;/p&gt;
+&lt;h2 id=&#34;1-fresh-cooked-tween-是什么&#34;&gt;1. Fresh Cooked Tween 是什么&lt;/h2&gt;
+&lt;p&gt;Fresh Cooked Tween 是面向 Unreal 的 Tween 动画插件，核心目标是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用更简洁的方式描述“某个值在一段时间内如何变化”&lt;/li&gt;
+&lt;li&gt;提供常见缓动（Easing）曲线&lt;/li&gt;
+&lt;li&gt;支持回调与链式组织，降低样板代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一句话理解：它把“插值过程”从零散的 Tick 逻辑中抽离出来，变成结构化的动画任务。&lt;/p&gt;
+&lt;h2 id=&#34;2-它解决了什么问题&#34;&gt;2. 它解决了什么问题&lt;/h2&gt;
+&lt;h3 id=&#34;1-降低样板代码&#34;&gt;1) 降低样板代码&lt;/h3&gt;
+&lt;p&gt;手写插值通常要自己管理：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;起始值、目标值&lt;/li&gt;
+&lt;li&gt;已经过时间&lt;/li&gt;
+&lt;li&gt;每帧更新&lt;/li&gt;
+&lt;li&gt;完成回调&lt;/li&gt;
+&lt;li&gt;中途取消/中断&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Tween 插件会把这些通用步骤封装好，让你聚焦“做什么动画”，而不是重复“怎么驱动时间”。&lt;/p&gt;
+&lt;h3 id=&#34;2-统一动画语义&#34;&gt;2) 统一动画语义&lt;/h3&gt;
+&lt;p&gt;当团队都用统一 Tween 风格时，像“EaseOut、Yoyo、Loop、Delay”这些概念更容易沟通。&lt;/p&gt;
+&lt;h3 id=&#34;3-适合技术美术协作&#34;&gt;3) 适合技术美术协作&lt;/h3&gt;
+&lt;p&gt;对于技术美术和玩法程序协作场景，Tween 非常适合做：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UI 动效原型&lt;/li&gt;
+&lt;li&gt;镜头参数微调&lt;/li&gt;
+&lt;li&gt;交互反馈（按钮弹性、悬停位移、提示浮动）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-核心概念入门必懂&#34;&gt;3. 核心概念（入门必懂）&lt;/h2&gt;
+&lt;p&gt;无论具体 API 名称如何，Tween 工作流通常都围绕以下概念：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>UE5 C&#43;&#43; 脚本常用父类：生命周期、常用属性/函数/委托速览</title>
+      <link>https://DaVinci-13.github.io/posts/ue5-cpp-common-base-classes-lifecycle/</link>
+      <pubDate>Sun, 05 Apr 2026 22:00:00 +0800</pubDate>
+      <guid>https://DaVinci-13.github.io/posts/ue5-cpp-common-base-classes-lifecycle/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;在 UE5 C++ 开发里，“选对父类”几乎决定了脚本的生命周期、可放置位置、初始化时机，以及你能用到哪些系统能力（输入、碰撞、网络复制、UI、动画等）。&lt;/p&gt;
+&lt;p&gt;这篇文章按“实战常用频率”整理：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;常见父类分别适合做什么。&lt;/li&gt;
+&lt;li&gt;每类对象的核心生命周期顺序。&lt;/li&gt;
+&lt;li&gt;常用属性、函数和委托（含高频回调）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;说明：本文聚焦入门和日常开发高频内容，细节会因引擎版本和项目架构（单机/联机）略有差异。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;1-uobject一切反射对象的基础&#34;&gt;1. UObject：一切反射对象的基础&lt;/h2&gt;
+&lt;h3 id=&#34;适用场景&#34;&gt;适用场景&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;纯数据对象&lt;/li&gt;
+&lt;li&gt;工具类对象&lt;/li&gt;
+&lt;li&gt;不需要直接出现在场景中的逻辑对象&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;生命周期要点&#34;&gt;生命周期要点&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Constructor&lt;/code&gt;：构造默认值。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PostInitProperties&lt;/code&gt;：属性初始化后调用。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;BeginDestroy&lt;/code&gt; / &lt;code&gt;FinishDestroy&lt;/code&gt;：销毁流程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;常用属性函数&#34;&gt;常用属性/函数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;GetWorld()&lt;/code&gt;：部分上下文可用，不是所有 &lt;code&gt;UObject&lt;/code&gt; 都有有效世界。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GetOuter()&lt;/code&gt;：获取所属外部对象。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IsValid()&lt;/code&gt;（配合对象指针检查）：避免访问失效对象。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;常见委托&#34;&gt;常见委托&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;UObject&lt;/code&gt; 本身没有像 Actor 那样丰富的生命周期委托，但可以参与你自定义的动态委托系统。&lt;/p&gt;
+&lt;h2 id=&#34;2-aactor关卡中最核心的可放置对象&#34;&gt;2. AActor：关卡中最核心的可放置对象&lt;/h2&gt;
+&lt;h3 id=&#34;适用场景-1&#34;&gt;适用场景&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;场景实体（可见或不可见）&lt;/li&gt;
+&lt;li&gt;可复制的游戏逻辑载体&lt;/li&gt;
+&lt;li&gt;挂组件、处理交互、触发器、机关等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;生命周期常见顺序&#34;&gt;生命周期（常见顺序）&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Constructor&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;OnConstruction&lt;/code&gt;（编辑器放置或属性变更后触发）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PreInitializeComponents&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PostInitializeComponents&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;BeginPlay&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Tick&lt;/code&gt;（启用时每帧）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EndPlay&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Destroyed&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;常用属性&#34;&gt;常用属性&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;PrimaryActorTick.bCanEverTick&lt;/code&gt;：是否允许 Tick。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bReplicates&lt;/code&gt;：是否参与网络复制。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NetUpdateFrequency&lt;/code&gt;：网络更新频率。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Tags&lt;/code&gt;：对象标签，快速分类检索。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;常用函数&#34;&gt;常用函数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;BeginPlay()&lt;/code&gt; / &lt;code&gt;Tick(float DeltaSeconds)&lt;/code&gt; / &lt;code&gt;EndPlay()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SetActorLocation()&lt;/code&gt; / &lt;code&gt;SetActorRotation()&lt;/code&gt; / &lt;code&gt;SetActorTransform()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Destroy()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HasAuthority()&lt;/code&gt;：联机场景判断服务器权限。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GetComponentsByClass()&lt;/code&gt;：运行时检索组件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;常见委托-1&#34;&gt;常见委托&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;OnActorBeginOverlap&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;OnActorEndOverlap&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;OnTakeAnyDamage&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;OnDestroyed&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-apawn-与-acharacter可控制角色核心&#34;&gt;3. APawn 与 ACharacter：可控制角色核心&lt;/h2&gt;
+&lt;h2 id=&#34;31-apawn&#34;&gt;3.1 APawn&lt;/h2&gt;
+&lt;h3 id=&#34;适用场景-2&#34;&gt;适用场景&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;可被 Controller 控制的对象&lt;/li&gt;
+&lt;li&gt;载具、飞行器、棋子等不一定是“人形角色”的可控实体&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;生命周期要点-1&#34;&gt;生命周期要点&lt;/h3&gt;
+&lt;p&gt;继承 &lt;code&gt;AActor&lt;/code&gt; 生命周期，同时常见控制链路是：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>UE5 C&#43;&#43; 脚本的基本类型</title>
+      <link>https://DaVinci-13.github.io/posts/ue5-cpp-basic-types/</link>
+      <pubDate>Sun, 05 Apr 2026 21:00:00 +0800</pubDate>
+      <guid>https://DaVinci-13.github.io/posts/ue5-cpp-basic-types/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;在 Unreal Engine 5 的 C++ 开发中，除了标准 C++ 类型，还会频繁接触 UE 自己封装的一套类型系统。本文作为入门草稿，先把最常用、最容易混淆的类型梳理清楚。&lt;/p&gt;
+&lt;h2 id=&#34;1-数值与布尔类型&#34;&gt;1. 数值与布尔类型&lt;/h2&gt;
+&lt;p&gt;UE5 中可以直接使用标准 C++ 基本类型，但官方代码风格更常见的是固定宽度别名：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;int8&lt;/code&gt; / &lt;code&gt;uint8&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int16&lt;/code&gt; / &lt;code&gt;uint16&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int32&lt;/code&gt; / &lt;code&gt;uint32&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int64&lt;/code&gt; / &lt;code&gt;uint64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;float&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;double&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Health&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;float&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MoveSpeed&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;600.0f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;bIsAlive&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;int32&lt;/code&gt; 在 UE 项目中非常常用，跨平台行为更稳定。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;uint8&lt;/code&gt; 常用于小范围状态值或位标记。&lt;/li&gt;
+&lt;li&gt;布尔变量通常以 &lt;code&gt;b&lt;/code&gt; 开头（如 &lt;code&gt;bIsAlive&lt;/code&gt;），是 UE 常见命名习惯。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2-字符串相关类型&#34;&gt;2. 字符串相关类型&lt;/h2&gt;
+&lt;p&gt;UE 里最常见的文本类型有 3 个：&lt;code&gt;FString&lt;/code&gt;、&lt;code&gt;FName&lt;/code&gt;、&lt;code&gt;FText&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;为什么不建议在 UE5 C++ 脚本里优先用 C++ 原生 &lt;code&gt;std::string&lt;/code&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;与 UE 反射系统和编辑器生态耦合较弱，不能直接享受 &lt;code&gt;UPROPERTY&lt;/code&gt;、蓝图暴露和常见序列化工作流。&lt;/li&gt;
+&lt;li&gt;与 UE 常用 API 对接时通常还要频繁做类型转换（&lt;code&gt;std::string&lt;/code&gt; &amp;lt;-&amp;gt; &lt;code&gt;FString&lt;/code&gt; / &lt;code&gt;FText&lt;/code&gt;），会增加样板代码和维护成本。&lt;/li&gt;
+&lt;li&gt;本地化场景下，&lt;code&gt;FText&lt;/code&gt; 有完整的文本管线支持；&lt;code&gt;std::string&lt;/code&gt; 更适合纯底层逻辑，不适合直接做玩家可见文本。&lt;/li&gt;
+&lt;li&gt;UE 社区和官方示例主要围绕 &lt;code&gt;FString&lt;/code&gt;、&lt;code&gt;FName&lt;/code&gt;、&lt;code&gt;FText&lt;/code&gt;，团队协作和排查问题时可读性更高。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;fstring&#34;&gt;FString&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;可变字符串，适合拼接、调试输出、运行时处理。&lt;/li&gt;
+&lt;li&gt;类似“通用字符串容器”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;FString&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PlayerName&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TEXT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;DaVinci&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;FString&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Msg&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TEXT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;玩家: %s&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PlayerName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;fname&#34;&gt;FName&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;不区分大小写语义（底层做了名称表优化）。&lt;/li&gt;
+&lt;li&gt;适合做标识符、标签、键值名、资源名。&lt;/li&gt;
+&lt;li&gt;频繁比较时通常比 &lt;code&gt;FString&lt;/code&gt; 更高效。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;FName&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SocketName&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TEXT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;WeaponSocket&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;ftext&#34;&gt;FText&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;面向本地化显示文本（UI 文本优先用它）。&lt;/li&gt;
+&lt;li&gt;需要给玩家看的文本，优先考虑 &lt;code&gt;FText&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;FText&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DisplayText&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FText&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FromString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TEXT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;开始游戏&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;3-常用数学结构体&#34;&gt;3. 常用数学结构体&lt;/h2&gt;
+&lt;p&gt;UE5 提供了大量数学类型，最常见的是：&lt;/p&gt;</description>
+    </item>
     <item>
       <title>My First Post</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
+      <link>https://DaVinci-13.github.io/posts/my-first-post/</link>
       <pubDate>Sun, 15 Feb 2026 22:09:04 +0800</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; text, and this is &lt;em&gt;emphasized&lt;/em&gt; text.&lt;/p&gt;&#xA;&lt;p&gt;Visit the &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; website!&lt;/p&gt;</description>
+      <guid>https://DaVinci-13.github.io/posts/my-first-post/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; text, and this is &lt;em&gt;emphasized&lt;/em&gt; text.&lt;/p&gt;
+&lt;p&gt;Visit the &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; website!&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

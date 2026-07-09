@@ -2,17 +2,110 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://DaVinci-13.github.io/categories/ai/</loc>
+    <lastmod>2026-07-10T01:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/ai/</loc>
+    <lastmod>2026-07-10T01:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/ai-engineering/</loc>
+    <lastmod>2026-07-10T01:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/categories/</loc>
+    <lastmod>2026-07-10T01:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/</loc>
+    <lastmod>2026-07-10T01:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/posts/</loc>
+    <lastmod>2026-07-10T01:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/</loc>
+    <lastmod>2026-07-10T01:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/thoughts/</loc>
+    <lastmod>2026-07-10T01:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/posts/ai-basics-notes/</loc>
+    <lastmod>2026-07-10T01:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/posts/2026-learning-roadmap/</loc>
+    <lastmod>2026-07-10T00:17:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/graphics/</loc>
+    <lastmod>2026-07-10T00:17:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/learning-path/</loc>
+    <lastmod>2026-07-10T00:17:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/categories/meta/</loc>
+    <lastmod>2026-07-10T00:17:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/planning/</loc>
+    <lastmod>2026-07-10T00:17:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/unity/</loc>
+    <lastmod>2026-07-10T00:17:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/unreal/</loc>
+    <lastmod>2026-07-10T00:17:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/animation/</loc>
+    <lastmod>2026-04-08T20:30:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/beginner/</loc>
+    <lastmod>2026-04-08T20:30:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/blueprint/</loc>
+    <lastmod>2026-04-08T20:30:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/gameplay/</loc>
+    <lastmod>2026-04-08T20:30:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/tween/</loc>
+    <lastmod>2026-04-08T20:30:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/ui/</loc>
+    <lastmod>2026-04-08T20:30:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/categories/unreal/</loc>
+    <lastmod>2026-04-08T20:30:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/posts/fresh-cooked-tween-intro/</loc>
+    <lastmod>2026-04-08T20:30:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/architecture/</loc>
+    <lastmod>2026-04-05T22:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/cpp/</loc>
+    <lastmod>2026-04-05T22:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/lifecycle/</loc>
+    <lastmod>2026-04-05T22:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/posts/ue5-cpp-common-base-classes-lifecycle/</loc>
+    <lastmod>2026-04-05T22:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/best-practice/</loc>
+    <lastmod>2026-04-05T21:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/reflection/</loc>
+    <lastmod>2026-04-05T21:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/posts/ue5-cpp-basic-types/</loc>
+    <lastmod>2026-04-05T21:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://DaVinci-13.github.io/tags/blog/</loc>
     <lastmod>2026-02-15T22:09:04+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/my-first-post/</loc>
+    <loc>https://DaVinci-13.github.io/tags/hello-world/</loc>
     <lastmod>2026-02-15T22:09:04+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://DaVinci-13.github.io/posts/my-first-post/</loc>
     <lastmod>2026-02-15T22:09:04+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://DaVinci-13.github.io/archives/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://DaVinci-13.github.io/search/</loc>
   </url>
 </urlset>

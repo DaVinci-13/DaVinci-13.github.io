@@ -2,6 +2,8 @@
 date = '2026-04-05T22:00:00+08:00'
 draft = true
 title = 'UE5 C++ 脚本常用父类：生命周期、常用属性/函数/委托速览'
+categories = ['unreal']
+tags = ['cpp', 'beginner', 'lifecycle', 'gameplay', 'architecture']
 +++
 
 ## 前言
