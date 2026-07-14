@@ -1,8 +1,146 @@
 baseURL = 'https://DaVinci-13.github.io/'
-languageCode = 'zh-cn'
+locale = 'zh-cn'
 title = "DaVinci-13's Blog"
-theme= 'ananke'
+theme = 'PaperMod'
+timeZone = 'Asia/Shanghai'
 
-[caches]
-  [caches.images]
-    dir = ':cacheDir/images'
+# ============================================
+# 输出格式
+# ============================================
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+
+# ============================================
+# 分页
+# ============================================
+paginate = 10
+
+# ============================================
+# 分类法
+# categories: 顶级领域，tags: 细粒度标签
+# ============================================
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+# ============================================
+# 相关文章
+# ============================================
+[related]
+  includeNewer = true
+
+# ============================================
+# 代码高亮（Hugo 内置 Chroma）
+# ============================================
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    style = 'dracula'
+    noClasses = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+# ============================================
+# 隐私设置
+# ============================================
+[privacy]
+  [privacy.x]
+    enableDNT = true
+  [privacy.youtube]
+    privacyEnhanced = true
+
+# ============================================
+# 主题参数
+# ============================================
+[params]
+  env = 'production'
+  defaultTheme = 'auto'
+  disableThemeToggle = false
+
+  # 主页显示文章列表
+  mainSections = ['posts']
+
+  # 页面显示
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = false
+  ShowRssButtonInSectionTermList = true
+  ShowAllPagesInArchive = false
+  ShowLastModified = true
+
+  # SEO
+  twitter_cards = true
+
+  # 首页 Home-Info 模式
+  [params.homeInfoParams]
+    title = "DaVinci-13"
+    content = '独立游戏开发者 · UE5 C++ 技术博客<br>记录学习和创业中的点滴'
+
+  # 编辑链接（指向 GitHub）
+  [params.editPost]
+    URL = 'https://github.com/DaVinci-13/DaVinci-13.github.io/tree/main/content'
+    Text = '建议修改'
+
+  # 社交链接
+  [params.social]
+    [params.social.github]
+      name = 'GitHub'
+      url = 'https://github.com/DaVinci-13'
+
+  # 封面
+  [params.cover]
+    linkFullImages = true
+
+  # 页脚
+  [params.footer]
+    since = '2026'
+
+# ============================================
+# 导航菜单
+# ============================================
+[languages]
+  [languages.zh-cn]
+    label = '中文'
+    weight = 1
+
+    [languages.zh-cn.menu]
+      [[languages.zh-cn.menu.main]]
+        identifier = 'home'
+        name = '首页'
+        url = '/'
+        weight = 1
+      [[languages.zh-cn.menu.main]]
+        identifier = 'posts'
+        name = '文章'
+        url = '/posts/'
+        weight = 2
+      [[languages.zh-cn.menu.main]]
+        identifier = 'tags'
+        name = '标签'
+        url = '/tags/'
+        weight = 3
+      [[languages.zh-cn.menu.main]]
+        identifier = 'categories'
+        name = '分类'
+        url = '/categories/'
+        weight = 4
+      [[languages.zh-cn.menu.main]]
+        identifier = 'search'
+        name = '搜索'
+        url = '/search/'
+        weight = 5
+      [[languages.zh-cn.menu.main]]
+        identifier = 'archives'
+        name = '归档'
+        url = '/archives/'
+        weight = 6
