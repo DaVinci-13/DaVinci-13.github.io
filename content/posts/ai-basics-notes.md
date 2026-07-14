@@ -1,6 +1,6 @@
 +++
 date = '2026-07-10T01:05:00+08:00'
-draft = true
+draft = false
 title = '我对 AI 的一点基础认识（一）：AI 开发可以再分两层'
 categories = ['ai']
 tags = ['ai', 'ai-engineering', 'thoughts']

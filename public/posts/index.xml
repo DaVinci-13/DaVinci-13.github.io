@@ -6,8 +6,77 @@
     <description>Recent content in Posts on DaVinci-13&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Jul 2026 01:05:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jul 2026 23:32:00 +0800</lastBuildDate>
     <atom:link href="https://DaVinci-13.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>记一次团结引擎 &#43; iOS 26 上的 TMP InputField 乱码 Bug</title>
+      <link>https://DaVinci-13.github.io/posts/unity-tmp-inputfield-hidemobile-ios26-bug/</link>
+      <pubDate>Tue, 14 Jul 2026 23:32:00 +0800</pubDate>
+      <guid>https://DaVinci-13.github.io/posts/unity-tmp-inputfield-hidemobile-ios26-bug/</guid>
+      <description>&lt;h2 id=&#34;一句话速览&#34;&gt;一句话速览&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;团结引擎 1.8 打包到 iOS 26 上时&lt;/strong&gt;，若 TMP InputField 开启了 &lt;code&gt;Hide Mobile Input&lt;/code&gt;，输入字符后 InputField 会先失活再重新获得焦点，此时文本被全选，再输入任意字符，&lt;strong&gt;开头的第一个字符变成乱码&lt;/strong&gt;。这是 Unity 2021 时代的老 Bug 在团结引擎上的复现。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;一场景一个本不该出问题的输入框&#34;&gt;一、场景：一个&amp;quot;本不该出问题&amp;quot;的输入框&lt;/h2&gt;
+&lt;p&gt;故事从一个非常常规的需求开始：给 iOS 端的用户做个输入框，需要屏蔽掉系统键盘自带的输入预览条（就是那个键盘上方悬浮的白色条）。&lt;/p&gt;
+&lt;p&gt;做法也很常规——勾上 &lt;code&gt;TMP_InputField&lt;/code&gt; 的 &lt;code&gt;Hide Mobile Input&lt;/code&gt;（代码里就是 &lt;code&gt;shouldHideMobileInput = true&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;在编辑器里测试一切正常。打包上 iOS 26 真机之后，Bug 出现了。&lt;/p&gt;
+&lt;h2 id=&#34;二现象精确到每一步的复现路径&#34;&gt;二、现象：精确到每一步的复现路径&lt;/h2&gt;
+&lt;h3 id=&#34;预期的行为&#34;&gt;预期的行为&lt;/h3&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;步骤&lt;/th&gt;
+					&lt;th&gt;正常应发生的事&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;① 点击输入框&lt;/td&gt;
+					&lt;td&gt;聚焦，弹出键盘&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;② 输入若干字符&lt;/td&gt;
+					&lt;td&gt;输入框正常展示字符&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;③ 点击输入框外部再点回来&lt;/td&gt;
+					&lt;td&gt;光标定位到最后，继续输入正常&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;④ 多轮输入&lt;/td&gt;
+					&lt;td&gt;全文无乱码，一切正常&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;实际的行为bug-复现路径&#34;&gt;实际的行为（Bug 复现路径）&lt;/h3&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;步骤&lt;/th&gt;
+					&lt;th&gt;实际发生的事&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;① 点击输入框&lt;/td&gt;
+					&lt;td&gt;✅ 聚焦，键盘弹出&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;② 输入若干字符（如 &amp;ldquo;Hello&amp;rdquo;）&lt;/td&gt;
+					&lt;td&gt;✅ 显示正常&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;③ 输入框失活 → 再激活（获得焦点）&lt;/td&gt;
+					&lt;td&gt;⚠️ &lt;strong&gt;文本被全选（全部高亮）&lt;/strong&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;④ 再输入任意字符（如 &amp;ldquo;X&amp;rdquo;）&lt;/td&gt;
+					&lt;td&gt;❌ &lt;strong&gt;开头的字符变成乱码&lt;/strong&gt;，如 &amp;ldquo;䮙ello&amp;rdquo; 或类似不可识别字符&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这个 Bug 不是偶发——稳定复现，只要 &lt;code&gt;Hide Mobile Input&lt;/code&gt; + 输入框经历&amp;quot;失活→重新聚焦&amp;quot;这个流程，必现。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>我对 AI 的一点基础认识（一）：AI 开发可以再分两层</title>
       <link>https://DaVinci-13.github.io/posts/ai-basics-notes/</link>
