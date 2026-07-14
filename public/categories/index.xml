@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Categories on DaVinci-13&#39;s Blog</title>
-    <link>https://DaVinci-13.github.io/categories/</link>
+    <link>http://localhost:1313/categories/</link>
     <description>Recent content in Categories on DaVinci-13&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 14 Jul 2026 23:32:00 +0800</lastBuildDate>
-    <atom:link href="https://DaVinci-13.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Unity</title>
-      <link>https://DaVinci-13.github.io/categories/unity/</link>
+      <link>http://localhost:1313/categories/unity/</link>
       <pubDate>Tue, 14 Jul 2026 23:32:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/categories/unity/</guid>
+      <guid>http://localhost:1313/categories/unity/</guid>
       <description></description>
     </item>
     <item>
       <title>Ai</title>
-      <link>https://DaVinci-13.github.io/categories/ai/</link>
+      <link>http://localhost:1313/categories/ai/</link>
       <pubDate>Fri, 10 Jul 2026 01:05:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/categories/ai/</guid>
+      <guid>http://localhost:1313/categories/ai/</guid>
       <description></description>
     </item>
     <item>
       <title>Meta</title>
-      <link>https://DaVinci-13.github.io/categories/meta/</link>
+      <link>http://localhost:1313/categories/meta/</link>
       <pubDate>Fri, 10 Jul 2026 00:17:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/categories/meta/</guid>
+      <guid>http://localhost:1313/categories/meta/</guid>
       <description></description>
     </item>
     <item>
       <title>Unreal</title>
-      <link>https://DaVinci-13.github.io/categories/unreal/</link>
+      <link>http://localhost:1313/categories/unreal/</link>
       <pubDate>Wed, 08 Apr 2026 20:30:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/categories/unreal/</guid>
+      <guid>http://localhost:1313/categories/unreal/</guid>
       <description></description>
     </item>
   </channel>

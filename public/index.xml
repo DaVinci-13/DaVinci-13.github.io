@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>DaVinci-13&#39;s Blog</title>
-    <link>https://DaVinci-13.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on DaVinci-13&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 14 Jul 2026 23:32:00 +0800</lastBuildDate>
-    <atom:link href="https://DaVinci-13.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>记一次团结引擎 &#43; iOS 26 上的 TMP InputField 乱码 Bug</title>
-      <link>https://DaVinci-13.github.io/posts/unity-tmp-inputfield-hidemobile-ios26-bug/</link>
+      <link>http://localhost:1313/posts/unity-tmp-inputfield-hidemobile-ios26-bug/</link>
       <pubDate>Tue, 14 Jul 2026 23:32:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/posts/unity-tmp-inputfield-hidemobile-ios26-bug/</guid>
+      <guid>http://localhost:1313/posts/unity-tmp-inputfield-hidemobile-ios26-bug/</guid>
       <description>&lt;h2 id=&#34;一句话速览&#34;&gt;一句话速览&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;团结引擎 1.8 打包到 iOS 26 上时&lt;/strong&gt;，若 TMP InputField 开启了 &lt;code&gt;Hide Mobile Input&lt;/code&gt;，输入字符后 InputField 会先失活再重新获得焦点，此时文本被全选，再输入任意字符，&lt;strong&gt;开头的第一个字符变成乱码&lt;/strong&gt;。这是 Unity 2021 时代的老 Bug 在团结引擎上的复现。&lt;/p&gt;
 &lt;hr&gt;
@@ -79,9 +79,9 @@
     </item>
     <item>
       <title>我对 AI 的一点基础认识（一）：AI 开发可以再分两层</title>
-      <link>https://DaVinci-13.github.io/posts/ai-basics-notes/</link>
+      <link>http://localhost:1313/posts/ai-basics-notes/</link>
       <pubDate>Fri, 10 Jul 2026 01:05:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/posts/ai-basics-notes/</guid>
+      <guid>http://localhost:1313/posts/ai-basics-notes/</guid>
       <description>&lt;h2 id=&#34;写在前面&#34;&gt;写在前面&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;这是一篇&amp;quot;主观认识&amp;quot;系列的开篇。我是一个做了十年游戏 / 客户端开发的工程师，今年才开始认真碰 AI，水平大致在&amp;quot;能调 API、看得懂科普、论文还吃力&amp;quot;的初级阶段。&lt;/p&gt;
@@ -134,17 +134,43 @@
     </item>
     <item>
       <title>2026 下半年学习路线图</title>
-      <link>https://DaVinci-13.github.io/posts/2026-learning-roadmap/</link>
+      <link>http://localhost:1313/posts/2026-learning-roadmap/</link>
       <pubDate>Fri, 10 Jul 2026 00:17:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/posts/2026-learning-roadmap/</guid>
+      <guid>http://localhost:1313/posts/2026-learning-roadmap/</guid>
       <description>&lt;h2 id=&#34;为什么要写这个&#34;&gt;为什么要写这个&lt;/h2&gt;
-&lt;p&gt;跨四个领域的并行学习，如果不把路线拆清楚，很容易陷入&amp;quot;什么都想学、什么都推进不动&amp;quot;的状态。这篇路线图不是一份完美计划，而是一张&amp;quot;此刻的自我定位地图&amp;quot;——知道自己站在哪里、下一站去哪里、哪些路暂时不走。&lt;/p&gt;</description>
+&lt;p&gt;跨四个领域的并行学习，如果不把路线拆清楚，很容易陷入&amp;quot;什么都想学、什么都推进不动&amp;quot;的状态。这篇路线图不是一份完美计划，而是一张&amp;quot;此刻的自我定位地图&amp;quot;——知道自己站在哪里、下一站去哪里、哪些路暂时不走。&lt;/p&gt;
+&lt;p&gt;四个领域按目标性质可以粗分为两类：&lt;strong&gt;产出驱动型&lt;/strong&gt;和&lt;strong&gt;基础建设型&lt;/strong&gt;。Unity 自定义渲染管线、UE5 Steam 项目是&amp;quot;先做出东西来再说&amp;quot;；GAMES101、OpenGL、机器学习课程则更偏向打基础——短期内不一定出成果，但决定你一年后能走多远。两类要并行，但节奏和验收标准不一样。&lt;/p&gt;
+&lt;h2 id=&#34;一unity自定义渲染管线&#34;&gt;一、Unity：自定义渲染管线&lt;/h2&gt;
+&lt;h3 id=&#34;目标&#34;&gt;目标&lt;/h3&gt;
+&lt;p&gt;从写到跑通一个完整的 SRP（Scriptable Render Pipeline），理解渲染管线是怎么&amp;quot;串起来&amp;quot;的。&lt;/p&gt;
+&lt;h3 id=&#34;拆解&#34;&gt;拆解&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;从 Built-in RP 切到 URP，先搞清楚 URP 的 Asset/Renderer/RenderPass 分层&lt;/li&gt;
+&lt;li&gt;手写一个最简单的自定义管线（不继承 URP，自己写 RenderPipeline 子类），跑通最基本的渲染&lt;/li&gt;
+&lt;li&gt;往管线里加自己的 Pass：后处理、自定义光照、G-buffer 输出&lt;/li&gt;
+&lt;li&gt;跟已有的 SRP 教程对标一下差异&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这里容易翻车的是&amp;quot;一上来就想做大而全的管线&amp;quot;。正确的姿势是先跑通最简版本——一个能渲染纯色 Cuboid 的自定义管线已经值 60 分了，后面的 pass 是往里插的。&lt;/p&gt;
+&lt;h3 id=&#34;验收&#34;&gt;验收&lt;/h3&gt;
+&lt;p&gt;Unity 场景里有一个物体是用你自己的自定义管线渲染的，能切回 Built-in 对比效果。时间不要拖超过两周。&lt;/p&gt;
+&lt;h2 id=&#34;二ue5第一个能上架-steam-的项目&#34;&gt;二、UE5：第一个能上架 Steam 的项目&lt;/h2&gt;
+&lt;p&gt;这个目标本身有歧义，需要先拆清楚——&amp;ldquo;能上架 Steam 程度&amp;quot;不等于&amp;quot;做一个惊天动地的大作&amp;rdquo;，而是：有完整循环（开始→游玩→结束）、没有崩溃级 bug、有商店页面的最小体量游戏。&lt;/p&gt;
+&lt;h3 id=&#34;方向建议&#34;&gt;方向建议&lt;/h3&gt;
+&lt;p&gt;跟 Unity 的 SRP 学习不太一样——那个偏技术实验，这个偏产品交付。所以项目体量一定要小到能一个人 3-4 个月收尾。具体做什么我不替你做判断，但你心里要有数：如果是俯视角潜行、小型解谜、视觉小说这种 Scope，可行。如果是开放世界第三人称刷刷刷，这里大概率是坑。&lt;/p&gt;
+&lt;h3 id=&#34;技术要点&#34;&gt;技术要点&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Gameplay Ability System 如果是目标项目的核心，值得现在就学&lt;/li&gt;
+&lt;li&gt;上架流程的坑不在游戏本身，在 Steamworks 接入、打包配置、商店图素材、Depot 上传——这些最好提前两周单独排时间&lt;/li&gt;
+&lt;li&gt;第一次上架建议走 Steam Direct，准备 100 USD 费用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;误区&#34;&gt;误区&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;先做个完整的 Demo 再考虑上架&amp;rdquo;——不是的。做一些核心玩法后就该跑一遍完整的打包和上架流程（用临时名字），确认这个链路没断，再回头完善内容。上架是另一个技能树，不是游戏开发的自然延伸。&lt;/p&gt;</description>
     </item>
     <item>
       <title>动画插件 Fresh Cooked Tween 入门：让 UE5 动画插值更顺手</title>
-      <link>https://DaVinci-13.github.io/posts/fresh-cooked-tween-intro/</link>
+      <link>http://localhost:1313/posts/fresh-cooked-tween-intro/</link>
       <pubDate>Wed, 08 Apr 2026 20:30:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/posts/fresh-cooked-tween-intro/</guid>
+      <guid>http://localhost:1313/posts/fresh-cooked-tween-intro/</guid>
       <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;在 UE5 日常开发里，我们经常需要做各种“过渡动画”：&lt;/p&gt;
 &lt;ul&gt;
@@ -187,9 +213,9 @@
     </item>
     <item>
       <title>UE5 C&#43;&#43; 脚本常用父类：生命周期、常用属性/函数/委托速览</title>
-      <link>https://DaVinci-13.github.io/posts/ue5-cpp-common-base-classes-lifecycle/</link>
+      <link>http://localhost:1313/posts/ue5-cpp-common-base-classes-lifecycle/</link>
       <pubDate>Sun, 05 Apr 2026 22:00:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/posts/ue5-cpp-common-base-classes-lifecycle/</guid>
+      <guid>http://localhost:1313/posts/ue5-cpp-common-base-classes-lifecycle/</guid>
       <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;在 UE5 C++ 开发里，“选对父类”几乎决定了脚本的生命周期、可放置位置、初始化时机，以及你能用到哪些系统能力（输入、碰撞、网络复制、UI、动画等）。&lt;/p&gt;
 &lt;p&gt;这篇文章按“实战常用频率”整理：&lt;/p&gt;
@@ -274,9 +300,9 @@
     </item>
     <item>
       <title>UE5 C&#43;&#43; 脚本的基本类型</title>
-      <link>https://DaVinci-13.github.io/posts/ue5-cpp-basic-types/</link>
+      <link>http://localhost:1313/posts/ue5-cpp-basic-types/</link>
       <pubDate>Sun, 05 Apr 2026 21:00:00 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/posts/ue5-cpp-basic-types/</guid>
+      <guid>http://localhost:1313/posts/ue5-cpp-basic-types/</guid>
       <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;在 Unreal Engine 5 的 C++ 开发中，除了标准 C++ 类型，还会频繁接触 UE 自己封装的一套类型系统。本文作为入门草稿，先把最常用、最容易混淆的类型梳理清楚。&lt;/p&gt;
 &lt;h2 id=&#34;1-数值与布尔类型&#34;&gt;1. 数值与布尔类型&lt;/h2&gt;
@@ -334,9 +360,9 @@
     </item>
     <item>
       <title>My First Post</title>
-      <link>https://DaVinci-13.github.io/posts/my-first-post/</link>
+      <link>http://localhost:1313/posts/my-first-post/</link>
       <pubDate>Sun, 15 Feb 2026 22:09:04 +0800</pubDate>
-      <guid>https://DaVinci-13.github.io/posts/my-first-post/</guid>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; text, and this is &lt;em&gt;emphasized&lt;/em&gt; text.&lt;/p&gt;
 &lt;p&gt;Visit the &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; website!&lt;/p&gt;</description>
