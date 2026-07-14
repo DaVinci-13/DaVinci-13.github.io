@@ -1,0 +1,57 @@
+{{- define "main" }}
+
+{{- if .Title }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- if .Description }}
+    <div class="post-description">
+        {{ .Description }}
+    </div>
+    {{- end }}
+    <div class="post-description" style="margin-top: 0.5rem;">
+        标签已按分类分组，一个标签可能出现在多个分类下
+    </div>
+</header>
+{{- end }}
+
+{{- /* Collect all categories from site taxonomy */ -}}
+{{- $categories := slice }}
+{{- range $name, $_ := site.Taxonomies.categories }}
+    {{- $categories = $categories | append $name }}
+{{- end }}
+{{- $categories = sort $categories }}
+
+{{- /* For each category, find its associated tags */ -}}
+{{- range $cat := $categories }}
+    {{- /* Pages in this category */ -}}
+    {{- $catPages := where site.RegularPages.ByDate.Reverse "Params.categories" "intersect" (slice $cat) }}
+
+    {{- /* Collect unique tags from these pages */ -}}
+    {{- $catTags := slice }}
+    {{- range $catPages }}
+        {{- with .Params.tags }}
+            {{- range . }}
+                {{- if not (in $catTags .) }}
+                    {{- $catTags = $catTags | append . }}
+                {{- end }}
+            {{- end }}
+        {{- end }}
+    {{- end }}
+
+    {{- if gt (len $catTags) 0 }}
+        {{- $catTags = sort $catTags }}
+        <h2 style="margin-top: 1.8rem; margin-bottom: 0.4rem; font-size: 1.3rem;">{{ $cat | title }}</h2>
+        <ul class="terms-tags" style="margin-top: 0.2rem; margin-bottom: 1.2rem;">
+            {{- range $catTags }}
+                {{- $tagName := . }}
+                {{- with site.GetPage (printf "/tags/%s" $tagName) }}
+                <li>
+                    <a href="{{ .RelPermalink }}">{{ .LinkTitle }}<sup><strong><sup>{{ len .Pages }}</sup></strong></sup></a>
+                </li>
+                {{- end }}
+            {{- end }}
+        </ul>
+    {{- end }}
+{{- end }}
+
+{{- end }}{{/* end main */ -}}
